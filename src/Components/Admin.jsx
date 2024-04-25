@@ -34,10 +34,20 @@ import mainlogo from "../images/mainlogo.svg";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Category from "./Category";
+
+import AddCategory from "./AddCategory";
+import ViewCategory from "./ViewCategory";
+import EditCategory from "./EditCategory";
+import Product from "./Product";
+import AddProduct from "./AddProduct";
+import ViewProduct from "./ViewProduct";
+import EditProduct from "./EditProduct";
+
 import NewsAndEvents from "./NewsandEvents";
 import AddFormNewsandEvents from "./NewsAndEvents-Addform";
 import ViewNewsAndEvents from "./ViewNewsAndEvents";
 import UpdateNewsAndEvents from "./UpdateNewsAndEvents";
+
 
 const Admin = () => {
   const sidebar = useDisclosure();
@@ -178,7 +188,7 @@ const Admin = () => {
           icon={BsShopWindow}
           onClick={() => {
             sidebar.onClose();
-            // navigate("/admin/product");
+            navigate("/admin/product");
           }}
         >
           Products
@@ -353,6 +363,15 @@ const Admin = () => {
           <Routes>
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/category" element={<Category />} />
+
+            <Route path="/admin/category/add" element={<AddCategory />} />
+            <Route path="/admin/category/:categoryid" element={<ViewCategory />} />
+            <Route path="/admin/category/edit/:categoryid" element={<EditCategory />} />
+            <Route path="/admin/product" element={<Product/>} />
+            <Route path="/admin/product/add" element={<AddProduct/>} />
+            <Route path="/admin/product/:id" element={<ViewProduct/>}/>
+            <Route path="/admin/product/edit/:id" element={<EditProduct/>}/>
+
             <Route path="/admin/newsandevents" element={<NewsAndEvents />} />
             <Route path="/admin/newsandevents/add" element={<AddFormNewsandEvents />} /> 
             <Route path="/admin/newsandevents/:id" element={<ViewNewsAndEvents />} />
