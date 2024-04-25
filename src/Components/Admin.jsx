@@ -34,6 +34,10 @@ import mainlogo from "../images/mainlogo.svg";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Category from "./Category";
+import NewsAndEvents from "./NewsandEvents";
+import AddFormNewsandEvents from "./NewsAndEvents-Addform";
+import ViewNewsAndEvents from "./ViewNewsAndEvents";
+import UpdateNewsAndEvents from "./UpdateNewsAndEvents";
 
 const Admin = () => {
   const sidebar = useDisclosure();
@@ -178,6 +182,16 @@ const Admin = () => {
           }}
         >
           Products
+        </NavItem>
+        <NavItem
+          _hover={{ bgColor: "black", color: "#ADD8E6" }}
+          icon={BsShopWindow}
+          onClick={() => {
+            sidebar.onClose();
+            navigate("/admin/newsandevents");
+          }}
+        >
+          News & Eventes
         </NavItem>
         {/* <NavItem icon={HiCode} onClick={integrations.onToggle}>
                 Integrations
@@ -339,6 +353,11 @@ const Admin = () => {
           <Routes>
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/category" element={<Category />} />
+            <Route path="/admin/newsandevents" element={<NewsAndEvents />} />
+            <Route path="/admin/newsandevents/add" element={<AddFormNewsandEvents />} /> 
+            <Route path="/admin/newsandevents/:id" element={<ViewNewsAndEvents />} />
+            <Route path="/admin/newsandevents/edit/:Id" element={<UpdateNewsAndEvents />} />
+
           </Routes>
           <Box rounded="md" h="" />
         </Box>
