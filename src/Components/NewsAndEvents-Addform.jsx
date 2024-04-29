@@ -136,7 +136,7 @@ const AddFormNewsandEvents = () => {
       });
       setSelectedImages("");
       setVarImage([]);
-      Navigate("/admin/newsandevents/")
+      Navigate("/admin/newsandevents/");
     } catch (error) {
       console.log(error);
     }
@@ -144,47 +144,55 @@ const AddFormNewsandEvents = () => {
 
   return (
     <>
-      <Center h="auto">
-        {" "}
-        {/* This centers the form vertically and horizontally */}
-        <Box
-          p={4}
-          boxShadow="md"
-          borderRadius="lg"
-          w="full"
-          maxW="3xl"
-          bg="white"
-          mt={10}
-          mb={8}
+      <Box p="4">
+        <Flex
+          justifyContent={"space-around"}
+          gap="40px"
+          flexDirection={["column", "column", "column", "row", "row"]}
         >
-          <form encType="multipart/form-data">
-            <FormControl isRequired mb={4}>
-              <FormLabel htmlFor="generalheading">Heading</FormLabel>
-              <Input
-                id="generalheading"
-                type="text"
-                placeholder="Enter your Heading"
-                name="generalheading"
-                value={eventdata.generalheading}
-                onChange={handleInput}
-                mb={4}
-              />
-            </FormControl>
-            <FormControl isRequired>
-              <FormLabel htmlFor="generaltext">Description</FormLabel>
-              <Textarea
-                id="generaltext"
-                placeholder="Enter your message"
-                mb={4}
-                name="generaltext"
-                value={eventdata.generaltext}
-                onChange={handleInput}
-              />
-            </FormControl>
-            <Flex gap={4} mb={4}>
-              <FormControl>
-                <FormLabel htmlFor="cardimage">Image</FormLabel>
+          <Box
+            backgroundColor={"white"}
+            w={["100%", "100%", "100%", "100%", "100%"]}
+            boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+            padding={"20px"}
+            borderRadius={"20px"}
+          >
+            <form encType="multipart/form-data">
+              <FormControl mb={4} isRequired>
+                <FormLabel htmlFor="generalheading" color={"#add8e6"}>
+                  Heading
+                </FormLabel>
                 <Input
+                  id="generalheading"
+                  type="text"
+                  variant={"flushed"}
+                  placeholder="Enter your Heading"
+                  name="generalheading"
+                  value={eventdata.generalheading}
+                  onChange={handleInput}
+                  mb={4}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="generaltext" color={"#add8e6"}>
+                  Description
+                </FormLabel>
+                <Textarea
+                  id="generaltext"
+                  placeholder="Enter your message"
+                  mb={4}
+                  name="generaltext"
+                  value={eventdata.generaltext}
+                  onChange={handleInput}
+                />
+              </FormControl>
+
+              <FormControl>
+                <FormLabel htmlFor="cardimage" color={"#add8e6"}>
+                  Image
+                </FormLabel>
+                <Input
+                  variant="flushed"
                   id="cardimage"
                   type="file"
                   name="cardimage"
@@ -200,7 +208,7 @@ const AddFormNewsandEvents = () => {
                       src={selectedImages}
                       alt="selected img"
                       style={{
-                        width: "200px",
+                        width: "150px",
                         height: "100px",
                         margin: "5px",
                       }}
@@ -210,154 +218,197 @@ const AddFormNewsandEvents = () => {
                       size="sm"
                       position="absolute"
                       top={0}
-                      right={120}
+                      left={130}
                       zIndex={1}
                       onClick={handleDeleteSingleImage}
+                      borderRadius="50px"
                     >
                       <CloseIcon />
                     </Button>
                   </Flex>
                 )}
               </FormControl>
-            </Flex>
 
-            <FormControl isRequired>
-              <FormLabel htmlFor="cardheading">Card Heading</FormLabel>
-              <Input
-                id="cardheading"
-                type="text"
-                placeholder="Enter your Heading"
-                mb={4}
-                name="cardheading"
-                value={eventdata.cardheading}
-                onChange={handleInput}
-              />
-            </FormControl>
-            <FormControl isRequired>
-              <FormLabel htmlFor="cardtext">Card Description</FormLabel>
-              <Textarea
-                id="cardtext"
-                placeholder="Enter your Description"
-                mb={4}
-                name="cardtext"
-                value={eventdata.cardtext}
-                onChange={handleInput}
-              />
-            </FormControl>
-            <Flex gap={4} mb={4}>
-              <FormControl isRequired flex="1">
-                <FormLabel htmlFor="date">Date</FormLabel>
+              <FormControl isRequired mb={4}>
+                <FormLabel htmlFor="cardheading" color={"#add8e6"}>
+                  Card Heading
+                </FormLabel>
                 <Input
+                  variant="flushed"
+                  id="cardheading"
+                  type="text"
+                  placeholder="Enter your Heading"
+                  mb={4}
+                  name="cardheading"
+                  value={eventdata.cardheading}
+                  onChange={handleInput}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="cardtext" color={"#add8e6"}>
+                  Card Description
+                </FormLabel>
+                <Textarea
+                  id="cardtext"
+                  placeholder="Enter your Description"
+                  mb={4}
+                  name="cardtext"
+                  value={eventdata.cardtext}
+                  onChange={handleInput}
+                />
+              </FormControl>
+            </form>
+          </Box>
+          <Box
+            backgroundColor={"white"}
+            boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+            padding={"20px"}
+            w={["100%", "100%", "100%", "100%", "100%"]}
+            borderRadius={"20px"}
+          >
+            <form encType="multipart/form-data">
+              <FormControl isRequired>
+                <FormLabel htmlFor="date" color={"#add8e6"}>
+                  Date
+                </FormLabel>
+                <Input
+                  variant="flushed"
                   id="date"
                   type="date"
                   name="date"
+                  mb={4}
                   value={eventdata.date}
                   onChange={handleInput}
                 />
               </FormControl>
-              <FormControl isRequired flex="1">
-                <FormLabel htmlFor="place">Place</FormLabel>
+              <FormControl isRequired>
+                <FormLabel htmlFor="place" color={"#add8e6"}>
+                  Place
+                </FormLabel>
                 <Input
                   id="place"
                   type="text"
                   placeholder="Enter your place"
+                  variant="flushed"
+                  mb={4}
                   name="place"
                   value={eventdata.place}
                   onChange={handleInput}
                 />
               </FormControl>
-              <FormControl isRequired flex="1">
-                <FormLabel htmlFor="detailheading">Detail Heading</FormLabel>
+              <FormControl isRequired>
+                <FormLabel htmlFor="detailtext" color={"#add8e6"}>
+                  Detail Description
+                </FormLabel>
+                <Textarea
+                  id="detailtext"
+                  placeholder="Enter your Description"
+                  mb={4}
+                  name="detailtext"
+                  value={eventdata.detailtext}
+                  onChange={handleInput}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="detailheading" color={"#add8e6"}>
+                  Detail Heading
+                </FormLabel>
                 <Input
+                  variant="flushed"
                   id="detailheading"
                   type="text"
-                  placeholder="Enter your Heading"
+                  // placeholder="Enter your Heading"
+                  mb={4}
                   name="detailheading"
                   value={eventdata.detailheading}
                   onChange={handleInput}
                 />
               </FormControl>
-            </Flex>
 
-            <FormControl isRequired>
-              <FormLabel htmlFor="detailtext">Detail Description</FormLabel>
-              <Textarea
-                id="detailtext"
-                placeholder="Enter your Description"
-                mb={4}
-                name="detailtext"
-                value={eventdata.detailtext}
-                onChange={handleInput}
-              />
-            </FormControl>
-            <FormControl isRequired>
-              <FormLabel htmlFor="video">Video</FormLabel>
-              <Input
-                id="video"
-                type="text"
-                placeholder="Enter your video Link"
-                mb={4}
-                name="video"
-                value={eventdata.video}
-                onChange={handleInput}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="detailimages">Activity Images</FormLabel>
-              <Input
-                id="detailimages"
-                type="file"
-                name="detailimages"
-                accept="image/*"
-                onChange={handleImagesChange}
-                mb={4}
-                multiple
-              />
-            </FormControl>
-            {/* Display selected images for multiple upload */}
-            <Flex wrap="wrap">
-              {varImage.map((image, index) => (
-                <Flex key={index} alignItems="center" position="relative">
-                  <img
-                    key={index}
-                    src={URL.createObjectURL(image)}
-                    alt={`selected image ${index}`}
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "cover",
-                      marginRight: "10px",
-                      marginBottom: "10px",
-                    }}
-                  />
-                  <Button
-                    colorScheme="red"
-                    size="sm"
-                    position="absolute"
-                    top={0}
-                    right={0}
-                    zIndex={1}
-                    onClick={() => handleDeleteMultipleImage(index)}
-                  >
-                    <CloseIcon />
-                  </Button>
-                </Flex>
-              ))}
-            </Flex>
-            <Button
-              colorScheme="blue"
-              w="full"
-              onClick={() => {
-                Promise.all([submitSingle(), submitMultiple()])
-                  .then((res) => handleSubmit(res[0], res[1]))
-                  .catch((err) => console.log(err));
-              }}
-            >
-              Submit
-            </Button>
-          </form>
-        </Box>
-      </Center>
+              <FormControl isRequired>
+                <FormLabel htmlFor="video" color={"#add8e6"}>
+                  Video
+                </FormLabel>
+                <Input
+                  variant="flushed"
+                  id="video"
+                  type="text"
+                  // placeholder="Enter your video Link"
+                  mb={4}
+                  name="video"
+                  value={eventdata.video}
+                  onChange={handleInput}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="detailimages" color={"#add8e6"}>
+                  Activity Images
+                </FormLabel>
+                <Input
+                  variant="flushed"
+                  id="detailimages"
+                  type="file"
+                  name="detailimages"
+                  accept="image/*"
+                  onChange={handleImagesChange}
+                  mb={4}
+                  multiple
+                />
+              </FormControl>
+              {/* Display selected images for multiple upload */}
+              <Flex wrap="wrap">
+                {varImage.map((image, index) => (
+                  <Flex key={index} alignItems="center" position="relative">
+                    <img
+                      key={index}
+                      src={URL.createObjectURL(image)}
+                      alt={`selected image ${index}`}
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        objectFit: "cover",
+                        marginRight: "10px",
+                        marginBottom: "10px",
+                      }}
+                    />
+                    <Button
+                      colorScheme="red"
+                      size="sm"
+                      position="absolute"
+                      top={0}
+                      right={0}
+                      zIndex={1}
+                      onClick={() => handleDeleteMultipleImage(index)}
+                    >
+                      <CloseIcon />
+                    </Button>
+                  </Flex>
+                ))}
+              </Flex>
+            </form>
+          </Box>
+        </Flex>
+        <br />
+        <center>
+          <Button
+            variant={"solid"}
+            bgColor={"gray"}
+            color="add8e6"
+            _hover={{
+              color: "black",
+              bgColor: "#add8e6",
+              border: "1px solid #add8e6",
+            }}
+            onClick={() => {
+              Promise.all([submitSingle(), submitMultiple()])
+                .then((res) => handleSubmit(res[0], res[1]))
+                .catch((err) => console.log(err));
+            }}
+          >
+            Add New
+          </Button>
+        </center>
+      </Box>
     </>
   );
 };
