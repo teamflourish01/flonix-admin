@@ -47,7 +47,9 @@ import NewsAndEvents from "./NewsandEvents";
 import AddFormNewsandEvents from "./NewsAndEvents-Addform";
 import ViewNewsAndEvents from "./ViewNewsAndEvents";
 import UpdateNewsAndEvents from "./UpdateNewsAndEvents";
-
+import Pages from "./Pages";
+import ViewAboutus from "./ViewAboutus";
+import EditAboutus from "./EditAboutus";
 
 const Admin = () => {
   const sidebar = useDisclosure();
@@ -227,7 +229,7 @@ const Admin = () => {
           icon={MdContactPage}
           onClick={() => {
             sidebar.onClose();
-            // navigate("/admin/page");
+            navigate("/admin/page");
           }}
         >
           Pages
@@ -365,18 +367,35 @@ const Admin = () => {
             <Route path="/admin/category" element={<Category />} />
 
             <Route path="/admin/category/add" element={<AddCategory />} />
-            <Route path="/admin/category/:categoryid" element={<ViewCategory />} />
-            <Route path="/admin/category/edit/:categoryid" element={<EditCategory />} />
-            <Route path="/admin/product" element={<Product/>} />
-            <Route path="/admin/product/add" element={<AddProduct/>} />
-            <Route path="/admin/product/:id" element={<ViewProduct/>}/>
-            <Route path="/admin/product/edit/:id" element={<EditProduct/>}/>
+            <Route
+              path="/admin/category/:categoryid"
+              element={<ViewCategory />}
+            />
+            <Route
+              path="/admin/category/edit/:categoryid"
+              element={<EditCategory />}
+            />
+            <Route path="/admin/product" element={<Product />} />
+            <Route path="/admin/product/add" element={<AddProduct />} />
+            <Route path="/admin/product/:id" element={<ViewProduct />} />
+            <Route path="/admin/product/edit/:id" element={<EditProduct />} />
 
             <Route path="/admin/newsandevents" element={<NewsAndEvents />} />
-            <Route path="/admin/newsandevents/add" element={<AddFormNewsandEvents />} /> 
-            <Route path="/admin/newsandevents/:id" element={<ViewNewsAndEvents />} />
-            <Route path="/admin/newsandevents/edit/:Id" element={<UpdateNewsAndEvents />} />
-
+            <Route
+              path="/admin/newsandevents/add"
+              element={<AddFormNewsandEvents />}
+            />
+            <Route
+              path="/admin/newsandevents/:id"
+              element={<ViewNewsAndEvents />}
+            />
+            <Route
+              path="/admin/newsandevents/edit/:Id"
+              element={<UpdateNewsAndEvents />}
+            />
+            <Route path="/admin/page" element={<Pages />} />
+            <Route path="/admin/aboutus" element={<ViewAboutus />} />
+            <Route path="/admin/aboutus/edit/:id" element={<EditAboutus />} />
           </Routes>
           <Box rounded="md" h="" />
         </Box>
