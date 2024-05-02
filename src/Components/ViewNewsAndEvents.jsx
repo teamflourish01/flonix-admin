@@ -20,10 +20,11 @@ const ViewNewsAndEvents = () => {
   const { id } = useParams();
   const [item, setItem] = useState([]);
   const navigate = useNavigate();
+  const url = process.env.REACT_APP_DEV_URL;
 
   const fetchEventAndNewsById = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/newsandevent/${id}`);
+      const response = await fetch(`${url}/newsandevent/${id}`);
       const data = await response.json();
       setItem(data.DataById);
       console.log("State ById", item);
@@ -37,7 +38,7 @@ const ViewNewsAndEvents = () => {
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`http://localhost:8080/newsandevent/${id}`, {
+      const res = await fetch(`${url}/newsandevent/${id}`, {
         method: "DELETE",
       });
       alert("Data Delete Successfuly");
@@ -221,6 +222,41 @@ const ViewNewsAndEvents = () => {
               </Box>
             ))}
         </Box>
+        <br />
+      <br />
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
+        Created at
+      </Text>
+      {item?.createdAt && (
+        <Box
+          padding="10px 20px"
+          width="50%"
+          bgColor={"#eef1f4"}
+          fontSize={"medium"}
+        >
+          {new Date(item.createdAt).toLocaleString("en-IN", {
+            timeZone: "Asia/Kolkata",
+          })}
+        </Box>
+      )}
+      <br />
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
+        Updated at
+      </Text>
+      {item?.modifiedAt && (
+        <Box
+          padding="10px 20px"
+          width="50%"
+          bgColor={"#eef1f4"}
+          fontSize={"medium"}
+        >
+          {new Date(item.modifiedAt).toLocaleString("en-IN", {
+            timeZone: "Asia/Kolkata",
+          })}
+        </Box>
+      )}
+        
+        <br />
       </Box>
     </>
   );

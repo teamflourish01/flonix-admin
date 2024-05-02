@@ -19,11 +19,14 @@ import "../styles/Admin.css";
 import { BiSolidUser, BiLogoGmail } from "react-icons/bi";
 import {
   BsBriefcaseFill,
+  BsCalendarEvent,
+  BsCreditCard,
   BsDistributeVertical,
+  BsNewspaper,
   BsShopWindow,
 } from "react-icons/bs";
 
-import { FaStore, FaUser } from "react-icons/fa6";
+import { FaCertificate, FaStore, FaUser } from "react-icons/fa6";
 import { GiModernCity } from "react-icons/gi";
 import { GrCatalog } from "react-icons/gr";
 import { TiThMenu } from "react-icons/ti";
@@ -50,6 +53,10 @@ import UpdateNewsAndEvents from "./UpdateNewsAndEvents";
 import Pages from "./Pages";
 import ViewAboutus from "./ViewAboutus";
 import EditAboutus from "./EditAboutus";
+import Certificates from "./Certificate";
+import ViewCertificate from "./ViewCeritificate";
+import AddCertificate from "./AddCertificate";
+import EditCertificate from "./EditCertificats";
 
 const Admin = () => {
   const sidebar = useDisclosure();
@@ -197,13 +204,23 @@ const Admin = () => {
         </NavItem>
         <NavItem
           _hover={{ bgColor: "black", color: "#ADD8E6" }}
-          icon={BsShopWindow}
+          icon={BsNewspaper}
           onClick={() => {
             sidebar.onClose();
             navigate("/admin/newsandevents");
           }}
         >
           News & Eventes
+        </NavItem>
+        <NavItem
+          _hover={{ bgColor: "black", color: "#ADD8E6" }}
+          icon={FaCertificate}
+          onClick={() => {
+            sidebar.onClose();
+            navigate("/admin/certificate");
+          }}
+        >
+          Certificates
         </NavItem>
         {/* <NavItem icon={HiCode} onClick={integrations.onToggle}>
                 Integrations
@@ -396,6 +413,10 @@ const Admin = () => {
             <Route path="/admin/page" element={<Pages />} />
             <Route path="/admin/aboutus" element={<ViewAboutus />} />
             <Route path="/admin/aboutus/edit/:id" element={<EditAboutus />} />
+            <Route path="/admin/certificate" element={<Certificates />} />
+            <Route path="/admin/certificate/:id" element={<ViewCertificate />} />
+            <Route path="/admin/certificate/add" element={<AddCertificate />} />
+            <Route path="/admin/certificate/edit/:id" element={<EditCertificate />} />            
           </Routes>
           <Box rounded="md" h="" />
         </Box>

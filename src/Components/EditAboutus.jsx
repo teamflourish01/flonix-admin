@@ -20,10 +20,11 @@ const EditAboutus = () => {
   const [singleImg, setSingleImg] = useState("");
   const [selctSinImg, setselectSingImg] = useState("");
   const Navigate = useNavigate();
+  const url = process.env.REACT_APP_DEV_URL;
 
   const getAboutusById = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/aboutus/${id}`);
+      const response = await fetch(`${url}/aboutus/${id}`);
       const data = await response.json();
       setItem(data.data);
 
@@ -62,7 +63,7 @@ const EditAboutus = () => {
   const handleDBImgdelete = async (index) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/aboutus/deleteimg/${id}/${index}`,
+        `${url}/aboutus/deleteimg/${id}/${index}`,
         {
           method: "DELETE",
         }
@@ -101,7 +102,7 @@ const EditAboutus = () => {
       }
       console.log("FormData:", formData);
       const response = await axios.put(
-        `http://localhost:8080/aboutus/edit/${id}`,
+        `${url}/aboutus/edit/${id}`,
         formData,
         {
           headers: {

@@ -29,9 +29,10 @@ const NewsAndEvents = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [count, setCount] = useState(0);
+  const url = process.env.REACT_APP_DEV_URL;
 
   const navigate = useNavigate();
-  const url = process.env.REACT_APP_DEV_URL;
+  
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
@@ -68,7 +69,7 @@ const NewsAndEvents = () => {
   const getNewsAndEvents = async (page) => {
     try {
       let res = await fetch(
-        `http://localhost:8080/newsandevent?page=${page}&limit=5&search=${search}`
+        `${url}/newsandevent?page=${page}&limit=5&search=${search}`
       );
       const data = await res.json();
 
@@ -91,7 +92,7 @@ const NewsAndEvents = () => {
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`http://localhost:8080/newsandevent/${id}`, {
+      const res = await fetch(`${url}/newsandevent/${id}`, {
         method: "DELETE",
       });
       alert("Data Delete Successfuly");
@@ -133,6 +134,7 @@ const NewsAndEvents = () => {
           Bulk Delete
         </Button> */}
       </Flex>
+      <br />
       <br />
       <TableContainer border={"1px solid #161616"} borderRadius={"20px"}>
         <Table variant="simple">

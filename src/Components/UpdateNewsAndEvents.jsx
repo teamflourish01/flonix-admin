@@ -20,10 +20,11 @@ const UpdateNewsAndEvents = () => {
   const [singleImg, setSingleImg] = useState("");
   const [selctSinImg, setselectSingImg] = useState("");
   const Navigate = useNavigate();
+  const url = process.env.REACT_APP_DEV_URL;
 
   const fetchEventAndNewsById = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/newsandevent/${Id}`);
+      const response = await fetch(`${url}/newsandevent/${Id}`);
       const data = await response.json();
       setItem(data.DataById);
 
@@ -62,7 +63,7 @@ const UpdateNewsAndEvents = () => {
   const handleDBImgdelete = async (index) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/newsandevent/deleteimg/${Id}/${index}`,
+        `${url}/newsandevent/deleteimg/${Id}/${index}`,
         {
           method: "DELETE",
         }
@@ -102,7 +103,7 @@ const UpdateNewsAndEvents = () => {
       }
       console.log("FormData:", formData);
       const response = await axios.put(
-        `http://localhost:8080/newsandevent/edit/${Id}`,
+        `${url}/newsandevent/edit/${Id}`,
         formData,
         {
           headers: {

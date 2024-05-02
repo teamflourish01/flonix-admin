@@ -19,13 +19,14 @@ import { useNavigate } from "react-router-dom";
 const Pages = () => {
   const [item, setItem] = useState([]);
   const navigate = useNavigate();
+  const url = process.env.REACT_APP_DEV_URL;
 
   useEffect(() => {
     const getAboutus = async () => {
       try {
-        const response = await fetch("http://localhost:8080/aboutus");
+        const response = await fetch(`${url}/aboutus`);
         const data = await response.json();
-        setItem(data);
+        setItem(data.data);
       } catch (error) {
         console.log(error);
       }
