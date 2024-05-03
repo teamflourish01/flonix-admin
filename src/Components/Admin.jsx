@@ -62,6 +62,8 @@ import EditContectDetails from "./EditContectDetails";
 import ViewNewsHeading from "./ViewNewsHeading";
 import AddNewsHeading from "./AddNewsHeading";
 import EditNewsHeading from "./EditNewsHeading";
+import ViewHomeBanner from "./ViewHomeBanner";
+import EditHomeBanner from "./EditHomeBanner";
 
 const Admin = () => {
   const sidebar = useDisclosure();
@@ -438,6 +440,8 @@ const Admin = () => {
             <Route path="/admin/certificate/edit/:id" element={<EditCertificate />} /> 
             <Route path="/admin/contectdetails" element={<Contectdetails />} />
             <Route path="/admin/contectdetails/edit/:id" element={<EditContectDetails />} />
+            <Route path="/admin/homebanner/:id" element={<ViewHomeBanner />} />
+            <Route path="/admin/homebanner/edit/:id" element={<EditHomeBanner />} /> 
 
           </Routes>
           <Box rounded="md" h="" />

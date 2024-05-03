@@ -68,7 +68,7 @@ const UpdateNewsAndEvents = () => {
           method: "DELETE",
         }
       );
-      if (response.ok) {
+      if (response.status===200) {
         fetchEventAndNewsById();
       }
     } catch (error) {
