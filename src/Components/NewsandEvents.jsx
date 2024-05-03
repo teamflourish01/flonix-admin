@@ -4,12 +4,15 @@ import {
   Button,
   ButtonGroup,
   Flex,
+  FormControl,
+  FormLabel,
   Input,
   Table,
   TableCaption,
   TableContainer,
   Tbody,
   Td,
+  Textarea,
   Th,
   Thead,
   Tr,
@@ -23,6 +26,7 @@ import DeleteBtn from "./DeleteBtn";
 const NewsAndEvents = () => {
   const [category, setCategory] = useState([]);
   const [newsAndEvents, setNewsAndEvents] = useState([]);
+  const [newsheading, setNewsheading] = useState([]);
   const [searchNewsAndEvnts, setSearchNewsAndEvents] = useState([]);
   const [flag, setFlag] = useState(false);
   const [search, setSearch] = useState("");
@@ -32,7 +36,6 @@ const NewsAndEvents = () => {
   const url = process.env.REACT_APP_DEV_URL;
 
   const navigate = useNavigate();
-  
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
@@ -45,10 +48,10 @@ const NewsAndEvents = () => {
       setCount(newsAndEvents.length);
     }
     const filteredData = newsAndEvents.filter((item) =>
-      item.generalheading.toLowerCase().includes(search.toLowerCase())
+      item.cardheading.toLowerCase().includes(search.toLowerCase())
     );
     setSearchNewsAndEvents(filteredData);
-    setCount(filteredData.length)
+    setCount(filteredData.length);
   };
 
   useEffect(() => {
@@ -81,6 +84,7 @@ const NewsAndEvents = () => {
       console.log(error);
     }
   };
+
   useEffect(() => {
     getCategory();
     getNewsAndEvents(page);
@@ -101,6 +105,7 @@ const NewsAndEvents = () => {
       console.log(error);
     }
   };
+
   return (
     <Box p="4">
       <Flex gap={5} justifyContent={"space-between"}>
@@ -135,7 +140,7 @@ const NewsAndEvents = () => {
         </Button> */}
       </Flex>
       <br />
-      <br />
+
       <TableContainer border={"1px solid #161616"} borderRadius={"20px"}>
         <Table variant="simple">
           <TableCaption
@@ -148,7 +153,7 @@ const NewsAndEvents = () => {
           <Thead bgColor={"black"}>
             <Tr>
               <Th color={"#add8e6"}>#</Th>
-              <Th color={"#add8e6"}>Heading</Th>
+              <Th color={"#add8e6"}>Card Heading</Th>
               <Th color={"#add8e6"}>Date</Th>
               <Th color={"#add8e6"}>Place</Th>
               <Th color={"#add8e6"}>Action</Th>
@@ -168,7 +173,7 @@ const NewsAndEvents = () => {
               return (
                 <Tr key={item._id}>
                   <Td> {serialNumber} </Td>
-                  <Td>{item?.generalheading}</Td>
+                  <Td>{item?.cardheading}</Td>
                   <Td>{formattedDate}</Td>
                   <Td>{item?.place}</Td>
                   <Td>

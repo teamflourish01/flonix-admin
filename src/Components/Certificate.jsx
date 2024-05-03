@@ -47,23 +47,6 @@ const Certificates = () => {
     }
   };
 
-  // const handleSearch = async () => {
-  //   try {
-  //     if (!search) {
-  //       getCertificate();
-  //       getCount();
-  //       setFlag(true);
-  //       return;
-  //     }
-  //     let data = await fetch(`${url}/product/search/${search}`);
-  //     data = await data.json();
-  //     setProduct(data.data);
-  //     setCount(data.data.length);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const getCount = async () => {
     try {
       let data = await fetch(`http://localhost:8080/certificate`);
@@ -152,10 +135,16 @@ const Certificates = () => {
                       }}
                     />
                   </Td>
-                  <Td style={{ overflow: "auto" }}>
-                    <div style={{ maxWidth: "200px", maxHeight: "100px" }}>
-                      {e?.imgdescription}
-                    </div>
+                  <Td
+                    style={{
+                      whiteSpace: "normal",
+                      padding: "0",
+                      width: "500px",
+                      textAlign: "justify",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {e?.imgdescription}
                   </Td>
                   <Td>
                     <ButtonGroup>

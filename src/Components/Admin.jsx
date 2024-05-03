@@ -26,7 +26,7 @@ import {
   BsShopWindow,
 } from "react-icons/bs";
 
-import { FaCertificate, FaStore, FaUser } from "react-icons/fa6";
+import { FaCertificate, FaMobile, FaMobileButton, FaMobileScreen, FaMoneyBillTrendUp, FaStore, FaUser } from "react-icons/fa6";
 import { GiModernCity } from "react-icons/gi";
 import { GrCatalog } from "react-icons/gr";
 import { TiThMenu } from "react-icons/ti";
@@ -47,9 +47,9 @@ import ViewProduct from "./ViewProduct";
 import EditProduct from "./EditProduct";
 
 import NewsAndEvents from "./NewsandEvents";
-import AddFormNewsandEvents from "./NewsAndEvents-Addform";
+import AddFormNewsandEvents from "./AddNewsAndEvents";
 import ViewNewsAndEvents from "./ViewNewsAndEvents";
-import UpdateNewsAndEvents from "./UpdateNewsAndEvents";
+import UpdateNewsAndEvents from "./EditNewsAndEvents";
 import Pages from "./Pages";
 import ViewAboutus from "./ViewAboutus";
 import EditAboutus from "./EditAboutus";
@@ -57,6 +57,11 @@ import Certificates from "./Certificate";
 import ViewCertificate from "./ViewCeritificate";
 import AddCertificate from "./AddCertificate";
 import EditCertificate from "./EditCertificats";
+import Contectdetails from "./ContectDetails";
+import EditContectDetails from "./EditContectDetails";
+import ViewNewsHeading from "./ViewNewsHeading";
+import AddNewsHeading from "./AddNewsHeading";
+import EditNewsHeading from "./EditNewsHeading";
 
 const Admin = () => {
   const sidebar = useDisclosure();
@@ -221,6 +226,16 @@ const Admin = () => {
           }}
         >
           Certificates
+        </NavItem>
+        <NavItem
+          _hover={{ bgColor: "black", color: "#ADD8E6" }}
+          icon={FaMobileScreen}
+          onClick={() => {
+            sidebar.onClose();
+            navigate("/admin/contectdetails");
+          }}
+        >
+          Contect Details
         </NavItem>
         {/* <NavItem icon={HiCode} onClick={integrations.onToggle}>
                 Integrations
@@ -410,13 +425,20 @@ const Admin = () => {
               path="/admin/newsandevents/edit/:Id"
               element={<UpdateNewsAndEvents />}
             />
+            <Route path="/admin/newsheading/add" element={<AddNewsHeading />} />
+            <Route path="/admin/newsheading/:id" element={<ViewNewsHeading />} />
+            <Route path="/admin/newsheading/edit/:id" element={<EditNewsHeading/>} />
+            
             <Route path="/admin/page" element={<Pages />} />
             <Route path="/admin/aboutus" element={<ViewAboutus />} />
             <Route path="/admin/aboutus/edit/:id" element={<EditAboutus />} />
             <Route path="/admin/certificate" element={<Certificates />} />
             <Route path="/admin/certificate/:id" element={<ViewCertificate />} />
             <Route path="/admin/certificate/add" element={<AddCertificate />} />
-            <Route path="/admin/certificate/edit/:id" element={<EditCertificate />} />            
+            <Route path="/admin/certificate/edit/:id" element={<EditCertificate />} /> 
+            <Route path="/admin/contectdetails" element={<Contectdetails />} />
+            <Route path="/admin/contectdetails/edit/:id" element={<EditContectDetails />} />
+
           </Routes>
           <Box rounded="md" h="" />
         </Box>
