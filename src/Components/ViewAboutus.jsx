@@ -14,15 +14,16 @@ import { BiEditAlt } from "react-icons/bi";
 
 const ViewAboutus = () => {
   const [item, setItem] = useState([]);
+  const url = process.env.REACT_APP_DEV_URL;
 
   const navigate = useNavigate();
 
   const getAboutus = async () => {
     try {
-      const response = await fetch("http://localhost:8080/aboutus");
+      const response = await fetch(`${url}/aboutus`);
       const data = await response.json();
       console.log(data);
-      setItem(data);
+      setItem(data.data);
 
       console.log("UseState Data", item);
     } catch (error) {

@@ -31,6 +31,7 @@ const AddFormNewsandEvents = () => {
   const [image, setImage] = useState({});
   const [varImage, setVarImage] = useState([]);
   const Navigate = useNavigate();
+  const url = process.env.REACT_APP_DEV_URL;
 
   const formData = new FormData();
 
@@ -65,7 +66,7 @@ const AddFormNewsandEvents = () => {
     formData.append("cardimage", image);
     try {
       let data = await axios.post(
-        "http://localhost:8080/newsandevent/add/singleimage",
+        `${url}/newsandevent/add/singleimage`,
         formData,
         {
           headers: {
@@ -88,7 +89,7 @@ const AddFormNewsandEvents = () => {
     }
     try {
       let data = await axios.post(
-        "http://localhost:8080/newsandevent/add/multipleimages",
+        `${url}/newsandevent/add/multipleimages`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -112,7 +113,7 @@ const AddFormNewsandEvents = () => {
     }
 
     try {
-      let data = await fetch("http://localhost:8080/newsandevent/add", {
+      let data = await fetch(`${url}/newsandevent/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
