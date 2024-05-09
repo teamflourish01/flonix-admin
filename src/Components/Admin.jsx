@@ -47,6 +47,11 @@ import NewsAndEvents from "./NewsandEvents";
 import AddFormNewsandEvents from "./NewsAndEvents-Addform";
 import ViewNewsAndEvents from "./ViewNewsAndEvents";
 import UpdateNewsAndEvents from "./UpdateNewsAndEvents";
+import Contact from "./Contact";
+import AddOutlet from "./AddOutlet";
+import ViewOutlet from "./ViewOutlet";
+import EditOutlet from "./EditOutlet";
+import MyEditor from "./MyEditor";
 
 
 const Admin = () => {
@@ -258,10 +263,10 @@ const Admin = () => {
           icon={FaStore}
           onClick={() => {
             sidebar.onClose();
-            // navigate("/admin/outlet");
+            navigate("/admin/contact");
           }}
         >
-          Outlets
+          Contact
         </NavItem>
         <NavItem
           _hover={{ bgColor: "black", color: "#ADD8E6" }}
@@ -363,7 +368,6 @@ const Admin = () => {
           <Routes>
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/category" element={<Category />} />
-
             <Route path="/admin/category/add" element={<AddCategory />} />
             <Route path="/admin/category/:categoryid" element={<ViewCategory />} />
             <Route path="/admin/category/edit/:categoryid" element={<EditCategory />} />
@@ -371,12 +375,15 @@ const Admin = () => {
             <Route path="/admin/product/add" element={<AddProduct/>} />
             <Route path="/admin/product/:id" element={<ViewProduct/>}/>
             <Route path="/admin/product/edit/:id" element={<EditProduct/>}/>
-
             <Route path="/admin/newsandevents" element={<NewsAndEvents />} />
             <Route path="/admin/newsandevents/add" element={<AddFormNewsandEvents />} /> 
             <Route path="/admin/newsandevents/:id" element={<ViewNewsAndEvents />} />
             <Route path="/admin/newsandevents/edit/:Id" element={<UpdateNewsAndEvents />} />
-
+            <Route path="/admin/contact" element={<Contact/>}/>
+            <Route path="/admin/outlet/add" element={<AddOutlet/>}/>
+            <Route path="/admin/outlet/:id" element={<ViewOutlet/>}/>
+            <Route path="/admin/outlet/edit/:id" element={<EditOutlet/>} />
+            <Route path="/admin/editor" element={<MyEditor/>}/>
           </Routes>
           <Box rounded="md" h="" />
         </Box>

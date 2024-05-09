@@ -25,8 +25,8 @@ const ViewProduct = () => {
   const [product, setProduct] = useState({});
   const toast = useToast();
   const dataArray = Object.entries(product?.specification || {});
-  const detailArray=Object.entries(product?.details||{})
-  const performanceArray=Object.entries(product?.performance||{})
+  const detailArray = Object.entries(product?.details || {});
+  const performanceArray = Object.entries(product?.performance || {});
   const url = process.env.REACT_APP_DEV_URL;
   const handleDelete = () => {};
 
@@ -45,7 +45,7 @@ const ViewProduct = () => {
     getProduct();
   }, []);
   return (
-    <Box textAlign={"left"} p="4" >
+    <Box textAlign={"left"} p="4">
       <Flex gap="20px">
         <Text fontSize={"xl"} fontWeight={"semibold"}>
           View Product Details
@@ -70,10 +70,10 @@ const ViewProduct = () => {
         >
           Delete
         </Button>
-    </Flex>
-    <br />
-    <br />
-    <Text fontWeight={"semibold"} fontSize={"xl"}>
+      </Flex>
+      <br />
+      <br />
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
         Name
       </Text>
       <Box
@@ -110,6 +110,23 @@ const ViewProduct = () => {
       <br />
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
+        Key Features
+      </Text>
+      
+      {product?.key_features?.map((e)=>
+      <Text
+      padding="10px 20px"
+      width="50%"
+      bgColor={"#eef1f4"}
+      fontSize={"medium"}
+    >
+     {e}
+    </Text>
+      )}
+      
+      <br />
+      <br />
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
         Image
       </Text>
       <SimpleGrid columns={[1, 1, 1, 2, 2]} rowGap={"9"}>
@@ -117,78 +134,98 @@ const ViewProduct = () => {
           product?.image.map((e) => <Image src={`${url}/product/${e}`} />)}
       </SimpleGrid>
       <br />
-     
-    {dataArray.length>0&& 
-    <>
-     <Text fontWeight={"semibold"} fontSize={"xl"}>
-        Specification
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
+        Testing
       </Text>
-     <Table w={"50%"} bgColor={"#eef1f4"}>
-        <Thead>
-          <Tr>
-            <Th>Parameter</Th>
-            <Th>Value</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {dataArray?.map(([parameter, value]) => (
-            <Tr key={parameter}>
-              <Td>{parameter}</Td>
-              <Td>{value}</Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
+      <SimpleGrid columns={[1, 1, 1, 2, 2]} rowGap={"9"}>
+        {product?.mark &&
+          product?.mark.map((e,i) => {
+          return <>
+          <Image src={`${url}/product/${e}`} />
+          <br />
+          <Box
+        padding="10px 20px"
+        width="50%"
+        bgColor={"#eef1f4"}
+        fontSize={"medium"}
+      >
 
+{product?.mark_text[i]}
+      </Box>
           </>
-      }
+          })}
+      </SimpleGrid>
+      <br />
+      {dataArray.length > 0 && (
+        <>
+          <Text fontWeight={"semibold"} fontSize={"xl"}>
+            Specification
+          </Text>
+          <Table w={"50%"} bgColor={"#eef1f4"}>
+            <Thead>
+              <Tr>
+                <Th>Parameter</Th>
+                <Th>Value</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {dataArray?.map(([parameter, value]) => (
+                <Tr key={parameter}>
+                  <Td>{parameter}</Td>
+                  <Td>{value}</Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </>
+      )}
 
-      {detailArray.length>0&& 
-    <>
-     <Text fontWeight={"semibold"} fontSize={"xl"}>
-        Product Details
-      </Text>
-     <Table w={"50%"} bgColor={"#eef1f4"}>
-        <Thead>
-          <Tr>
-            <Th>Parameter</Th>
-            <Th>Value</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {detailArray?.map(([parameter, value]) => (
-            <Tr key={parameter}>
-              <Td>{parameter}</Td>
-              <Td>{value}</Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
-          </>
-      }
-      {performanceArray.length>0&& 
-    <>
-     <Text fontWeight={"semibold"} fontSize={"xl"}>
-        Performance Feature
-      </Text>
-     <Table w={"50%"} bgColor={"#eef1f4"}>
-        <Thead>
-          <Tr>
-            <Th>Parameter</Th>
-            <Th>Value</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {performanceArray?.map(([parameter, value]) => (
-            <Tr key={parameter}>
-              <Td>{parameter}</Td>
-              <Td>{value}</Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
-          </>
-      }
+      {detailArray.length > 0 && (
+        <>
+          <Text fontWeight={"semibold"} fontSize={"xl"}>
+            Product Details
+          </Text>
+          <Table w={"50%"} bgColor={"#eef1f4"}>
+            <Thead>
+              <Tr>
+                <Th>Parameter</Th>
+                <Th>Value</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {detailArray?.map(([parameter, value]) => (
+                <Tr key={parameter}>
+                  <Td>{parameter}</Td>
+                  <Td>{value}</Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </>
+      )}
+      {performanceArray.length > 0 && (
+        <>
+          <Text fontWeight={"semibold"} fontSize={"xl"}>
+            Performance Feature
+          </Text>
+          <Table w={"50%"} bgColor={"#eef1f4"}>
+            <Thead>
+              <Tr>
+                <Th>Parameter</Th>
+                <Th>Value</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {performanceArray?.map(([parameter, value]) => (
+                <Tr key={parameter}>
+                  <Td>{parameter}</Td>
+                  <Td>{value}</Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </>
+      )}
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
         Created at
