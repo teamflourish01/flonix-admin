@@ -13,19 +13,20 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
-const UpdateNewsAndEvents = () => {
-  const { Id } = useParams();
+const EditAboutus = () => {
+  const { id } = useParams();
   const [item, setItem] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [singleImg, setSingleImg] = useState("");
   const [selctSinImg, setselectSingImg] = useState("");
   const Navigate = useNavigate();
+  const url = process.env.REACT_APP_DEV_URL;
 
-  const fetchEventAndNewsById = async () => {
+  const getAboutusById = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/newsandevent/${Id}`);
+      const response = await fetch(`${url}/aboutus/${id}`);
       const data = await response.json();
-      setItem(data.DataById);
+      setItem(data.data);
 
       console.log("State ById", item);
     } catch (error) {
@@ -33,8 +34,8 @@ const UpdateNewsAndEvents = () => {
     }
   };
   useEffect(() => {
-    fetchEventAndNewsById();
-  }, [Id]);
+    getAboutusById();
+  }, [id]);
 
   // edit logic
   const handleSingleImage = (e) => {
@@ -62,13 +63,13 @@ const UpdateNewsAndEvents = () => {
   const handleDBImgdelete = async (index) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/newsandevent/deleteimg/${Id}/${index}`,
+        `${url}/aboutus/deleteimg/${id}/${index}`,
         {
           method: "DELETE",
         }
       );
       if (response.ok) {
-        fetchEventAndNewsById();
+        getAboutusById();
       }
     } catch (error) {
       console.log("Error Deleting Multiple Img From DB", error);
@@ -85,24 +86,23 @@ const UpdateNewsAndEvents = () => {
 
     try {
       const formData = new FormData();
-      formData.append("generalheading", item.generalheading);
-      formData.append("generaltext", item.generaltext);
-      formData.append("cardheading", item.cardheading);
-      formData.append("date", item.date);
-      formData.append("place", item.place);
-      formData.append("cardtext", item.cardtext);
-      formData.append("detailheading", item.detailheading);
-      formData.append("detailtext", item.detailtext);
-      formData.append("video", item.video);
+      formData.append("heading", item.heading);
+      formData.append("description", item.description);
+      formData.append("bannerheading", item.bannerheading);
+      formData.append("bannerdescription", item.bannerdescription);
+      formData.append("mission", item.mission);
+      formData.append("vision", item.vision);
+      formData.append("goals", item.goals);
+
       for (let x of selectedImages) {
-        formData.append("detailimages", x);
+        formData.append("logoimages", x);
       }
       if (singleImg) {
-        formData.append("cardimage", singleImg);
+        formData.append("banner", singleImg);
       }
       console.log("FormData:", formData);
       const response = await axios.put(
-        `http://localhost:8080/newsandevent/edit/${Id}`,
+        `${url}/aboutus/edit/${id}`,
         formData,
         {
           headers: {
@@ -112,7 +112,7 @@ const UpdateNewsAndEvents = () => {
       );
       if (response.status === 200) {
         alert("data Update Successfuly");
-        Navigate("/admin/newsandevents/");
+        Navigate("/admin/aboutus/");
       } else {
         throw new Error("Faild to update Data");
       }
@@ -142,39 +142,39 @@ const UpdateNewsAndEvents = () => {
                   Heading
                 </FormLabel>
                 <Input
-                  id="generalheading"
+                  id="heading"
                   type="text"
                   variant={"flushed"}
                   placeholder="Enter your Heading"
-                  name="generalheading"
-                  value={item.generalheading}
+                  name="heading"
+                  value={item.heading}
                   onChange={handleInput}
                   mb={4}
                 />
               </FormControl>
               <FormControl isRequired>
-                <FormLabel htmlFor="generaltext" color={"#add8e6"}>
+                <FormLabel htmlFor="description" color={"#add8e6"}>
                   Description
                 </FormLabel>
                 <Textarea
-                  id="generaltext"
+                  id="description"
                   placeholder="Enter your message"
                   mb={4}
-                  name="generaltext"
-                  value={item.generaltext}
+                  name="description"
+                  value={item.description}
                   onChange={handleInput}
                 />
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor="cardimage" color={"#add8e6"}>
-                  Image
+                <FormLabel htmlFor="banner" color={"#add8e6"}>
+                  Banner Image
                 </FormLabel>
                 <Input
                   variant="flushed"
-                  id="cardimage"
+                  id="banner"
                   type="file"
-                  name="cardimage"
+                  name="banner"
                   accept="image/*"
                   onChange={handleSingleImage}
                   mb={4}
@@ -190,7 +190,6 @@ const UpdateNewsAndEvents = () => {
                         width: "200px",
                         height: "150px",
                         margin: "5px",
-                        // marginLeft: "150px",
                       }}
                     />
                     <Button
@@ -208,11 +207,11 @@ const UpdateNewsAndEvents = () => {
                   </Flex>
                 )}
               </FormControl>
-              {!selctSinImg && item.cardimage && (
+              {!selctSinImg && item.banner && (
                 <FormControl mr={4}>
                   <Flex alignItems="center" position="relative">
                     <img
-                      src={`http://localhost:8080/newsAndevents/${item.cardimage}`}
+                      src={`http://localhost:8080/aboutus/${item.banner}`}
                       alt="selected img"
                       style={{
                         width: "200px",
@@ -225,30 +224,30 @@ const UpdateNewsAndEvents = () => {
                 </FormControl>
               )}
               <FormControl isRequired mb={4}>
-                <FormLabel htmlFor="cardheading" color={"#add8e6"}>
-                  Card Heading
+                <FormLabel htmlFor="bannerheading" color={"#add8e6"}>
+                  Banner Heading
                 </FormLabel>
                 <Input
                   variant="flushed"
-                  id="cardheading"
+                  id="bannerheading"
                   type="text"
                   placeholder="Enter your Heading"
                   mb={4}
-                  name="cardheading"
-                  value={item.cardheading}
+                  name="bannerheading"
+                  value={item.bannerheading}
                   onChange={handleInput}
                 />
               </FormControl>
               <FormControl isRequired>
-                <FormLabel htmlFor="cardtext" color={"#add8e6"}>
-                  Card Description
+                <FormLabel htmlFor="bannerdescription" color={"#add8e6"}>
+                  Banner Description
                 </FormLabel>
                 <Textarea
-                  id="cardtext"
+                  id="bannerdescription"
                   placeholder="Enter your Description"
                   mb={4}
-                  name="cardtext"
-                  value={item.cardtext}
+                  name="bannerdescription"
+                  value={item.bannerdescription}
                   onChange={handleInput}
                 />
               </FormControl>
@@ -263,99 +262,69 @@ const UpdateNewsAndEvents = () => {
           >
             <form encType="multipart/form-data">
               <FormControl isRequired>
-                <FormLabel htmlFor="date" color={"#add8e6"}>
-                  Date
+                <FormLabel htmlFor="mission" color={"#add8e6"}>
+                  Mission
                 </FormLabel>
                 <Input
                   variant="flushed"
-                  id="date"
-                  type="date"
-                  name="date"
+                  id="mission"
+                  type="text"
+                  name="mission"
                   mb={4}
-                  value={item.date}
+                  value={item.mission}
                   onChange={handleInput}
                 />
               </FormControl>
               <FormControl isRequired>
-                <FormLabel htmlFor="place" color={"#add8e6"}>
-                  Place
+                <FormLabel htmlFor="vision" color={"#add8e6"}>
+                  vision
                 </FormLabel>
                 <Input
-                  id="place"
+                  id="vision"
                   type="text"
                   placeholder="Enter your place"
                   variant="flushed"
                   mb={4}
-                  name="place"
-                  value={item.place}
+                  name="vision"
+                  value={item.vision}
                   onChange={handleInput}
                 />
               </FormControl>
               <FormControl isRequired>
-                <FormLabel htmlFor="detailtext" color={"#add8e6"}>
-                  Detail Description
+                <FormLabel htmlFor="goals" color={"#add8e6"}>
+                  Goals
                 </FormLabel>
                 <Textarea
-                  id="detailtext"
+                  id="goals"
                   placeholder="Enter your Description"
                   mb={4}
-                  name="detailtext"
-                  value={item.detailtext}
-                  onChange={handleInput}
-                />
-              </FormControl>
-              <FormControl isRequired>
-                <FormLabel htmlFor="detailheading" color={"#add8e6"}>
-                  Detail Heading
-                </FormLabel>
-                <Input
-                  variant="flushed"
-                  id="detailheading"
-                  type="text"
-                  // placeholder="Enter your Heading"
-                  mb={4}
-                  name="detailheading"
-                  value={item.detailheading}
+                  name="goals"
+                  value={item.goals}
                   onChange={handleInput}
                 />
               </FormControl>
 
-              <FormControl isRequired>
-                <FormLabel htmlFor="video" color={"#add8e6"}>
-                  Video
-                </FormLabel>
-                <Input
-                  variant="flushed"
-                  id="video"
-                  type="text"
-                  // placeholder="Enter your video Link"
-                  mb={4}
-                  name="video"
-                  value={item.video}
-                  onChange={handleInput}
-                />
-              </FormControl>
               <FormControl>
                 <FormLabel htmlFor="detailimages" color={"#add8e6"}>
-                  Activity Images
+                  Logo Images
                 </FormLabel>
                 <Input
                   variant="flushed"
-                  id="detailimages"
+                  id="logoimages"
                   type="file"
-                  name="detailimages"
+                  name="logoimages"
                   accept="image/*"
                   onChange={handleMultipleImage}
                   mb={4}
                   multiple
                 />
                 <Flex wrap="wrap">
-                  {item.detailimages &&
-                    item.detailimages.map((image, index) => (
+                  {item.logoimages &&
+                    item.logoimages.map((image, index) => (
                       <Flex key={index} alignItems="center" position="relative">
                         <img
                           key={index}
-                          src={`http://localhost:8080/newsAndevents/${image}`}
+                          src={`http://localhost:8080/aboutus/${image}`}
                           alt={`Image ${index}`}
                           style={{
                             width: "100px",
@@ -436,4 +405,4 @@ const UpdateNewsAndEvents = () => {
   );
 };
 
-export default UpdateNewsAndEvents;
+export default EditAboutus;

@@ -1,58 +1,45 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
-  FormControl,
-  FormLabel,
-  Input,
   Button,
-  Center,
   Flex,
   Text,
   Textarea,
   Image,
   SimpleGrid,
 } from "@chakra-ui/react";
-import { RiDeleteBin6Line } from "react-icons/ri";
+
 import { BiEditAlt } from "react-icons/bi";
 
-const ViewNewsAndEvents = () => {
-  const { id } = useParams();
+const ViewAboutus = () => {
   const [item, setItem] = useState([]);
-  const navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
-  const fetchEventAndNewsById = async () => {
+  const navigate = useNavigate();
+
+  const getAboutus = async () => {
     try {
-      const response = await fetch(`${url}/newsandevent/${id}`);
+      const response = await fetch(`${url}/aboutus`);
       const data = await response.json();
-      setItem(data.DataById);
-      console.log("State ById", item);
+      console.log(data);
+      setItem(data.data);
+
+      console.log("UseState Data", item);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    fetchEventAndNewsById();
-  }, [id]);
+    getAboutus();
+  }, []);
 
-  const handleDelete = async (id) => {
-    try {
-      const res = await fetch(`${url}/newsandevent/${id}`, {
-        method: "DELETE",
-      });
-      alert("Data Delete Successfuly");
-      navigate("/admin/newsandevents");
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <>
       <Box textAlign={"left"} p="5">
         <Flex gap="20px">
           <Text fontSize={"xl"} fontWeight={"semibold"}>
-            View News & Events Details
+            View About Us
           </Text>
           <Button
             borderRadius={"20px"}
@@ -60,25 +47,17 @@ const ViewNewsAndEvents = () => {
             bgColor={"black"}
             _hover={{ color: "black", bgColor: "#add8e6" }}
             leftIcon={<BiEditAlt />}
-            onClick={() => navigate(`/admin/newsandevents/edit/${id}`)}
+            onClick={() =>
+              navigate(`/admin/aboutus/edit/${item.length > 0 && item[0]._id}`)
+            }
           >
             Edit
-          </Button>
-          <Button
-            borderRadius={"20px"}
-            color={"#add8e6"}
-            bgColor={"black"}
-            _hover={{ color: "black", bgColor: "#add8e6" }}
-            leftIcon={<RiDeleteBin6Line />}
-            onClick={() => handleDelete(id)}
-          >
-            Delete
           </Button>
         </Flex>
         <br />
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
-          Hading
+          Heading
         </Text>
         <Box
           padding="10px 20px"
@@ -87,7 +66,7 @@ const ViewNewsAndEvents = () => {
           fontSize={"medium"}
           _readOnly
         >
-          {item?.generalheading}
+          {item.length > 0 && item[0].heading}
         </Box>
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
@@ -97,18 +76,21 @@ const ViewNewsAndEvents = () => {
           padding="10px 20px"
           width="50%"
           bgColor={"#eef1f4"}
-          value={item?.generaltext}
+          value={item.length > 0 && item[0].description}
           fontSize={"medium"}
           _readOnly
         />
         <br />
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
-          Image
+          Banner Image
         </Text>
+        <br />
         <SimpleGrid columns={[1, 1, 1, 2, 2]} rowGap={"9"}>
           <Image
-            src={`http://localhost:8080/newsAndevents/${item.cardimage}`}
+            src={`http://localhost:8080/aboutus/${
+              item.length > 0 && item[0].banner
+            }`}
             style={{
               width: "150px",
               height: "100px",
@@ -119,7 +101,7 @@ const ViewNewsAndEvents = () => {
         </SimpleGrid>
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
-          Card Hading
+          Banner Heading
         </Text>
         <Box
           padding="10px 20px"
@@ -128,24 +110,24 @@ const ViewNewsAndEvents = () => {
           fontSize={"medium"}
           _readOnly
         >
-          {item?.cardheading}
+          {item.length > 0 && item[0].bannerheading}
         </Box>
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
-          Card Description
+          Banner Description
         </Text>
         <Textarea
           padding="10px 20px"
           width="50%"
           bgColor={"#eef1f4"}
-          value={item?.cardtext}
+          value={item.length > 0 && item[0].bannerdescription}
           fontSize={"medium"}
           _readOnly
         />
         <br />
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
-          Date
+          Mission
         </Text>
         <Box
           padding="10px 20px"
@@ -153,11 +135,11 @@ const ViewNewsAndEvents = () => {
           bgColor={"#eef1f4"}
           fontSize={"medium"}
         >
-          {item?.date}
+          {item.length > 0 && item[0].mission}
         </Box>
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
-          Place
+          Vision
         </Text>
         <Box
           padding="10px 20px"
@@ -165,11 +147,11 @@ const ViewNewsAndEvents = () => {
           bgColor={"#eef1f4"}
           fontSize={"medium"}
         >
-          {item?.place}
+          {item.length > 0 && item[0].vision}
         </Box>
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
-          Details Hading
+          Goals
         </Text>
         <Box
           padding="10px 20px"
@@ -177,42 +159,19 @@ const ViewNewsAndEvents = () => {
           bgColor={"#eef1f4"}
           fontSize={"medium"}
         >
-          {item?.detailheading}
+          {item.length > 0 && item[0].goals}
         </Box>
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
-          Detail Description
+          Logo Images
         </Text>
-        <Textarea
-          padding="10px 20px"
-          width="50%"
-          bgColor={"#eef1f4"}
-          value={item?.detailtext}
-          fontSize={"medium"}
-        />
         <br />
-        <br />
-        <Text fontWeight={"semibold"} fontSize={"xl"}>
-          Vidio
-        </Text>
-        <Box
-          padding="10px 20px"
-          width="50%"
-          bgColor={"#eef1f4"}
-          fontSize={"medium"}
-        >
-          {item?.video}
-        </Box>
-        <br />
-        <Text fontWeight={"semibold"} fontSize={"xl"}>
-          Activity Images
-        </Text>
         <Box display="flex" flexDirection="row" flexWrap="wrap" width="50%">
-          {item?.detailimages &&
-            item?.detailimages.map((e, index) => (
+          {item.length > 0 &&
+            item[0].logoimages.map((e, index) => (
               <Box key={index} marginRight="7px">
                 <Image
-                  src={`http://localhost:8080/newsAndevents/${e}`}
+                  src={`http://localhost:8080/aboutus/${e}`}
                   style={{
                     width: "100px",
                     height: "100px",
@@ -223,43 +182,40 @@ const ViewNewsAndEvents = () => {
             ))}
         </Box>
         <br />
-      <br />
-      <Text fontWeight={"semibold"} fontSize={"xl"}>
-        Created at
-      </Text>
-      {item?.createdAt && (
-        <Box
-          padding="10px 20px"
-          width="50%"
-          bgColor={"#eef1f4"}
-          fontSize={"medium"}
-        >
-          {new Date(item.createdAt).toLocaleString("en-IN", {
-            timeZone: "Asia/Kolkata",
-          })}
-        </Box>
-      )}
-      <br />
-      <Text fontWeight={"semibold"} fontSize={"xl"}>
-        Updated at
-      </Text>
-      {item?.modifiedAt && (
-        <Box
-          padding="10px 20px"
-          width="50%"
-          bgColor={"#eef1f4"}
-          fontSize={"medium"}
-        >
-          {new Date(item.modifiedAt).toLocaleString("en-IN", {
-            timeZone: "Asia/Kolkata",
-          })}
-        </Box>
-      )}
-        
+        <Text fontWeight={"semibold"} fontSize={"xl"}>
+          Created at
+        </Text>
+        {item.length > 0 && item[0].createdAt && (
+          <Box
+            padding="10px 20px"
+            width="50%"
+            bgColor={"#eef1f4"}
+            fontSize={"medium"}
+          >
+            {new Date(item[0].createdAt).toLocaleString("en-IN", {
+              timeZone: "Asia/Kolkata",
+            })}
+          </Box>
+        )}
         <br />
+        <Text fontWeight={"semibold"} fontSize={"xl"}>
+          Updated at
+        </Text>
+        {item.length > 0 && item[0].modifiedAt && (
+          <Box
+            padding="10px 20px"
+            width="50%"
+            bgColor={"#eef1f4"}
+            fontSize={"medium"}
+          >
+            {new Date(item[0].modifiedAt).toLocaleString("en-IN", {
+              timeZone: "Asia/Kolkata",
+            })}
+          </Box>
+        )}
       </Box>
     </>
   );
 };
 
-export default ViewNewsAndEvents;
+export default ViewAboutus;

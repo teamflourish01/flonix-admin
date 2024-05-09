@@ -19,11 +19,14 @@ import "../styles/Admin.css";
 import { BiSolidUser, BiLogoGmail } from "react-icons/bi";
 import {
   BsBriefcaseFill,
+  BsCalendarEvent,
+  BsCreditCard,
   BsDistributeVertical,
+  BsNewspaper,
   BsShopWindow,
 } from "react-icons/bs";
 
-import { FaStore, FaUser } from "react-icons/fa6";
+import { FaCertificate, FaMobile, FaMobileButton, FaMobileScreen, FaMoneyBillTrendUp, FaStore, FaUser } from "react-icons/fa6";
 import { GiModernCity } from "react-icons/gi";
 import { GrCatalog } from "react-icons/gr";
 import { TiThMenu } from "react-icons/ti";
@@ -44,14 +47,32 @@ import ViewProduct from "./ViewProduct";
 import EditProduct from "./EditProduct";
 
 import NewsAndEvents from "./NewsandEvents";
-import AddFormNewsandEvents from "./NewsAndEvents-Addform";
+import AddFormNewsandEvents from "./AddNewsAndEvents";
 import ViewNewsAndEvents from "./ViewNewsAndEvents";
+
 import UpdateNewsAndEvents from "./UpdateNewsAndEvents";
 import Contact from "./Contact";
 import AddOutlet from "./AddOutlet";
 import ViewOutlet from "./ViewOutlet";
 import EditOutlet from "./EditOutlet";
 import MyEditor from "./MyEditor";
+
+
+import UpdateNewsAndEvents from "./EditNewsAndEvents";
+import Pages from "./Pages";
+import ViewAboutus from "./ViewAboutus";
+import EditAboutus from "./EditAboutus";
+import Certificates from "./Certificate";
+import ViewCertificate from "./ViewCeritificate";
+import AddCertificate from "./AddCertificate";
+import EditCertificate from "./EditCertificats";
+import Contectdetails from "./ContectDetails";
+import EditContectDetails from "./EditContectDetails";
+import ViewNewsHeading from "./ViewNewsHeading";
+import AddNewsHeading from "./AddNewsHeading";
+import EditNewsHeading from "./EditNewsHeading";
+import ViewHomeBanner from "./ViewHomeBanner";
+import EditHomeBanner from "./EditHomeBanner";
 
 
 const Admin = () => {
@@ -200,13 +221,33 @@ const Admin = () => {
         </NavItem>
         <NavItem
           _hover={{ bgColor: "black", color: "#ADD8E6" }}
-          icon={BsShopWindow}
+          icon={BsNewspaper}
           onClick={() => {
             sidebar.onClose();
             navigate("/admin/newsandevents");
           }}
         >
           News & Eventes
+        </NavItem>
+        <NavItem
+          _hover={{ bgColor: "black", color: "#ADD8E6" }}
+          icon={FaCertificate}
+          onClick={() => {
+            sidebar.onClose();
+            navigate("/admin/certificate");
+          }}
+        >
+          Certificates
+        </NavItem>
+        <NavItem
+          _hover={{ bgColor: "black", color: "#ADD8E6" }}
+          icon={FaMobileScreen}
+          onClick={() => {
+            sidebar.onClose();
+            navigate("/admin/contectdetails");
+          }}
+        >
+          Contect Details
         </NavItem>
         {/* <NavItem icon={HiCode} onClick={integrations.onToggle}>
                 Integrations
@@ -232,7 +273,7 @@ const Admin = () => {
           icon={MdContactPage}
           onClick={() => {
             sidebar.onClose();
-            // navigate("/admin/page");
+            navigate("/admin/page");
           }}
         >
           Pages
@@ -369,6 +410,7 @@ const Admin = () => {
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/category" element={<Category />} />
             <Route path="/admin/category/add" element={<AddCategory />} />
+
             <Route path="/admin/category/:categoryid" element={<ViewCategory />} />
             <Route path="/admin/category/edit/:categoryid" element={<EditCategory />} />
             <Route path="/admin/product" element={<Product/>} />
@@ -384,6 +426,50 @@ const Admin = () => {
             <Route path="/admin/outlet/:id" element={<ViewOutlet/>}/>
             <Route path="/admin/outlet/edit/:id" element={<EditOutlet/>} />
             <Route path="/admin/editor" element={<MyEditor/>}/>
+
+            <Route
+              path="/admin/category/:categoryid"
+              element={<ViewCategory />}
+            />
+            <Route
+              path="/admin/category/edit/:categoryid"
+              element={<EditCategory />}
+            />
+            <Route path="/admin/product" element={<Product />} />
+            <Route path="/admin/product/add" element={<AddProduct />} />
+            <Route path="/admin/product/:id" element={<ViewProduct />} />
+            <Route path="/admin/product/edit/:id" element={<EditProduct />} />
+
+            <Route path="/admin/newsandevents" element={<NewsAndEvents />} />
+            <Route
+              path="/admin/newsandevents/add"
+              element={<AddFormNewsandEvents />}
+            />
+            <Route
+              path="/admin/newsandevents/:id"
+              element={<ViewNewsAndEvents />}
+            />
+            <Route
+              path="/admin/newsandevents/edit/:Id"
+              element={<UpdateNewsAndEvents />}
+            />
+            <Route path="/admin/newsheading/add" element={<AddNewsHeading />} />
+            <Route path="/admin/newsheading/:id" element={<ViewNewsHeading />} />
+            <Route path="/admin/newsheading/edit/:id" element={<EditNewsHeading/>} />
+            
+            <Route path="/admin/page" element={<Pages />} />
+            <Route path="/admin/aboutus" element={<ViewAboutus />} />
+            <Route path="/admin/aboutus/edit/:id" element={<EditAboutus />} />
+            <Route path="/admin/certificate" element={<Certificates />} />
+            <Route path="/admin/certificate/:id" element={<ViewCertificate />} />
+            <Route path="/admin/certificate/add" element={<AddCertificate />} />
+            <Route path="/admin/certificate/edit/:id" element={<EditCertificate />} /> 
+            <Route path="/admin/contectdetails" element={<Contectdetails />} />
+            <Route path="/admin/contectdetails/edit/:id" element={<EditContectDetails />} />
+            <Route path="/admin/homebanner/:id" element={<ViewHomeBanner />} />
+            <Route path="/admin/homebanner/edit/:id" element={<EditHomeBanner />} /> 
+
+
           </Routes>
           <Box rounded="md" h="" />
         </Box>
