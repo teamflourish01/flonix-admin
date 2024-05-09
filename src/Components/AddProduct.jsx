@@ -37,18 +37,15 @@ const AddProduct = () => {
   const [feature,setFeature]=useState({})
   const [featureParam, setFeatureParam] = useState("")
   const [featureValue, setFeatureValue]=useState("")
-
-
   const [detail,setDetail]=useState({})
   const [detailParameter, setDetailParameter] = useState("")
   const [detailValue, setDetailValue] = useState("")
-
   const [product, setProduct] = useState({
     name: "",
     category: "",
     description: "",
     image: [],
-    key_features: [""],
+    key_features: [],
     mark: [],
     mark_text: [],
     specification: {},
@@ -57,9 +54,7 @@ const AddProduct = () => {
   });
 
   const [spec, setSpec] = useState({});
-
   let formData = new FormData();
-
   const getCategory = async () => {
     try {
       let data = await fetch(`${url}/category`);
