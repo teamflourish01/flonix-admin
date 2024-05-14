@@ -49,7 +49,7 @@ const Certificates = () => {
 
   const getCount = async () => {
     try {
-      let data = await fetch(`http://localhost:8080/certificate`);
+      let data = await fetch(`${url}/certificate`);
       data = await data.json();
       setCount(data.data.length);
     } catch (error) {
@@ -59,7 +59,7 @@ const Certificates = () => {
 
   const getCertificate = async () => {
     try {
-      let data = await fetch(`http://localhost:8080/certificate?page=${page}`);
+      let data = await fetch(`${url}/certificate?page=${page}`);
       data = await data.json();
       console.log(data, "data");
       setProduct(data.data);
@@ -128,7 +128,7 @@ const Certificates = () => {
                   <Td> {i + 1} </Td>
                   <Td>
                     <Image
-                      src={`http://localhost:8080/certificates/${e?.image}`}
+                      src={`${url}/certificates/${e?.image}`}
                       style={{
                         width: "100px",
                         height: "100px",

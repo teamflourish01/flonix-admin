@@ -86,7 +86,7 @@ const ViewCertificate = () => {
       </Text>
       <SimpleGrid columns={[1, 1, 1, 2, 2]} rowGap={"9"}>
         <Image
-          src={`http://localhost:8080/certificates/${product.image}`}
+          src={`${url}/certificates/${product.image}`}
           style={{
             width: "200px",
             height: "200px",

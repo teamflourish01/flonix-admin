@@ -68,7 +68,7 @@ const UpdateNewsAndEvents = () => {
           method: "DELETE",
         }
       );
-      if (response.status===200) {
+      if (response.status === 200) {
         fetchEventAndNewsById();
       }
     } catch (error) {
@@ -86,8 +86,8 @@ const UpdateNewsAndEvents = () => {
 
     try {
       const formData = new FormData();
-      formData.append("generalheading", item.generalheading);
-      formData.append("generaltext", item.generaltext);
+      // formData.append("generalheading", item.generalheading);
+      // formData.append("generaltext", item.generaltext);
       formData.append("cardheading", item.cardheading);
       formData.append("date", item.date);
       formData.append("place", item.place);
@@ -131,14 +131,14 @@ const UpdateNewsAndEvents = () => {
           flexDirection={["column", "column", "column", "row", "row"]}
         >
           <Box
-            backgroundColor={"#F2F5F7"}
+            backgroundColor={"#white"}
             w={["100%", "100%", "100%", "100%", "100%"]}
             boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
             padding={"20px"}
             borderRadius={"20px"}
           >
             <form encType="multipart/form-data">
-              <FormControl mb={4} isRequired>
+              {/* <FormControl mb={4} isRequired>
                 <FormLabel htmlFor="generalheading" color={"#add8e6"}>
                   Heading
                 </FormLabel>
@@ -165,7 +165,7 @@ const UpdateNewsAndEvents = () => {
                   value={item.generaltext}
                   onChange={handleInput}
                 />
-              </FormControl>
+              </FormControl> */}
 
               <FormControl>
                 <FormLabel htmlFor="cardimage" color={"#add8e6"}>
@@ -213,11 +213,11 @@ const UpdateNewsAndEvents = () => {
                 <FormControl mr={4}>
                   <Flex alignItems="center" position="relative">
                     <img
-                      src={`http://localhost:8080/newsAndevents/${item.cardimage}`}
+                      src={`${url}/newsAndevents/${item.cardimage}`}
                       alt="selected img"
                       style={{
                         width: "200px",
-                        height: "150px",
+
                         margin: "5px",
                         marginBottom: "10px",
                       }}
@@ -256,7 +256,7 @@ const UpdateNewsAndEvents = () => {
             </form>
           </Box>
           <Box
-            backgroundColor={"#F2F5F7"}
+            backgroundColor={"#white"}
             boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
             padding={"20px"}
             w={["100%", "100%", "100%", "100%", "100%"]}
@@ -356,11 +356,11 @@ const UpdateNewsAndEvents = () => {
                       <Flex key={index} alignItems="center" position="relative">
                         <img
                           key={index}
-                          src={`http://localhost:8080/newsAndevents/${image}`}
+                          src={`${url}/newsAndevents/${image}`}
                           alt={`Image ${index}`}
                           style={{
-                            width: "100px",
-                            height: "100px",
+                            width: "200px",
+                            
                             objectFit: "cover",
                             marginRight: "10px",
                             marginBottom: "10px",

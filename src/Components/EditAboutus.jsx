@@ -130,7 +130,7 @@ const EditAboutus = () => {
           flexDirection={["column", "column", "column", "row", "row"]}
         >
           <Box
-            backgroundColor={"#F2F5F7"}
+            backgroundColor={"#white"}
             w={["100%", "100%", "100%", "100%", "100%"]}
             boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
             padding={"20px"}
@@ -188,7 +188,7 @@ const EditAboutus = () => {
                       alt="selected img"
                       style={{
                         width: "200px",
-                        height: "150px",
+                        marginBottom: "10px",
                         margin: "5px",
                       }}
                     />
@@ -215,7 +215,7 @@ const EditAboutus = () => {
                       alt="selected img"
                       style={{
                         width: "200px",
-                        height: "150px",
+                        
                         margin: "5px",
                         marginBottom: "10px",
                       }}
@@ -254,7 +254,7 @@ const EditAboutus = () => {
             </form>
           </Box>
           <Box
-            backgroundColor={"#F2F5F7"}
+            backgroundColor={"#white"}
             boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
             padding={"20px"}
             w={["100%", "100%", "100%", "100%", "100%"]}
@@ -265,12 +265,11 @@ const EditAboutus = () => {
                 <FormLabel htmlFor="mission" color={"#add8e6"}>
                   Mission
                 </FormLabel>
-                <Input
-                  variant="flushed"
+                <Textarea
                   id="mission"
-                  type="text"
-                  name="mission"
+                  placeholder="Enter your Description"
                   mb={4}
+                  name="mission"
                   value={item.mission}
                   onChange={handleInput}
                 />
@@ -279,11 +278,9 @@ const EditAboutus = () => {
                 <FormLabel htmlFor="vision" color={"#add8e6"}>
                   vision
                 </FormLabel>
-                <Input
+                <Textarea
                   id="vision"
-                  type="text"
-                  placeholder="Enter your place"
-                  variant="flushed"
+                  placeholder="Enter your Description"
                   mb={4}
                   name="vision"
                   value={item.vision}
@@ -327,8 +324,8 @@ const EditAboutus = () => {
                           src={`http://localhost:8080/aboutus/${image}`}
                           alt={`Image ${index}`}
                           style={{
-                            width: "100px",
-                            height: "100px",
+                            width: "200px",
+                           
                             objectFit: "cover",
                             marginRight: "10px",
                             marginBottom: "10px",
@@ -356,8 +353,8 @@ const EditAboutus = () => {
                         src={URL.createObjectURL(image)}
                         alt={`selected image ${index}`}
                         style={{
-                          width: "100px",
-                          height: "100px",
+                          width: "200px",
+                          
                           objectFit: "cover",
                           marginRight: "10px",
                           marginBottom: "10px",

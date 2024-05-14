@@ -20,6 +20,7 @@ const EditContectDetails = () => {
     ytlink: "",
     pinterestlink: "",
     officeaddress: "",
+    addresslink: "",
     officenumber: "",
   });
 
@@ -199,6 +200,19 @@ const EditContectDetails = () => {
                   value={item.officenumber}
                   onChange={handleInput}
                   mb={4}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="addresslink" color={"#add8e6"}>
+                  Address Link
+                </FormLabel>
+                <Textarea
+                  id="addresslink"
+                  placeholder="Enter your Address Link"
+                  mb={4}
+                  name="addresslink"
+                  value={item.addresslink}
+                  onChange={handleInput}
                 />
               </FormControl>
               <FormControl isRequired>

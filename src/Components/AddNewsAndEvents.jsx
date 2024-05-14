@@ -15,8 +15,8 @@ import { useNavigate } from "react-router-dom";
 
 const AddFormNewsandEvents = () => {
   const [eventdata, setEventdata] = useState({
-    generalheading: "",
-    generaltext: "",
+    // generalheading: "",
+    // generaltext: "",
     cardimage: "",
     cardheading: "",
     date: "",
@@ -123,8 +123,8 @@ const AddFormNewsandEvents = () => {
       data = await data.json();
       alert("News & Event Is Add Successfuly");
       setEventdata({
-        generalheading: "",
-        generaltext: "",
+        // generalheading: "",
+        // generaltext: "",
         cardimage: "",
         cardheading: "",
         date: "",
@@ -159,7 +159,7 @@ const AddFormNewsandEvents = () => {
             borderRadius={"20px"}
           >
             <form encType="multipart/form-data">
-              <FormControl mb={4} isRequired>
+              {/* <FormControl mb={4} isRequired>
                 <FormLabel htmlFor="generalheading" color={"#add8e6"}>
                   Heading
                 </FormLabel>
@@ -186,7 +186,7 @@ const AddFormNewsandEvents = () => {
                   value={eventdata.generaltext}
                   onChange={handleInput}
                 />
-              </FormControl>
+              </FormControl> */}
 
               <FormControl>
                 <FormLabel htmlFor="cardimage" color={"#add8e6"}>

@@ -75,9 +75,11 @@ const ViewAboutus = () => {
         <Textarea
           padding="10px 20px"
           width="50%"
+          height="130px"
           bgColor={"#eef1f4"}
           value={item.length > 0 && item[0].description}
           fontSize={"medium"}
+          textAlign="justify"
           _readOnly
         />
         <br />
@@ -92,8 +94,7 @@ const ViewAboutus = () => {
               item.length > 0 && item[0].banner
             }`}
             style={{
-              width: "150px",
-              height: "100px",
+              width: "200px",
               margin: "5px",
               marginLeft: "25px",
             }}
@@ -119,48 +120,57 @@ const ViewAboutus = () => {
         <Textarea
           padding="10px 20px"
           width="50%"
+          height="130px"
           bgColor={"#eef1f4"}
           value={item.length > 0 && item[0].bannerdescription}
           fontSize={"medium"}
           _readOnly
+          textAlign="justify"
         />
         <br />
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
           Mission
         </Text>
-        <Box
+        <Textarea
           padding="10px 20px"
           width="50%"
+          height="100px"
           bgColor={"#eef1f4"}
           fontSize={"medium"}
-        >
-          {item.length > 0 && item[0].mission}
-        </Box>
+          value={item.length > 0 && item[0].mission}
+          textAlign="justify"
+        />
+
+        <br />
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
           Vision
         </Text>
-        <Box
+        <Textarea
           padding="10px 20px"
           width="50%"
+          height="100px"
           bgColor={"#eef1f4"}
           fontSize={"medium"}
-        >
-          {item.length > 0 && item[0].vision}
-        </Box>
+          value={item.length > 0 && item[0].vision}
+          textAlign="justify"
+        />
+        <br />
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
           Goals
         </Text>
-        <Box
+        <Textarea
           padding="10px 20px"
           width="50%"
+          height="100px"
           bgColor={"#eef1f4"}
           fontSize={"medium"}
-        >
-          {item.length > 0 && item[0].goals}
-        </Box>
+          textAlign="justify"
+          value={item.length > 0 && item[0].goals}
+        />
+        <br />
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
           Logo Images
@@ -173,8 +183,7 @@ const ViewAboutus = () => {
                 <Image
                   src={`http://localhost:8080/aboutus/${e}`}
                   style={{
-                    width: "100px",
-                    height: "100px",
+                    width: "200px",
                     margin: "5px",
                   }}
                 />

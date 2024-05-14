@@ -26,7 +26,7 @@ import {
   BsShopWindow,
 } from "react-icons/bs";
 
-import { FaCertificate, FaMobile, FaMobileButton, FaMobileScreen, FaMoneyBillTrendUp, FaStore, FaUser } from "react-icons/fa6";
+import { FaCertificate, FaMobile, FaMobileButton, FaMobileScreen, FaMoneyBillTrendUp, FaNoteSticky, FaStore, FaTicketSimple, FaUser } from "react-icons/fa6";
 import { GiModernCity } from "react-icons/gi";
 import { GrCatalog } from "react-icons/gr";
 import { TiThMenu } from "react-icons/ti";
@@ -50,7 +50,7 @@ import NewsAndEvents from "./NewsandEvents";
 import AddFormNewsandEvents from "./AddNewsAndEvents";
 import ViewNewsAndEvents from "./ViewNewsAndEvents";
 
-import UpdateNewsAndEvents from "./UpdateNewsAndEvents";
+
 import Contact from "./Contact";
 import AddOutlet from "./AddOutlet";
 import ViewOutlet from "./ViewOutlet";
@@ -71,8 +71,12 @@ import EditContectDetails from "./EditContectDetails";
 import ViewNewsHeading from "./ViewNewsHeading";
 import AddNewsHeading from "./AddNewsHeading";
 import EditNewsHeading from "./EditNewsHeading";
-import ViewHomeBanner from "./ViewHomeBanner";
-import EditHomeBanner from "./EditHomeBanner";
+import ViewHome from "./ViewHome";
+import EditHome from "./EditHome";
+import Testimonials from "./Testimonials";
+import AddTestimonials from "./AddTestimonials";
+import EditTestimonials from "./EditTestimonials";
+import ViewTestimonials from "./ViewTestimonials";
 
 
 const Admin = () => {
@@ -248,6 +252,16 @@ const Admin = () => {
           }}
         >
           Contect Details
+        </NavItem>
+        <NavItem
+          _hover={{ bgColor: "black", color: "#ADD8E6" }}
+          icon={FaUser}
+          onClick={() => {
+            sidebar.onClose();
+            navigate("/admin/testimonials");
+          }}
+        >
+          Testimonials
         </NavItem>
         {/* <NavItem icon={HiCode} onClick={integrations.onToggle}>
                 Integrations
@@ -466,9 +480,12 @@ const Admin = () => {
             <Route path="/admin/certificate/edit/:id" element={<EditCertificate />} /> 
             <Route path="/admin/contectdetails" element={<Contectdetails />} />
             <Route path="/admin/contectdetails/edit/:id" element={<EditContectDetails />} />
-            <Route path="/admin/homebanner/:id" element={<ViewHomeBanner />} />
-            <Route path="/admin/homebanner/edit/:id" element={<EditHomeBanner />} /> 
-
+            <Route path="/admin/home/:id" element={<ViewHome />} />
+            <Route path="/admin/home/edit/:id" element={<EditHome />} /> 
+            <Route path="/admin/testimonials" element={<Testimonials />} />
+            <Route path="/admin/testimonials/add" element={<AddTestimonials />} />
+            <Route path="/admin/testimonials/:id" element={<ViewTestimonials />} />
+            <Route path="/admin/testimonials/edit/:id" element={<EditTestimonials />} />          
 
           </Routes>
           <Box rounded="md" h="" />
