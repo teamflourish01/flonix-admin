@@ -172,8 +172,8 @@ const AddTestimonials = () => {
             <Button
               type="submit"
               variant={"solid"}
-              bgColor={"gray"}
-              color="add8e6"
+              bgColor={"black"}
+              color="#add8e6"
               _hover={{
                 color: "black",
                 bgColor: "#add8e6",

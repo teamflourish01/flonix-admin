@@ -26,7 +26,7 @@ import {
   BsShopWindow,
 } from "react-icons/bs";
 
-import { FaCertificate, FaMobile, FaMobileButton, FaMobileScreen, FaMoneyBillTrendUp, FaNoteSticky, FaStore, FaTicketSimple, FaUser } from "react-icons/fa6";
+import { FaCertificate, FaFilePdf,   FaMobileScreen,   FaStore, FaTicketSimple, FaUser } from "react-icons/fa6";
 import { GiModernCity } from "react-icons/gi";
 import { GrCatalog } from "react-icons/gr";
 import { TiThMenu } from "react-icons/ti";
@@ -77,6 +77,9 @@ import Testimonials from "./Testimonials";
 import AddTestimonials from "./AddTestimonials";
 import EditTestimonials from "./EditTestimonials";
 import ViewTestimonials from "./ViewTestimonials";
+import Ebrochure from "./Ebrochure";
+import AddEbrochure from "./AddEbrochure";
+import EditEbrochure from "./EditEbrochure";
 
 
 const Admin = () => {
@@ -262,6 +265,16 @@ const Admin = () => {
           }}
         >
           Testimonials
+        </NavItem>
+        <NavItem
+          _hover={{ bgColor: "black", color: "#ADD8E6" }}
+          icon={FaFilePdf}
+          onClick={() => {
+            sidebar.onClose();
+            navigate("/admin/ebrochure");
+          }}
+        >
+          E-Brochure
         </NavItem>
         {/* <NavItem icon={HiCode} onClick={integrations.onToggle}>
                 Integrations
@@ -486,7 +499,10 @@ const Admin = () => {
             <Route path="/admin/testimonials/add" element={<AddTestimonials />} />
             <Route path="/admin/testimonials/:id" element={<ViewTestimonials />} />
             <Route path="/admin/testimonials/edit/:id" element={<EditTestimonials />} />          
-
+            <Route path="/admin/ebrochure" element={<Ebrochure />} />
+            <Route path="/admin/ebrochure/add" element={<AddEbrochure />} />
+            <Route path="/admin/ebrochure/:edit/:id" element={<EditEbrochure />} />
+            
           </Routes>
           <Box rounded="md" h="" />
         </Box>

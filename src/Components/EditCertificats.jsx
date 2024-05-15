@@ -22,7 +22,7 @@ const EditCertificate = () => {
   const Navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
-  const getAboutusById = async () => {
+  const getCertificateById = async () => {
     try {
       const response = await fetch(`${url}/certificate/${id}`);
       const data = await response.json();
@@ -34,7 +34,7 @@ const EditCertificate = () => {
     }
   };
   useEffect(() => {
-    getAboutusById();
+    getCertificateById();
   }, [id]);
 
   // edit logic
@@ -180,16 +180,16 @@ const EditCertificate = () => {
               <center>
                 <Button
                   variant={"solid"}
-                  bgColor={"gray"}
-                  color="add8e6"
+                  bgColor={"#161616"}
+                  color="white"
                   _hover={{
                     color: "black",
-                    bgColor: "#add8e6",
-                    border: "1px solid #add8e6",
+                    bgColor: "white",
+                    border: "1px solid #161616",
                   }}
                   type="submit"
                 >
-                  Edit All Items
+                  Save
                 </Button>
               </center>
             </Box>

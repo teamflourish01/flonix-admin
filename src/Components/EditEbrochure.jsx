@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
-const EditTestimonials = () => {
+const EditEbrochure = () => {
   const { id } = useParams();
   const [item, setItem] = useState({});
   const [selectedImages, setSelectedImages] = useState([]);
@@ -22,9 +22,9 @@ const EditTestimonials = () => {
   const Navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
-  const getTestimonialsById = async () => {
+  const getEbrochureById = async () => {
     try {
-      const response = await fetch(`${url}/testimonials/${id}`);
+      const response = await fetch(`${url}/ebrochure/${id}`);
       const data = await response.json();
       setItem(data.data);
 
@@ -34,7 +34,7 @@ const EditTestimonials = () => {
     }
   };
   useEffect(() => {
-    getTestimonialsById();
+    getEbrochureById();
   }, [id]);
 
   // edit logic
@@ -63,16 +63,14 @@ const EditTestimonials = () => {
     try {
       const formData = new FormData();
 
-      formData.append("name", item.name);
-      formData.append("designation", item.designation);
-      formData.append("text", item.text);
+      formData.append("filename", item.filename);
 
       if (singleImg) {
-        formData.append("image", singleImg);
+        formData.append("doc", singleImg);
       }
       console.log("FormData:", formData);
       const response = await axios.put(
-        `${url}/testimonials/edit/${id}`,
+        `${url}/ebrochure/edit/${id}`,
         formData,
         {
           headers: {
@@ -82,7 +80,7 @@ const EditTestimonials = () => {
       );
       if (response.status === 200) {
         alert("data Update Successfuly");
-        Navigate("/admin/testimonials/");
+        Navigate("/admin/ebrochure/");
       } else {
         throw new Error("Faild to update Data");
       }
@@ -109,56 +107,29 @@ const EditTestimonials = () => {
             >
               <FormControl isRequired mb={4}>
                 <FormLabel htmlFor="name" color={"#add8e6"}>
-                  Name
+                  File Name
                 </FormLabel>
                 <Input
                   variant="flushed"
-                  id="name"
+                  id="filename"
                   type="text"
                   placeholder="Enter your Heading"
                   mb={4}
-                  name="name"
-                  value={item.name}
+                  name="filename"
+                  value={item.filename}
                   onChange={handleInput}
                 />
               </FormControl>
-              <FormControl isRequired mb={4}>
-                <FormLabel htmlFor="designation" color={"#add8e6"}>
-                  Designation
-                </FormLabel>
-                <Input
-                  variant="flushed"
-                  id="designation"
-                  type="text"
-                  placeholder="Enter your Heading"
-                  mb={4}
-                  name="designation"
-                  value={item.designation}
-                  onChange={handleInput}
-                />
-              </FormControl>
-              <FormControl isRequired>
-                <FormLabel htmlFor="text" color={"#add8e6"}>
-                  Testimonials Description
-                </FormLabel>
-                <Textarea
-                  id="text"
-                  placeholder="Enter your Description"
-                  mb={4}
-                  name="text"
-                  value={item.text}
-                  onChange={handleInput}
-                />
-              </FormControl>
+
               <FormControl>
-                <FormLabel htmlFor="image" color={"#add8e6"}>
-                  Image
+                <FormLabel htmlFor="doc" color={"#add8e6"}>
+                  Document
                 </FormLabel>
                 <Input
                   variant="flushed"
-                  id="image"
+                  id="doc"
                   type="file"
-                  name="image"
+                  name="doc"
                   accept="image/*"
                   onChange={handleSingleImage}
                   mb={4}
@@ -169,10 +140,10 @@ const EditTestimonials = () => {
                   <Flex alignItems="center" position="relative">
                     <img
                       src={selctSinImg}
-                      alt="selected img"
+                      alt="selected PDF"
                       style={{
                         width: "200px",
-
+                        height: "150px",
                         margin: "5px",
                       }}
                     />
@@ -191,12 +162,12 @@ const EditTestimonials = () => {
                   </Flex>
                 )}
               </FormControl>
-              {!selctSinImg && item.image && (
+              {!selctSinImg && item.doc && (
                 <FormControl mr={4}>
                   <Flex alignItems="center" position="relative">
                     <img
-                      src={`${url}/testimonials/${item.image}`}
-                      alt="selected img"
+                      src={`${url}/ebrochure/${item.doc}`}
+                      alt={item.doc}
                       style={{
                         width: "200px",
 
@@ -231,4 +202,4 @@ const EditTestimonials = () => {
   );
 };
 
-export default EditTestimonials;
+export default EditEbrochure;

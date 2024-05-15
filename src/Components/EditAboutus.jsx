@@ -384,16 +384,16 @@ const EditAboutus = () => {
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <Button
               variant={"solid"}
-              bgColor={"gray"}
-              color="add8e6"
+              bgColor={"#161616"}
+              color="white"
               _hover={{
                 color: "black",
-                bgColor: "#add8e6",
-                border: "1px solid #add8e6",
+                bgColor: "white",
+                border: "1px solid #161616",
               }}
               type="submit"
             >
-              Edit All Items
+              Save
             </Button>
           </form>
         </center>
