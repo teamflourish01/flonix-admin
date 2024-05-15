@@ -72,12 +72,12 @@ const NewsAndEvents = () => {
   const getNewsAndEvents = async (page) => {
     try {
       let res = await fetch(
-        `${url}/newsandevent?page=${page}&limit=5&search=${search}`
+        `${url}/newsandevent?page=${page}&limit=12&search=${search}`
       );
       const data = await res.json();
 
       setNewsAndEvents(data.data);
-      setTotalPages(Math.ceil(data.count / 5));
+      setTotalPages(Math.ceil(data.count / 12));
       setCount(data.count);
       console.log(res.data);
     } catch (error) {
@@ -161,7 +161,7 @@ const NewsAndEvents = () => {
           </Thead>
           <Tbody>
             {searchNewsAndEvnts?.map((item, index) => {
-              const serialNumber = (page - 1) * 5 + index + 1;
+              const serialNumber = (page - 1) * 12 + index + 1;
               const formattedDate = new Date(item.date).toLocaleDateString(
                 "en-GB",
                 {

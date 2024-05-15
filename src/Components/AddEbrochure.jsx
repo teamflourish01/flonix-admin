@@ -9,13 +9,13 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 
-const AddNewsHeading = () => {
-  const [certificate, setCertificate] = useState({
-    image: "",
-    imgdescription: "",
+const AddEbrochure = () => {
+  const [item, setItem] = useState({
+    filename: "",
+    doc: "",
   });
   const [selectedImages, setSelectedImages] = useState("");
   const [ctimage, setctImage] = useState({});
@@ -24,10 +24,10 @@ const AddNewsHeading = () => {
 
   const handleInput = (e) => {
     let { name, value, file } = e.target;
-    if (name === "image") {
+    if (name === "doc") {
       value = file;
     }
-    setCertificate({ ...certificate, [name]: value });
+    setItem({ ...item, [name]: value });
   };
 
   const handleSingleImageChange = (e) => {
@@ -46,22 +46,18 @@ const AddNewsHeading = () => {
     e.preventDefault();
     try {
       const formdata = new FormData();
-      formdata.append("imgdescription", certificate.imgdescription);
-      formdata.append("image", ctimage);
+      formdata.append("filename", item.filename);
+      formdata.append("doc", ctimage);
 
-      let res = await axios.post(
-        `${url}/certificate/add`,
-        formdata,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      let res = await axios.post(`${url}/ebrochure/add`, formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (res.status === 200) {
-        alert("Certificate Add successfuly");
-        Navigate("/admin/certificate");
+        alert("E-Brochure Add successfuly");
+        Navigate("/admin/ebrochure");
       }
     } catch (error) {
       console.log(error);
@@ -80,15 +76,30 @@ const AddNewsHeading = () => {
               padding={"20px"}
               borderRadius={"20px"}
             >
-              <FormControl>
-                <FormLabel htmlFor="image" color={"#add8e6"}>
-                  Certificate Image
+              <FormControl isRequired mb={4}>
+                <FormLabel htmlFor="name" color={"#add8e6"}>
+                  File Name
                 </FormLabel>
                 <Input
                   variant="flushed"
-                  id="image"
+                  id="filename"
+                  type="text"
+                  placeholder="Enter your Heading"
+                  mb={4}
+                  name="filename"
+                  value={item.filename}
+                  onChange={handleInput}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="doc" color={"#add8e6"}>
+                  Document
+                </FormLabel>
+                <Input
+                  variant="flushed"
+                  id="doc"
                   type="file"
-                  name="image"
+                  name="doc"
                   accept="image/*"
                   onChange={handleSingleImageChange}
                   mb={4}
@@ -99,41 +110,26 @@ const AddNewsHeading = () => {
                   <Flex alignItems="center" position="relative">
                     <img
                       src={selectedImages}
-                      alt="selected img"
+                      alt="selected PDF"
                       style={{
-                        width: "150px",
-                        height: "100px",
+                        width: "200px",
+
                         margin: "5px",
                       }}
                     />
                     <Button
+                      leftIcon={<DeleteIcon />}
                       colorScheme="red"
                       size="sm"
                       position="absolute"
                       top={0}
-                      left={130}
+                      left="160px"
                       zIndex={1}
                       onClick={handleDeleteSingleImage}
                       borderRadius="50px"
-                    >
-                      <CloseIcon />
-                    </Button>
+                    ></Button>
                   </Flex>
                 )}
-              </FormControl>
-
-              <FormControl isRequired>
-                <FormLabel htmlFor="imgdescription" color={"#add8e6"}>
-                  Certificate Description
-                </FormLabel>
-                <Textarea
-                  id="imgdescription"
-                  placeholder="Enter your Description"
-                  mb={4}
-                  name="imgdescription"
-                  value={certificate.imgdescription}
-                  onChange={handleInput}
-                />
               </FormControl>
             </Box>
           </center>
@@ -150,7 +146,7 @@ const AddNewsHeading = () => {
                 border: "1px solid #add8e6",
               }}
             >
-              Add New Certificate
+              Add New
             </Button>
           </center>
         </form>
@@ -159,4 +155,4 @@ const AddNewsHeading = () => {
   );
 };
 
-export default AddNewsHeading;
+export default AddEbrochure;

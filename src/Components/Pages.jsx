@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 const Pages = () => {
   const [item, setItem] = useState([]);
   const [newsheading, setNewsheading] = useState([]);
-  const [banner, setBanner] = useState([]);
+  const [homeItem, sethomeItem] = useState([]);
   const navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -43,18 +43,18 @@ const Pages = () => {
       }
     };
 
-    const getHomeBanner = async () => {
+    const getHome = async () => {
       try {
-        let res = await fetch(`${url}/homebanner`);
+        let res = await fetch(`${url}/home`);
         const data = await res.json();
-        setBanner(data.data);
+        sethomeItem(data.data);
       } catch (error) {
         console.log(error);
       }
     };
     getAboutus();
     getNewsHeading();
-    getHomeBanner();
+    getHome();
   }, []);
 
   return (
@@ -134,7 +134,7 @@ const Pages = () => {
             </Tr>
             <Tr>
               <Td> 3 </Td>
-              <Td>Home Banner</Td>
+              <Td>Home</Td>
               <Td>
                 <ButtonGroup>
                   <Button
@@ -144,7 +144,7 @@ const Pages = () => {
                     variant="solid"
                     color="#add8e6"
                     onClick={() =>
-                      navigate(`/admin/homebanner/${banner[0]._id}`)
+                      navigate(`/admin/home/${homeItem[0]._id}`)
                     }
                   >
                     View
@@ -155,7 +155,7 @@ const Pages = () => {
                     variant={"outline"}
                     _hover={{ bgColor: "#add8e6", color: "black" }}
                     onClick={() =>
-                      navigate(`/admin/homebanner/edit/${banner[0]._id}`)
+                      navigate(`/admin/home/edit/${homeItem[0]._id}`)
                     }
                   >
                     Edit

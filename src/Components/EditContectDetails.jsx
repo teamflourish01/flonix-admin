@@ -8,6 +8,7 @@ import {
   Button,
   Textarea,
   Flex,
+  Hide,
 } from "@chakra-ui/react";
 
 const EditContectDetails = () => {
@@ -20,6 +21,7 @@ const EditContectDetails = () => {
     ytlink: "",
     pinterestlink: "",
     officeaddress: "",
+    addresslink: "",
     officenumber: "",
   });
 
@@ -192,11 +194,26 @@ const EditContectDetails = () => {
                 </FormLabel>
                 <Input
                   id="officenumber"
-                  type="text"
+                  type="number"
                   variant={"flushed"}
                   placeholder="Enter your contect-Number"
                   name="officenumber"
                   value={item.officenumber}
+                  onChange={handleInput}
+                  mb={4}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="addresslink" color={"#add8e6"}>
+                  Address Link
+                </FormLabel>
+                <Input
+                  id="addresslink"
+                  type="text"
+                  variant={"flushed"}
+                  placeholder="Enter your Heading"
+                  name="addresslink"
+                  value={item.addresslink}
                   onChange={handleInput}
                   mb={4}
                 />
@@ -220,16 +237,16 @@ const EditContectDetails = () => {
           <center>
             <Button
               variant={"solid"}
-              bgColor={"gray"}
-              color="add8e6"
+              bgColor={"#161616"}
+              color="white"
               _hover={{
                 color: "black",
-                bgColor: "#add8e6",
-                border: "1px solid #add8e6",
+                bgColor: "white",
+                border: "1px solid #161616",
               }}
               type="submit"
             >
-              Update All Items
+              Save
             </Button>
           </center>
         </form>

@@ -9,7 +9,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 
 const AddCertificate = () => {
@@ -49,15 +49,11 @@ const AddCertificate = () => {
       formdata.append("imgdescription", certificate.imgdescription);
       formdata.append("image", ctimage);
 
-      let res = await axios.post(
-        `${url}/certificate/add`,
-        formdata,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      let res = await axios.post(`${url}/certificate/add`, formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (res.status === 200) {
         alert("Certificate Add successfuly");
@@ -101,23 +97,22 @@ const AddCertificate = () => {
                       src={selectedImages}
                       alt="selected img"
                       style={{
-                        width: "150px",
-                        height: "100px",
+                        width: "200px",
+
                         margin: "5px",
                       }}
                     />
                     <Button
+                      leftIcon={<DeleteIcon />}
                       colorScheme="red"
                       size="sm"
                       position="absolute"
                       top={0}
-                      left={130}
+                      left="160px"
                       zIndex={1}
                       onClick={handleDeleteSingleImage}
                       borderRadius="50px"
-                    >
-                      <CloseIcon />
-                    </Button>
+                    ></Button>
                   </Flex>
                 )}
               </FormControl>
