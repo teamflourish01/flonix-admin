@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
-const EditCertificate = () => {
+const EditEbrochure = () => {
   const { id } = useParams();
   const [item, setItem] = useState({});
   const [selectedImages, setSelectedImages] = useState([]);
@@ -22,9 +22,9 @@ const EditCertificate = () => {
   const Navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
-  const getCertificateById = async () => {
+  const getEbrochureById = async () => {
     try {
-      const response = await fetch(`${url}/certificate/${id}`);
+      const response = await fetch(`${url}/ebrochure/${id}`);
       const data = await response.json();
       setItem(data.data);
 
@@ -34,7 +34,7 @@ const EditCertificate = () => {
     }
   };
   useEffect(() => {
-    getCertificateById();
+    getEbrochureById();
   }, [id]);
 
   // edit logic
@@ -63,14 +63,14 @@ const EditCertificate = () => {
     try {
       const formData = new FormData();
 
-      formData.append("imgdescription", item.imgdescription);
+      formData.append("filename", item.filename);
 
       if (singleImg) {
-        formData.append("image", singleImg);
+        formData.append("doc", singleImg);
       }
       console.log("FormData:", formData);
       const response = await axios.put(
-        `${url}/certificate/edit/${id}`,
+        `${url}/ebrochure/edit/${id}`,
         formData,
         {
           headers: {
@@ -80,7 +80,7 @@ const EditCertificate = () => {
       );
       if (response.status === 200) {
         alert("data Update Successfuly");
-        Navigate("/admin/certificate/");
+        Navigate("/admin/ebrochure/");
       } else {
         throw new Error("Faild to update Data");
       }
@@ -105,29 +105,31 @@ const EditCertificate = () => {
               padding={"20px"}
               borderRadius={"20px"}
             >
-              <FormControl isRequired>
-                <FormLabel htmlFor="imgdescription" color={"#add8e6"}>
-                  Certificate Description
+              <FormControl isRequired mb={4}>
+                <FormLabel htmlFor="name" color={"#add8e6"}>
+                  File Name
                 </FormLabel>
-                <Textarea
-                  id="imgdescription"
-                  placeholder="Enter your message"
+                <Input
+                  variant="flushed"
+                  id="filename"
+                  type="text"
+                  placeholder="Enter your Heading"
                   mb={4}
-                  name="imgdescription"
-                  value={item.imgdescription}
+                  name="filename"
+                  value={item.filename}
                   onChange={handleInput}
                 />
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor="image" color={"#add8e6"}>
-                  Certificate
+                <FormLabel htmlFor="doc" color={"#add8e6"}>
+                  Document
                 </FormLabel>
                 <Input
                   variant="flushed"
-                  id="image"
+                  id="doc"
                   type="file"
-                  name="image"
+                  name="doc"
                   accept="image/*"
                   onChange={handleSingleImage}
                   mb={4}
@@ -138,7 +140,7 @@ const EditCertificate = () => {
                   <Flex alignItems="center" position="relative">
                     <img
                       src={selctSinImg}
-                      alt="selected img"
+                      alt="selected PDF"
                       style={{
                         width: "200px",
                         height: "150px",
@@ -160,15 +162,15 @@ const EditCertificate = () => {
                   </Flex>
                 )}
               </FormControl>
-              {!selctSinImg && item.image && (
+              {!selctSinImg && item.doc && (
                 <FormControl mr={4}>
                   <Flex alignItems="center" position="relative">
                     <img
-                      src={`${url}/certificates/${item.image}`}
-                      alt="selected img"
+                      src={`${url}/ebrochure/${item.doc}`}
+                      alt={item.doc}
                       style={{
                         width: "200px",
-                        height: "150px",
+
                         margin: "5px",
                         marginBottom: "10px",
                       }}
@@ -200,4 +202,4 @@ const EditCertificate = () => {
   );
 };
 
-export default EditCertificate;
+export default EditEbrochure;

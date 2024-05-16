@@ -4,56 +4,44 @@ import {
   Button,
   ButtonGroup,
   Flex,
-  FormControl,
-  FormLabel,
   Input,
   Table,
   TableCaption,
   TableContainer,
   Tbody,
   Td,
-  Textarea,
   Th,
   Thead,
+  Image,
   Tr,
-  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { BiEditAlt } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 import DeleteBtn from "./DeleteBtn";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
 
-const Contact = () => {
+const Testimonials = () => {
+  const navigate = useNavigate();
   const [flag, setFlag] = useState(true);
+  const [product, setProduct] = useState([]);
+  const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [count, setCount] = useState(0);
-  const [network, setNetwork] = useState([]);
-  const [page, setPage] = useState(1);
-  const navigate = useNavigate();
-  const [text, setText] = useState("");
-  const [id, setId] = useState("");
   const url = process.env.REACT_APP_DEV_URL;
-  const toast = useToast();
 
-  //                                                 get data
-  const getText = async () => {
+  const handleDelete = async (id) => {
     try {
-      let data = await fetch(`${url}/contact`);
+      let data = await fetch(`${url}/testimonials/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       data = await data.json();
-      console.log(data.data[0]);
-      setText(data?.data[0]?.text);
-      setId(data?.data[0]?._id);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getOutlet = async () => {
-    try {
-      let data = await fetch(`${url}/outlet?page=${page}`);
-      data = await data.json();
-      setNetwork(data.data);
+      getTestimonials();
+      getCount();
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +49,7 @@ const Contact = () => {
 
   const getCount = async () => {
     try {
-      let data = await fetch(`${url}/outlet`);
+      let data = await fetch(`${url}/testimonials`);
       data = await data.json();
       setCount(data.data.length);
     } catch (error) {
@@ -69,72 +57,18 @@ const Contact = () => {
     }
   };
 
-  //                                             handler functions
-  const handleSearch = async () => {
+  const getTestimonials = async () => {
     try {
-      if (!search) {
-        getOutlet();
-        setFlag(true);
-        return;
-      }
-      let data = await fetch(`${url}/outlet/search/${search}`);
+      let data = await fetch(`${url}/testimonials?page=${page}`);
       data = await data.json();
-      console.log(data);
-      setNetwork(data.data);
+      console.log(data, "data");
+      setProduct(data.data);
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      let data = await fetch(`${url}/outlet/delete/${id}`, {
-        method: "DELETE",
-      });
-      data = await data.json();
-      getOutlet();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  //                                                  update data
-
-  const updateText = async () => {
-    try {
-      let data = await fetch(`${url}/contact/edit/${id}`, {
-        method: "POST",
-        body: JSON.stringify({ text: text }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      data = await data.json();
-      console.log(data);
-      toast({
-        title: "Contact Content Updated Successfully",
-        description: data.msg,
-        status: "success",
-        position: "top",
-        duration: 7000,
-        isClosable: true,
-      });
-    } catch (error) {
-      console.log(error);
-      toast({
-        title: "Invalid Response",
-        description: error.message,
-        status: "error",
-        position: "top",
-        duration: 7000,
-        isClosable: true,
-      });
     }
   };
   useEffect(() => {
-    getText();
-    getOutlet();
+    getTestimonials();
     getCount();
   }, [page]);
   return (
@@ -147,11 +81,11 @@ const Contact = () => {
           _hover={{ color: "black", bgColor: "#add8e6" }}
           color="#add8e6"
           border={"1px solid #cfcccc"}
-          onClick={() => navigate("/admin/outlet/add")}
+          onClick={() => navigate("/admin/testimonials/add")}
         >
           Add New
         </Button>
-        <Box>
+        {/* <Box>
           <span>Search:</span>
           <Input
             color={"black"}
@@ -164,28 +98,11 @@ const Contact = () => {
             value={search}
             onKeyUp={handleSearch}
           />
-        </Box>
+        </Box> */}
         {/* <Button border={"1px solid #cfcccc"} rightIcon={<DeleteIcon/>}>
             Bulk Delete
         </Button> */}
       </Flex>
-      <br />
-      <FormControl>
-        <FormLabel>Content</FormLabel>
-        <Textarea value={text} onChange={(e) => setText(e.target.value)} />
-        <Button
-          mt={"10px"}
-          variant={"ghost"}
-          bgColor={"black"}
-          _hover={{ color: "black", bgColor: "#add8e6" }}
-          color="#add8e6"
-          border={"1px solid #cfcccc"}
-          onClick={updateText}
-        >
-          Submit Content
-        </Button>
-      </FormControl>
-
       <br />
       <TableContainer border={"1px solid #161616"} borderRadius={"20px"}>
         <Table variant="simple">
@@ -200,17 +117,17 @@ const Contact = () => {
             <Tr>
               <Th color={"#add8e6"}>#</Th>
               <Th color={"#add8e6"}>Name</Th>
-              <Th color={"#add8e6"}>Mobile</Th>
+              <Th color={"#add8e6"}>Designation</Th>
               <Th color={"#add8e6"}>Action</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {network?.map((e, i) => {
+            {product?.map((e, i) => {
               return (
                 <Tr key={e._id}>
                   <Td> {i + 1} </Td>
                   <Td>{e?.name}</Td>
-                  <Td>{e?.mobile}</Td>
+                  <Td>{e?.designation}</Td>
                   <Td>
                     <ButtonGroup>
                       <Button
@@ -219,7 +136,7 @@ const Contact = () => {
                         _hover={{ bgColor: "#add8e6", color: "black" }}
                         variant="solid"
                         color="#add8e6"
-                        onClick={() => navigate(`/admin/outlet/${e._id}`)}
+                        onClick={() => navigate(`/admin/testimonials/${e._id}`)}
                       >
                         View
                       </Button>
@@ -228,7 +145,9 @@ const Contact = () => {
                         border="1px solid #add8e6"
                         variant={"outline"}
                         _hover={{ bgColor: "#add8e6", color: "black" }}
-                        onClick={() => navigate(`/admin/outlet/edit/${e._id}`)}
+                        onClick={() =>
+                          navigate(`/admin/testimonials/edit/${e._id}`)
+                        }
                       >
                         Edit
                       </Button>
@@ -270,4 +189,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default Testimonials;

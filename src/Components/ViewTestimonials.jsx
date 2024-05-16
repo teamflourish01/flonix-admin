@@ -13,16 +13,30 @@ import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
 
-const ViewHomeBanner = () => {
+const ViewTestimonials = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState({});
   const url = process.env.REACT_APP_DEV_URL;
-  
-
-  const getHomebanner = async () => {
+  const handleDelete = async (id) => {
     try {
-      let data = await fetch(`${url}/homebanner/${id}`);
+      let data = await fetch(`${url}/testimonials/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      alert("Data Delete Successfuly");
+      navigate("/admin/certificate");
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getTestimonials = async () => {
+    try {
+      let data = await fetch(`${url}/testimonials/${id}`);
       data = await data.json();
       console.log(data.data, "single");
       setProduct(data.data);
@@ -32,13 +46,13 @@ const ViewHomeBanner = () => {
   };
 
   useEffect(() => {
-    getHomebanner();
+    getTestimonials();
   }, []);
   return (
-    <Box textAlign={"left"} p="4">
+    <Box textAlign={"left"} p="4" marginLeft="20px">
       <Flex gap="20px">
         <Text fontSize={"xl"} fontWeight={"semibold"}>
-          View Home Banner Details
+          View Testimonials Details
         </Text>
         <Button
           borderRadius={"20px"}
@@ -46,11 +60,11 @@ const ViewHomeBanner = () => {
           bgColor={"black"}
           _hover={{ color: "black", bgColor: "#add8e6" }}
           leftIcon={<BiEditAlt />}
-          onClick={() => navigate(`/admin/homebanner/edit/${id}`)}
+          onClick={() => navigate(`/admin/testimonials/edit/${id}`)}
         >
           Edit
         </Button>
-        {/* <Button
+        <Button
           borderRadius={"20px"}
           color={"#add8e6"}
           bgColor={"black"}
@@ -59,13 +73,14 @@ const ViewHomeBanner = () => {
           onClick={() => handleDelete(product._id)}
         >
           Delete
-        </Button> */}
+        </Button>
       </Flex>
       <br />
       <br />
+
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
-        Banner Lable
+        Name
       </Text>
       <Box
         padding="10px 20px"
@@ -73,33 +88,50 @@ const ViewHomeBanner = () => {
         bgColor={"#eef1f4"}
         fontSize={"medium"}
       >
-        {/* {product.length > 0 && product[0].bannerlable} */}
-        {product.bannerlable}
+        {product?.name}
       </Box>
       <br />
+
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
+        Designation
+      </Text>
+      <Box
+        padding="10px 20px"
+        width="50%"
+        bgColor={"#eef1f4"}
+        fontSize={"medium"}
+      >
+        {product?.designation}
+      </Box>
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
-        Banner Images
+        Testimonials Description
       </Text>
-      <br />
-      <Box display="flex" flexDirection="row" flexWrap="wrap" width="50%">
-        {product.bannerimages &&
-          product.bannerimages.map((e, index) => (
-            <Box key={index} marginRight="7px">
-              <Image
-                src={`http://localhost:8080/homebanner/${e}`}
-                style={{
-                  width: "200px",
-                  height: "200px",
-                  margin: "5px",
-                }}
-              />
-            </Box>
-          ))}
-      </Box>
+      <Textarea
+        height="150px"
+        padding="10px 20px"
+        width="50%"
+        bgColor={"#eef1f4"}
+        value={product?.text}
+        fontSize={"medium"}
+      />
       <br />
       <br />
 
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
+        Image
+      </Text>
+      <SimpleGrid columns={[1, 1, 1, 2, 2]} rowGap={"9"}>
+        <Image
+          src={`${url}/testimonials/${product.image}`}
+          style={{
+            width: "300px",
+            margin: "5px",
+            marginLeft: "25px",
+          }}
+        />
+      </SimpleGrid>
+      <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
         Created at
       </Text>
@@ -135,4 +167,4 @@ const ViewHomeBanner = () => {
   );
 };
 
-export default ViewHomeBanner;
+export default ViewTestimonials;

@@ -77,41 +77,17 @@ const ViewNewsAndEvents = () => {
         </Flex>
         <br />
         <br />
-        <Text fontWeight={"semibold"} fontSize={"xl"}>
-          Hading
-        </Text>
-        <Box
-          padding="10px 20px"
-          width="50%"
-          bgColor={"#eef1f4"}
-          fontSize={"medium"}
-          _readOnly
-        >
-          {item?.generalheading}
-        </Box>
-        <br />
-        <Text fontWeight={"semibold"} fontSize={"xl"}>
-          Description
-        </Text>
-        <Textarea
-          padding="10px 20px"
-          width="50%"
-          bgColor={"#eef1f4"}
-          value={item?.generaltext}
-          fontSize={"medium"}
-          _readOnly
-        />
-        <br />
+
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
           Image
         </Text>
         <SimpleGrid columns={[1, 1, 1, 2, 2]} rowGap={"9"}>
           <Image
-            src={`http://localhost:8080/newsAndevents/${item.cardimage}`}
+            src={`${url}/newsAndevents/${item.cardimage}`}
             style={{
               width: "150px",
-              height: "100px",
+
               margin: "5px",
               marginLeft: "25px",
             }}
@@ -212,10 +188,10 @@ const ViewNewsAndEvents = () => {
             item?.detailimages.map((e, index) => (
               <Box key={index} marginRight="7px">
                 <Image
-                  src={`http://localhost:8080/newsAndevents/${e}`}
+                  src={`${url}/newsAndevents/${e}`}
                   style={{
                     width: "100px",
-                    height: "100px",
+
                     margin: "5px",
                   }}
                 />
@@ -223,39 +199,39 @@ const ViewNewsAndEvents = () => {
             ))}
         </Box>
         <br />
-      <br />
-      <Text fontWeight={"semibold"} fontSize={"xl"}>
-        Created at
-      </Text>
-      {item?.createdAt && (
-        <Box
-          padding="10px 20px"
-          width="50%"
-          bgColor={"#eef1f4"}
-          fontSize={"medium"}
-        >
-          {new Date(item.createdAt).toLocaleString("en-IN", {
-            timeZone: "Asia/Kolkata",
-          })}
-        </Box>
-      )}
-      <br />
-      <Text fontWeight={"semibold"} fontSize={"xl"}>
-        Updated at
-      </Text>
-      {item?.modifiedAt && (
-        <Box
-          padding="10px 20px"
-          width="50%"
-          bgColor={"#eef1f4"}
-          fontSize={"medium"}
-        >
-          {new Date(item.modifiedAt).toLocaleString("en-IN", {
-            timeZone: "Asia/Kolkata",
-          })}
-        </Box>
-      )}
-        
+        <br />
+        <Text fontWeight={"semibold"} fontSize={"xl"}>
+          Created at
+        </Text>
+        {item?.createdAt && (
+          <Box
+            padding="10px 20px"
+            width="50%"
+            bgColor={"#eef1f4"}
+            fontSize={"medium"}
+          >
+            {new Date(item.createdAt).toLocaleString("en-IN", {
+              timeZone: "Asia/Kolkata",
+            })}
+          </Box>
+        )}
+        <br />
+        <Text fontWeight={"semibold"} fontSize={"xl"}>
+          Updated at
+        </Text>
+        {item?.modifiedAt && (
+          <Box
+            padding="10px 20px"
+            width="50%"
+            bgColor={"#eef1f4"}
+            fontSize={"medium"}
+          >
+            {new Date(item.modifiedAt).toLocaleString("en-IN", {
+              timeZone: "Asia/Kolkata",
+            })}
+          </Box>
+        )}
+
         <br />
       </Box>
     </>

@@ -9,13 +9,15 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 
-const AddNewsHeading = () => {
-  const [certificate, setCertificate] = useState({
+const AddTestimonials = () => {
+  const [item, setItem] = useState({
+    name: "",
+    designation: "",
+    text: "",
     image: "",
-    imgdescription: "",
   });
   const [selectedImages, setSelectedImages] = useState("");
   const [ctimage, setctImage] = useState({});
@@ -27,7 +29,7 @@ const AddNewsHeading = () => {
     if (name === "image") {
       value = file;
     }
-    setCertificate({ ...certificate, [name]: value });
+    setItem({ ...item, [name]: value });
   };
 
   const handleSingleImageChange = (e) => {
@@ -46,22 +48,20 @@ const AddNewsHeading = () => {
     e.preventDefault();
     try {
       const formdata = new FormData();
-      formdata.append("imgdescription", certificate.imgdescription);
+      formdata.append("name", item.name);
+      formdata.append("designation", item.designation);
+      formdata.append("text", item.text);
       formdata.append("image", ctimage);
 
-      let res = await axios.post(
-        `${url}/certificate/add`,
-        formdata,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      let res = await axios.post(`${url}/testimonials/add`, formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (res.status === 200) {
         alert("Certificate Add successfuly");
-        Navigate("/admin/certificate");
+        Navigate("/admin/testimonials");
       }
     } catch (error) {
       console.log(error);
@@ -80,9 +80,52 @@ const AddNewsHeading = () => {
               padding={"20px"}
               borderRadius={"20px"}
             >
+              <FormControl isRequired mb={4}>
+                <FormLabel htmlFor="name" color={"#add8e6"}>
+                  Name
+                </FormLabel>
+                <Input
+                  variant="flushed"
+                  id="name"
+                  type="text"
+                  placeholder="Enter your Heading"
+                  mb={4}
+                  name="name"
+                  value={item.name}
+                  onChange={handleInput}
+                />
+              </FormControl>
+              <FormControl isRequired mb={4}>
+                <FormLabel htmlFor="designation" color={"#add8e6"}>
+                  Designation
+                </FormLabel>
+                <Input
+                  variant="flushed"
+                  id="designation"
+                  type="text"
+                  placeholder="Enter your Heading"
+                  mb={4}
+                  name="designation"
+                  value={item.designation}
+                  onChange={handleInput}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="text" color={"#add8e6"}>
+                  Testimonials Description
+                </FormLabel>
+                <Textarea
+                  id="text"
+                  placeholder="Enter your Description"
+                  mb={4}
+                  name="text"
+                  value={item.text}
+                  onChange={handleInput}
+                />
+              </FormControl>
               <FormControl>
                 <FormLabel htmlFor="image" color={"#add8e6"}>
-                  Certificate Image
+                  Image
                 </FormLabel>
                 <Input
                   variant="flushed"
@@ -101,39 +144,26 @@ const AddNewsHeading = () => {
                       src={selectedImages}
                       alt="selected img"
                       style={{
-                        width: "150px",
-                        height: "100px",
+                        width: "200px",
+
                         margin: "5px",
                       }}
                     />
                     <Button
-                      colorScheme="red"
-                      size="sm"
+                      leftIcon={<DeleteIcon />}
+                      bgColor={"red.400"}
                       position="absolute"
+                      size="sm"
                       top={0}
-                      left={130}
+                      marginLeft="160px"
                       zIndex={1}
+                      _hover={{ bgColor: "red.500", color: "white" }}
+                      color="white"
                       onClick={handleDeleteSingleImage}
                       borderRadius="50px"
-                    >
-                      <CloseIcon />
-                    </Button>
+                    ></Button>
                   </Flex>
                 )}
-              </FormControl>
-
-              <FormControl isRequired>
-                <FormLabel htmlFor="imgdescription" color={"#add8e6"}>
-                  Certificate Description
-                </FormLabel>
-                <Textarea
-                  id="imgdescription"
-                  placeholder="Enter your Description"
-                  mb={4}
-                  name="imgdescription"
-                  value={certificate.imgdescription}
-                  onChange={handleInput}
-                />
               </FormControl>
             </Box>
           </center>
@@ -150,7 +180,7 @@ const AddNewsHeading = () => {
                 border: "1px solid #add8e6",
               }}
             >
-              Add New Certificate
+              Add New
             </Button>
           </center>
         </form>
@@ -159,4 +189,4 @@ const AddNewsHeading = () => {
   );
 };
 
-export default AddNewsHeading;
+export default AddTestimonials;

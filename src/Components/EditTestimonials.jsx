@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
-const EditCertificate = () => {
+const EditTestimonials = () => {
   const { id } = useParams();
   const [item, setItem] = useState({});
   const [selectedImages, setSelectedImages] = useState([]);
@@ -22,9 +22,9 @@ const EditCertificate = () => {
   const Navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
-  const getCertificateById = async () => {
+  const getTestimonialsById = async () => {
     try {
-      const response = await fetch(`${url}/certificate/${id}`);
+      const response = await fetch(`${url}/testimonials/${id}`);
       const data = await response.json();
       setItem(data.data);
 
@@ -34,7 +34,7 @@ const EditCertificate = () => {
     }
   };
   useEffect(() => {
-    getCertificateById();
+    getTestimonialsById();
   }, [id]);
 
   // edit logic
@@ -63,14 +63,16 @@ const EditCertificate = () => {
     try {
       const formData = new FormData();
 
-      formData.append("imgdescription", item.imgdescription);
+      formData.append("name", item.name);
+      formData.append("designation", item.designation);
+      formData.append("text", item.text);
 
       if (singleImg) {
         formData.append("image", singleImg);
       }
       console.log("FormData:", formData);
       const response = await axios.put(
-        `${url}/certificate/edit/${id}`,
+        `${url}/testimonials/edit/${id}`,
         formData,
         {
           headers: {
@@ -80,7 +82,7 @@ const EditCertificate = () => {
       );
       if (response.status === 200) {
         alert("data Update Successfuly");
-        Navigate("/admin/certificate/");
+        Navigate("/admin/testimonials/");
       } else {
         throw new Error("Faild to update Data");
       }
@@ -105,23 +107,52 @@ const EditCertificate = () => {
               padding={"20px"}
               borderRadius={"20px"}
             >
-              <FormControl isRequired>
-                <FormLabel htmlFor="imgdescription" color={"#add8e6"}>
-                  Certificate Description
+              <FormControl isRequired mb={4}>
+                <FormLabel htmlFor="name" color={"#add8e6"}>
+                  Name
                 </FormLabel>
-                <Textarea
-                  id="imgdescription"
-                  placeholder="Enter your message"
+                <Input
+                  variant="flushed"
+                  id="name"
+                  type="text"
+                  placeholder="Enter your Heading"
                   mb={4}
-                  name="imgdescription"
-                  value={item.imgdescription}
+                  name="name"
+                  value={item.name}
                   onChange={handleInput}
                 />
               </FormControl>
-
+              <FormControl isRequired mb={4}>
+                <FormLabel htmlFor="designation" color={"#add8e6"}>
+                  Designation
+                </FormLabel>
+                <Input
+                  variant="flushed"
+                  id="designation"
+                  type="text"
+                  placeholder="Enter your Heading"
+                  mb={4}
+                  name="designation"
+                  value={item.designation}
+                  onChange={handleInput}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="text" color={"#add8e6"}>
+                  Testimonials Description
+                </FormLabel>
+                <Textarea
+                  id="text"
+                  placeholder="Enter your Description"
+                  mb={4}
+                  name="text"
+                  value={item.text}
+                  onChange={handleInput}
+                />
+              </FormControl>
               <FormControl>
                 <FormLabel htmlFor="image" color={"#add8e6"}>
-                  Certificate
+                  Image
                 </FormLabel>
                 <Input
                   variant="flushed"
@@ -141,7 +172,7 @@ const EditCertificate = () => {
                       alt="selected img"
                       style={{
                         width: "200px",
-                        height: "150px",
+
                         margin: "5px",
                       }}
                     />
@@ -164,11 +195,11 @@ const EditCertificate = () => {
                 <FormControl mr={4}>
                   <Flex alignItems="center" position="relative">
                     <img
-                      src={`${url}/certificates/${item.image}`}
+                      src={`${url}/testimonials/${item.image}`}
                       alt="selected img"
                       style={{
                         width: "200px",
-                        height: "150px",
+
                         margin: "5px",
                         marginBottom: "10px",
                       }}
@@ -200,4 +231,4 @@ const EditCertificate = () => {
   );
 };
 
-export default EditCertificate;
+export default EditTestimonials;
