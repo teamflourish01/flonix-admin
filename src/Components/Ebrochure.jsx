@@ -29,6 +29,7 @@ const Ebrochure = () => {
   const [search, setSearch] = useState("");
   const [count, setCount] = useState(0);
   const url = process.env.REACT_APP_DEV_URL;
+  const itemPerpage=12;
 
   const handleDelete = async (id) => {
     try {
@@ -123,9 +124,10 @@ const Ebrochure = () => {
           </Thead>
           <Tbody>
             {product?.map((e, i) => {
+              const serialNumber = (page - 1) * itemPerpage + i + 1;
               return (
                 <Tr key={e._id}>
-                  <Td> {i + 1} </Td>
+                  <Td> {serialNumber} </Td>
 
                   <Td>{e?.filename}</Td>
                   <Td>

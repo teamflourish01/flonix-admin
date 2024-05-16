@@ -86,7 +86,7 @@ const ViewNewsAndEvents = () => {
           <Image
             src={`${url}/newsAndevents/${item.cardimage}`}
             style={{
-              width: "150px",
+              width: "200px",
 
               margin: "5px",
               marginLeft: "25px",
@@ -119,6 +119,21 @@ const ViewNewsAndEvents = () => {
           _readOnly
         />
         <br />
+        <br />            
+        <Text fontWeight={"semibold"} fontSize={"xl"}>
+          Detail Page Single Image
+        </Text>
+        <SimpleGrid columns={[1, 1, 1, 2, 2]} rowGap={"9"}>
+          <Image
+            src={`${url}/newsAndevents/${item?.detailimage}`}
+            style={{
+              width: "200px",
+
+              margin: "5px",
+              marginLeft: "25px",
+            }}
+          />
+        </SimpleGrid>
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
           Date
@@ -190,7 +205,7 @@ const ViewNewsAndEvents = () => {
                 <Image
                   src={`${url}/newsAndevents/${e}`}
                   style={{
-                    width: "100px",
+                    width: "200px",
 
                     margin: "5px",
                   }}

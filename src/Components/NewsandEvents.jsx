@@ -78,7 +78,7 @@ const NewsAndEvents = () => {
 
       setNewsAndEvents(data.data);
       setTotalPages(Math.ceil(data.count / 12));
-      setCount(data.count);
+      // setCount(data.data.length);
       console.log(res.data);
     } catch (error) {
       console.log(error);
