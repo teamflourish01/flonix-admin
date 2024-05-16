@@ -26,7 +26,10 @@ import {
   BsShopWindow,
 } from "react-icons/bs";
 
+
+
 import { FaCertificate, FaFilePdf,   FaMobileScreen,   FaStore, FaTicketSimple, FaUser } from "react-icons/fa6";
+
 import { GiModernCity } from "react-icons/gi";
 import { GrCatalog } from "react-icons/gr";
 import { TiThMenu } from "react-icons/ti";
@@ -50,13 +53,11 @@ import NewsAndEvents from "./NewsandEvents";
 import AddFormNewsandEvents from "./AddNewsAndEvents";
 import ViewNewsAndEvents from "./ViewNewsAndEvents";
 
-
 import Contact from "./Contact";
 import AddOutlet from "./AddOutlet";
 import ViewOutlet from "./ViewOutlet";
 import EditOutlet from "./EditOutlet";
 import MyEditor from "./MyEditor";
-
 
 import UpdateNewsAndEvents from "./EditNewsAndEvents";
 import Pages from "./Pages";
@@ -71,6 +72,16 @@ import EditContectDetails from "./EditContectDetails";
 import ViewNewsHeading from "./ViewNewsHeading";
 import AddNewsHeading from "./AddNewsHeading";
 import EditNewsHeading from "./EditNewsHeading";
+
+
+import Blog from "./Blog";
+import BlogCategory from "./BlogCategory";
+import AddBlogCategory from "./AddBlogCategory";
+import ViewBlogCategory from "./ViewBlogCategory";
+import EditBlogCategory from "./EditBlogCategory";
+import AddBlog from "./AddBlog";
+import ViewBlog from "./ViewBlog";
+
 import ViewHome from "./ViewHome";
 import EditHome from "./EditHome";
 import Testimonials from "./Testimonials";
@@ -321,10 +332,10 @@ const Admin = () => {
           icon={GiModernCity}
           onClick={() => {
             sidebar.onClose();
-            // navigate("/admin/city");
+            navigate("/admin/blog");
           }}
         >
-          City
+          Blogs
         </NavItem>
         <NavItem
           _hover={{ bgColor: "black", color: "#ADD8E6" }}
@@ -438,21 +449,36 @@ const Admin = () => {
             <Route path="/admin/category" element={<Category />} />
             <Route path="/admin/category/add" element={<AddCategory />} />
 
-            <Route path="/admin/category/:categoryid" element={<ViewCategory />} />
-            <Route path="/admin/category/edit/:categoryid" element={<EditCategory />} />
-            <Route path="/admin/product" element={<Product/>} />
-            <Route path="/admin/product/add" element={<AddProduct/>} />
-            <Route path="/admin/product/:id" element={<ViewProduct/>}/>
-            <Route path="/admin/product/edit/:id" element={<EditProduct/>}/>
+            <Route
+              path="/admin/category/:categoryid"
+              element={<ViewCategory />}
+            />
+            <Route
+              path="/admin/category/edit/:categoryid"
+              element={<EditCategory />}
+            />
+            <Route path="/admin/product" element={<Product />} />
+            <Route path="/admin/product/add" element={<AddProduct />} />
+            <Route path="/admin/product/:id" element={<ViewProduct />} />
+            <Route path="/admin/product/edit/:id" element={<EditProduct />} />
             <Route path="/admin/newsandevents" element={<NewsAndEvents />} />
-            <Route path="/admin/newsandevents/add" element={<AddFormNewsandEvents />} /> 
-            <Route path="/admin/newsandevents/:id" element={<ViewNewsAndEvents />} />
-            <Route path="/admin/newsandevents/edit/:Id" element={<UpdateNewsAndEvents />} />
-            <Route path="/admin/contact" element={<Contact/>}/>
-            <Route path="/admin/outlet/add" element={<AddOutlet/>}/>
-            <Route path="/admin/outlet/:id" element={<ViewOutlet/>}/>
-            <Route path="/admin/outlet/edit/:id" element={<EditOutlet/>} />
-            <Route path="/admin/editor" element={<MyEditor/>}/>
+            <Route
+              path="/admin/newsandevents/add"
+              element={<AddFormNewsandEvents />}
+            />
+            <Route
+              path="/admin/newsandevents/:id"
+              element={<ViewNewsAndEvents />}
+            />
+            <Route
+              path="/admin/newsandevents/edit/:Id"
+              element={<UpdateNewsAndEvents />}
+            />
+            <Route path="/admin/contact" element={<Contact />} />
+            <Route path="/admin/outlet/add" element={<AddOutlet />} />
+            <Route path="/admin/outlet/:id" element={<ViewOutlet />} />
+            <Route path="/admin/outlet/edit/:id" element={<EditOutlet />} />
+            <Route path="/admin/editor" element={<MyEditor />} />
 
             <Route
               path="/admin/category/:categoryid"
@@ -466,7 +492,6 @@ const Admin = () => {
             <Route path="/admin/product/add" element={<AddProduct />} />
             <Route path="/admin/product/:id" element={<ViewProduct />} />
             <Route path="/admin/product/edit/:id" element={<EditProduct />} />
-
             <Route path="/admin/newsandevents" element={<NewsAndEvents />} />
             <Route
               path="/admin/newsandevents/add"
@@ -481,17 +506,37 @@ const Admin = () => {
               element={<UpdateNewsAndEvents />}
             />
             <Route path="/admin/newsheading/add" element={<AddNewsHeading />} />
-            <Route path="/admin/newsheading/:id" element={<ViewNewsHeading />} />
-            <Route path="/admin/newsheading/edit/:id" element={<EditNewsHeading/>} />
-            
+            <Route
+              path="/admin/newsheading/:id"
+              element={<ViewNewsHeading />}
+            />
+            <Route
+              path="/admin/newsheading/edit/:id"
+              element={<EditNewsHeading />}
+            />
+
             <Route path="/admin/page" element={<Pages />} />
             <Route path="/admin/aboutus" element={<ViewAboutus />} />
             <Route path="/admin/aboutus/edit/:id" element={<EditAboutus />} />
             <Route path="/admin/certificate" element={<Certificates />} />
-            <Route path="/admin/certificate/:id" element={<ViewCertificate />} />
+            <Route
+              path="/admin/certificate/:id"
+              element={<ViewCertificate />}
+            />
             <Route path="/admin/certificate/add" element={<AddCertificate />} />
-            <Route path="/admin/certificate/edit/:id" element={<EditCertificate />} /> 
+            <Route
+              path="/admin/certificate/edit/:id"
+              element={<EditCertificate />}
+            />
             <Route path="/admin/contectdetails" element={<Contectdetails />} />
+
+            <Route path="/admin/blog" element={<Blog/>}/>
+            <Route path="/admin/blogcategory" element={<BlogCategory/>}/>
+            <Route path="/admin/blogcategory/add" element={<AddBlogCategory/>}/>
+            <Route path="/admin/blogcategory/:id" element={<ViewBlogCategory/>}/>
+            <Route path="/admin/blogcategory/edit/:id" element={<EditBlogCategory/>}/>
+            <Route path="/admin/blog/add" element={<AddBlog/>}/>
+            <Route path="/admin/blog/:id"element={<ViewBlog/>}/>
             <Route path="/admin/contectdetails/edit/:id" element={<EditContectDetails />} />
             <Route path="/admin/home/:id" element={<ViewHome />} />
             <Route path="/admin/home/edit/:id" element={<EditHome />} /> 
