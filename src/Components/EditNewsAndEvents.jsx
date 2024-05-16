@@ -10,6 +10,7 @@ import {
   Center,
   Textarea,
   Flex,
+  Image,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
@@ -19,6 +20,10 @@ const UpdateNewsAndEvents = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [singleImg, setSingleImg] = useState("");
   const [selctSinImg, setselectSingImg] = useState("");
+  const [selectedDetail, setselectedDetail] = useState("");
+  const [detailImg, setDetailImg] = useState({});
+  const [detImgsUrl, setdetImgsUrl] = useState([]);
+  const [detImgs, setdetImgs] = useState([]);
   const Navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -50,30 +55,42 @@ const UpdateNewsAndEvents = () => {
     setSingleImg("");
     setselectSingImg("");
   };
+  // Detail Image logic
+  const handleDetailImgChange = (e) => {
+    let file = e.target.files[0];
+    setDetailImg(file);
 
+    //display
+    const imageUrlselect = URL.createObjectURL(file);
+    setselectedDetail(imageUrlselect);
+  };
+
+  const handleDeleteDetailImg = () => {
+    setDetailImg({});
+    setselectedDetail("");
+  };
+
+  //Multiple Image
   const handleMultipleImage = (e) => {
     const file = e.target.files[0];
-    setSelectedImages([...selectedImages, file]);
+    setdetImgs([...detImgs, file]);
+    if (file) {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        setdetImgsUrl([...detImgsUrl, reader.result]);
+      };
+      reader.readAsDataURL(file);
+    }
   };
   const handleDeleteMultipleImage = (index) => {
-    const updatedImages = [...selectedImages];
-    updatedImages.splice(index, 1);
-    setSelectedImages(updatedImages);
+    const dup = [...detImgsUrl];
+    dup.splice(index, 1);
+    setdetImgsUrl(dup);
   };
-  const handleDBImgdelete = async (index) => {
-    try {
-      const response = await fetch(
-        `${url}/newsandevent/deleteimg/${Id}/${index}`,
-        {
-          method: "DELETE",
-        }
-      );
-      if (response.status === 200) {
-        fetchEventAndNewsById();
-      }
-    } catch (error) {
-      console.log("Error Deleting Multiple Img From DB", error);
-    }
+  const handleDBImgdelete = (index) => {
+    let dup = [...item.detailimages];
+    dup.splice(index, 1);
+    setItem({ ...item, detailimages: dup });
   };
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -82,26 +99,39 @@ const UpdateNewsAndEvents = () => {
   };
 
   const handleSubmit = async (e) => {
+    const formData = new FormData();
     e.preventDefault();
-
-    try {
-      const formData = new FormData();
-      // formData.append("generalheading", item.generalheading);
-      // formData.append("generaltext", item.generaltext);
-      formData.append("cardheading", item.cardheading);
-      formData.append("date", item.date);
-      formData.append("place", item.place);
-      formData.append("cardtext", item.cardtext);
-      formData.append("detailheading", item.detailheading);
-      formData.append("detailtext", item.detailtext);
-      formData.append("video", item.video);
-      for (let x of selectedImages) {
+    let dup = { ...item };
+    if (singleImg) {
+      formData.append("cardimage", singleImg);
+    }
+    if (detailImg) {
+      formData.append("detailimage", detailImg);
+    }
+    if (detImgs.length > 0) {
+      for (let x of detImgs) {
         formData.append("detailimages", x);
       }
-      if (singleImg) {
-        formData.append("cardimage", singleImg);
-      }
-      console.log("FormData:", formData);
+    }
+    formData.append("dup", JSON.stringify(dup));
+    try {
+      // formData.append("cardheading", item.cardheading);
+      // formData.append("date", item.date);
+      // formData.append("place", item.place);
+      // formData.append("cardtext", item.cardtext);
+      // formData.append("detailheading", item.detailheading);
+      // formData.append("detailtext", item.detailtext);
+      // formData.append("video", item.video);
+      // for (let x of selectedImages) {
+      //   formData.append("detailimages", x);
+      // }
+      // if (singleImg) {
+      //   formData.append("cardimage", singleImg);
+      // }
+      // if (detailImg) {
+      //   formData.append("detailimage", detailImg);
+      // }
+      // console.log("FormData:", formData);
       const response = await axios.put(
         `${url}/newsandevent/edit/${Id}`,
         formData,
@@ -253,6 +283,62 @@ const UpdateNewsAndEvents = () => {
                   onChange={handleInput}
                 />
               </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="detailimage" color={"#add8e6"}>
+                  Details Page Single Image
+                </FormLabel>
+                <Input
+                  variant="flushed"
+                  id="detailimage"
+                  type="file"
+                  name="detailimage"
+                  accept="image/*"
+                  onChange={handleDetailImgChange}
+                  mb={4}
+                />
+              </FormControl>
+              <FormControl>
+                {selectedDetail && (
+                  <Flex alignItems="center" position="relative">
+                    <img
+                      src={selectedDetail}
+                      alt="selected img"
+                      style={{
+                        width: "200px",
+                        margin: "5px",
+                      }}
+                    />
+                    <Button
+                      leftIcon={<DeleteIcon />}
+                      bgColor={"red.400"}
+                      position="absolute"
+                      size="sm"
+                      top={0}
+                      left={170}
+                      zIndex={1}
+                      _hover={{ bgColor: "red.500", color: "white" }}
+                      color="white"
+                      onClick={handleDeleteDetailImg}
+                    ></Button>
+                  </Flex>
+                )}
+              </FormControl>
+              {!selectedDetail && item.detailimage && (
+                <FormControl mr={4}>
+                  <Flex alignItems="center" position="relative">
+                    <img
+                      src={`${url}/newsAndevents/${item.detailimage}`}
+                      alt="selected img"
+                      style={{
+                        width: "200px",
+
+                        margin: "5px",
+                        marginBottom: "10px",
+                      }}
+                    />
+                  </Flex>
+                </FormControl>
+              )}
             </form>
           </Box>
           <Box
@@ -352,15 +438,15 @@ const UpdateNewsAndEvents = () => {
                 />
                 <Flex wrap="wrap">
                   {item.detailimages &&
-                    item.detailimages.map((image, index) => (
-                      <Flex key={index} alignItems="center" position="relative">
-                        <img
-                          key={index}
-                          src={`${url}/newsAndevents/${image}`}
-                          alt={`Image ${index}`}
+                    item.detailimages.map((e, i) => (
+                      <Flex key={i} alignItems="center" position="relative">
+                        <Image
+                          key={i}
+                          src={`${url}/newsAndevents/${e}`}
+                          alt={`Image ${i}`}
                           style={{
                             width: "200px",
-                            
+
                             objectFit: "cover",
                             marginRight: "10px",
                             marginBottom: "10px",
@@ -376,39 +462,29 @@ const UpdateNewsAndEvents = () => {
                           zIndex={1}
                           _hover={{ bgColor: "red.500", color: "white" }}
                           color="white"
-                          onClick={() => handleDBImgdelete(index)}
+                          onClick={() => handleDBImgdelete(i)}
                         ></Button>
                       </Flex>
                     ))}
 
-                  {selectedImages.map((image, index) => (
-                    <Flex key={index} alignItems="center" position="relative">
-                      <img
-                        key={index}
-                        src={URL.createObjectURL(image)}
-                        alt={`selected image ${index}`}
-                        style={{
-                          width: "100px",
-                          height: "100px",
-                          objectFit: "cover",
-                          marginRight: "10px",
-                          marginBottom: "10px",
-                        }}
-                      />
-                      <Button
-                        leftIcon={<DeleteIcon />}
-                        bgColor={"red.400"}
-                        position="absolute"
-                        size="sm"
-                        top={0}
-                        right={0}
-                        zIndex={1}
-                        _hover={{ bgColor: "red.500", color: "white" }}
-                        color="white"
-                        onClick={() => handleDeleteMultipleImage(index)}
-                      ></Button>
-                    </Flex>
-                  ))}
+                  {detImgsUrl &&
+                    detImgsUrl.map((e, i) => (
+                      <Flex key={i} alignItems="center" position="relative">
+                        <Image src={e} width="200px" />
+                        <Button
+                          leftIcon={<DeleteIcon />}
+                          bgColor={"red.400"}
+                          position="absolute"
+                          size="sm"
+                          top={0}
+                          right={0}
+                          zIndex={1}
+                          _hover={{ bgColor: "red.500", color: "white" }}
+                          color="white"
+                          onClick={() => handleDeleteMultipleImage(i)}
+                        ></Button>
+                      </Flex>
+                    ))}
                 </Flex>
               </FormControl>
             </form>

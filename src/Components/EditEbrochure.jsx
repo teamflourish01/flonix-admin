@@ -10,6 +10,7 @@ import {
   Center,
   Textarea,
   Flex,
+  Spinner,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
@@ -19,6 +20,7 @@ const EditEbrochure = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [singleImg, setSingleImg] = useState("");
   const [selctSinImg, setselectSingImg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const Navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -59,6 +61,7 @@ const EditEbrochure = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const formData = new FormData();
@@ -86,6 +89,8 @@ const EditEbrochure = () => {
       }
     } catch (error) {
       console.error("Update faild", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -190,6 +195,8 @@ const EditEbrochure = () => {
                     border: "1px solid #161616",
                   }}
                   type="submit"
+                  isLoading={isLoading}
+                  spinner={<Spinner color="blue.500" />}
                 >
                   Save
                 </Button>

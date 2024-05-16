@@ -7,6 +7,7 @@ import {
   Button,
   Textarea,
   Flex,
+  Spinner,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
@@ -19,6 +20,7 @@ const AddEbrochure = () => {
   });
   const [selectedImages, setSelectedImages] = useState("");
   const [ctimage, setctImage] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const Navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -44,6 +46,7 @@ const AddEbrochure = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const formdata = new FormData();
       formdata.append("filename", item.filename);
@@ -61,6 +64,8 @@ const AddEbrochure = () => {
       }
     } catch (error) {
       console.log(error);
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -105,7 +110,7 @@ const AddEbrochure = () => {
                   mb={4}
                 />
               </FormControl>
-              <FormControl>
+              {/* <FormControl>
                 {selectedImages && (
                   <Flex alignItems="center" position="relative">
                     <img
@@ -130,7 +135,7 @@ const AddEbrochure = () => {
                     ></Button>
                   </Flex>
                 )}
-              </FormControl>
+              </FormControl> */}
             </Box>
           </center>
           <br />
@@ -145,6 +150,8 @@ const AddEbrochure = () => {
                 bgColor: "#add8e6",
                 border: "1px solid #add8e6",
               }}
+              isLoading={isLoading}
+              spinner={<Spinner color="blue.500" />}
             >
               Add New
             </Button>

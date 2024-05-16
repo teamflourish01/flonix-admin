@@ -62,12 +62,9 @@ const EditAboutus = () => {
   };
   const handleDBImgdelete = async (index) => {
     try {
-      const response = await fetch(
-        `${url}/aboutus/deleteimg/${id}/${index}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`${url}/aboutus/deleteimg/${id}/${index}`, {
+        method: "DELETE",
+      });
       if (response.ok) {
         getAboutusById();
       }
@@ -101,15 +98,11 @@ const EditAboutus = () => {
         formData.append("banner", singleImg);
       }
       console.log("FormData:", formData);
-      const response = await axios.put(
-        `${url}/aboutus/edit/${id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.put(`${url}/aboutus/edit/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       if (response.status === 200) {
         alert("data Update Successfuly");
         Navigate("/admin/aboutus/");
@@ -211,11 +204,11 @@ const EditAboutus = () => {
                 <FormControl mr={4}>
                   <Flex alignItems="center" position="relative">
                     <img
-                      src={`http://localhost:8080/aboutus/${item.banner}`}
+                      src={`${url}/aboutus/${item.banner}`}
                       alt="selected img"
                       style={{
                         width: "200px",
-                        
+
                         margin: "5px",
                         marginBottom: "10px",
                       }}
@@ -321,11 +314,11 @@ const EditAboutus = () => {
                       <Flex key={index} alignItems="center" position="relative">
                         <img
                           key={index}
-                          src={`http://localhost:8080/aboutus/${image}`}
+                          src={`${url}/aboutus/${image}`}
                           alt={`Image ${index}`}
                           style={{
                             width: "200px",
-                           
+
                             objectFit: "cover",
                             marginRight: "10px",
                             marginBottom: "10px",
@@ -354,7 +347,7 @@ const EditAboutus = () => {
                         alt={`selected image ${index}`}
                         style={{
                           width: "200px",
-                          
+
                           objectFit: "cover",
                           marginRight: "10px",
                           marginBottom: "10px",

@@ -424,6 +424,7 @@ const EditHome = () => {
                           leftIcon={<DeleteIcon />}
                           bgColor={"red.400"}
                           position="absolute"
+                          mar
                           size="sm"
                           top={0}
                           right={1}

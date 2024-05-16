@@ -90,7 +90,7 @@ const ViewAboutus = () => {
         <br />
         <SimpleGrid columns={[1, 1, 1, 2, 2]} rowGap={"9"}>
           <Image
-            src={`http://localhost:8080/aboutus/${
+            src={`${url}/aboutus/${
               item.length > 0 && item[0].banner
             }`}
             style={{

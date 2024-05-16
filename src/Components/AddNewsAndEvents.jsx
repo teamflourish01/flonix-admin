@@ -10,7 +10,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 
 const AddFormNewsandEvents = () => {
@@ -25,10 +25,14 @@ const AddFormNewsandEvents = () => {
     detailheading: "",
     detailtext: "",
     video: "",
+    detailimage: "",
     detailimages: [],
   });
   const [selectedImages, setSelectedImages] = useState("");
   const [image, setImage] = useState({});
+  const [selectedDetail, setselectedDetail] = useState("");
+  const [detailImg, setDetailImg] = useState({});
+
   const [varImage, setVarImage] = useState([]);
   const Navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
@@ -51,6 +55,22 @@ const AddFormNewsandEvents = () => {
     setImage({});
     setSelectedImages("");
   };
+  // Detail Single Image Logic
+  const handleDetailImgChange = (e) => {
+    let file = e.target.files[0];
+    setDetailImg(file);
+
+    //display
+    const imageUrlselect = URL.createObjectURL(file);
+    setselectedDetail(imageUrlselect);
+  };
+
+  const handleDeleteDetailImg = () => {
+    setDetailImg({});
+    setselectedDetail("");
+  };
+
+  // Multiple IMg logic
   const handleImagesChange = (e) => {
     const file = e.target.files[0];
     setVarImage([...varImage, file]);
@@ -62,6 +82,7 @@ const AddFormNewsandEvents = () => {
   };
 
   const submitSingle = async () => {
+    const formData = new FormData();
     console.log("image", image);
     formData.append("cardimage", image);
     try {
@@ -81,6 +102,25 @@ const AddFormNewsandEvents = () => {
     }
   };
 
+  const submitDetailImg = async () => {
+    const formData = new FormData();
+    formData.append("detailimage", detailImg);
+    try {
+      let data = await axios.post(
+        `${url}/newsandevent/add/detailimg`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("Details IMG", data.data);
+      return data.data.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const submitMultiple = async () => {
     console.log("varImage", varImage);
     let formData = new FormData();
@@ -102,7 +142,7 @@ const AddFormNewsandEvents = () => {
     }
   };
 
-  const handleSubmit = async (imageArr, varArr) => {
+  const handleSubmit = async (imageArr, varArr, detimg) => {
     console.log(imageArr, varArr);
     let dup = { ...eventdata };
     if (imageArr) {
@@ -111,7 +151,9 @@ const AddFormNewsandEvents = () => {
     if (varArr?.length) {
       dup.detailimages = varArr;
     }
-
+    if (detimg) {
+      dup.detailimage = detimg;
+    }
     try {
       let data = await fetch(`${url}/newsandevent/add`, {
         method: "POST",
@@ -137,6 +179,7 @@ const AddFormNewsandEvents = () => {
       });
       setSelectedImages("");
       setVarImage([]);
+      setselectedDetail("");
       Navigate("/admin/newsandevents/");
     } catch (error) {
       console.log(error);
@@ -209,23 +252,22 @@ const AddFormNewsandEvents = () => {
                       src={selectedImages}
                       alt="selected img"
                       style={{
-                        width: "150px",
-                        height: "100px",
+                        width: "200px",
                         margin: "5px",
                       }}
                     />
                     <Button
-                      colorScheme="red"
-                      size="sm"
+                      leftIcon={<DeleteIcon />}
+                      bgColor={"red.400"}
                       position="absolute"
+                      size="sm"
                       top={0}
-                      left={130}
+                      left={170}
                       zIndex={1}
+                      _hover={{ bgColor: "red.500", color: "white" }}
+                      color="white"
                       onClick={handleDeleteSingleImage}
-                      borderRadius="50px"
-                    >
-                      <CloseIcon />
-                    </Button>
+                    ></Button>
                   </Flex>
                 )}
               </FormControl>
@@ -257,6 +299,46 @@ const AddFormNewsandEvents = () => {
                   value={eventdata.cardtext}
                   onChange={handleInput}
                 />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="detailimage" color={"#add8e6"}>
+                  Details Page Single Image
+                </FormLabel>
+                <Input
+                  variant="flushed"
+                  id="detailimage"
+                  type="file"
+                  name="detailimage"
+                  accept="image/*"
+                  onChange={handleDetailImgChange}
+                  mb={4}
+                />
+              </FormControl>
+              <FormControl>
+                {selectedDetail && (
+                  <Flex alignItems="center" position="relative">
+                    <img
+                      src={selectedDetail}
+                      alt="selected img"
+                      style={{
+                        width: "200px",
+                        margin: "5px",
+                      }}
+                    />
+                    <Button
+                      leftIcon={<DeleteIcon />}
+                      bgColor={"red.400"}
+                      position="absolute"
+                      size="sm"
+                      top={0}
+                      left={170}
+                      zIndex={1}
+                      _hover={{ bgColor: "red.500", color: "white" }}
+                      color="white"
+                      onClick={handleDeleteDetailImg}
+                    ></Button>
+                  </Flex>
+                )}
               </FormControl>
             </form>
           </Box>
@@ -365,24 +447,25 @@ const AddFormNewsandEvents = () => {
                       src={URL.createObjectURL(image)}
                       alt={`selected image ${index}`}
                       style={{
-                        width: "100px",
-                        height: "100px",
+                        width: "200px",
+
                         objectFit: "cover",
                         marginRight: "10px",
                         marginBottom: "10px",
                       }}
                     />
                     <Button
-                      colorScheme="red"
-                      size="sm"
+                      leftIcon={<DeleteIcon />}
+                      bgColor={"red.400"}
                       position="absolute"
+                      size="sm"
                       top={0}
-                      right={0}
+                      left={155}
                       zIndex={1}
+                      _hover={{ bgColor: "red.500", color: "white" }}
+                      color="white"
                       onClick={() => handleDeleteMultipleImage(index)}
-                    >
-                      <CloseIcon />
-                    </Button>
+                    ></Button>
                   </Flex>
                 ))}
               </Flex>
@@ -401,8 +484,8 @@ const AddFormNewsandEvents = () => {
               border: "1px solid #add8e6",
             }}
             onClick={() => {
-              Promise.all([submitSingle(), submitMultiple()])
-                .then((res) => handleSubmit(res[0], res[1]))
+              Promise.all([submitSingle(), submitMultiple(), submitDetailImg()])
+                .then((res) => handleSubmit(res[0], res[1], res[2]))
                 .catch((err) => console.log(err));
             }}
           >
