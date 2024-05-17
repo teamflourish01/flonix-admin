@@ -91,6 +91,8 @@ import ViewTestimonials from "./ViewTestimonials";
 import Ebrochure from "./Ebrochure";
 import AddEbrochure from "./AddEbrochure";
 import EditEbrochure from "./EditEbrochure";
+import UpdateHomeBenefits from "./EditHomeBenefits";
+import ViewHomeBanefits from "./ViewHomeBenefits";
 
 
 const Admin = () => {
@@ -547,6 +549,8 @@ const Admin = () => {
             <Route path="/admin/ebrochure" element={<Ebrochure />} />
             <Route path="/admin/ebrochure/add" element={<AddEbrochure />} />
             <Route path="/admin/ebrochure/:edit/:id" element={<EditEbrochure />} />
+            <Route path="/admin/robenefits/:edit/:id" element={<UpdateHomeBenefits />} />
+            <Route path="/admin/robenefits/:id" element={<ViewHomeBanefits />} />
             
           </Routes>
           <Box rounded="md" h="" />

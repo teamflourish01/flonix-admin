@@ -20,6 +20,7 @@ const Pages = () => {
   const [item, setItem] = useState([]);
   const [newsheading, setNewsheading] = useState([]);
   const [homeItem, sethomeItem] = useState([]);
+  const [homeBeneft, sethomeBeneft] = useState([]);
   const navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -52,9 +53,19 @@ const Pages = () => {
         console.log(error);
       }
     };
+    const getHomeBenifits = async () => {
+      try {
+        let res = await fetch(`${url}/robenefits`);
+        const data = await res.json();
+        sethomeBeneft(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     getAboutus();
     getNewsHeading();
     getHome();
+    getHomeBenifits();
   }, []);
 
   return (
@@ -143,9 +154,7 @@ const Pages = () => {
                     _hover={{ bgColor: "#add8e6", color: "black" }}
                     variant="solid"
                     color="#add8e6"
-                    onClick={() =>
-                      navigate(`/admin/home/${homeItem[0]._id}`)
-                    }
+                    onClick={() => navigate(`/admin/home/${homeItem[0]._id}`)}
                   >
                     View
                   </Button>
@@ -156,6 +165,37 @@ const Pages = () => {
                     _hover={{ bgColor: "#add8e6", color: "black" }}
                     onClick={() =>
                       navigate(`/admin/home/edit/${homeItem[0]._id}`)
+                    }
+                  >
+                    Edit
+                  </Button>
+                </ButtonGroup>
+              </Td>
+            </Tr>
+            <Tr>
+              <Td> 4 </Td>
+              <Td>Home Product Benefits</Td>
+              <Td>
+                <ButtonGroup>
+                  <Button
+                    leftIcon={<ViewIcon />}
+                    bgColor={"black"}
+                    _hover={{ bgColor: "#add8e6", color: "black" }}
+                    variant="solid"
+                    color="#add8e6"
+                    onClick={() =>
+                      navigate(`/admin/robenefits/${homeBeneft[0]._id}`)
+                    }
+                  >
+                    View
+                  </Button>
+                  <Button
+                    leftIcon={<BiEditAlt />}
+                    border="1px solid #add8e6"
+                    variant={"outline"}
+                    _hover={{ bgColor: "#add8e6", color: "black" }}
+                    onClick={() =>
+                      navigate(`/admin/robenefits/edit/${homeBeneft[0]._id}`)
                     }
                   >
                     Edit
