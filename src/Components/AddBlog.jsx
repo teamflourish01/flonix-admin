@@ -9,6 +9,7 @@ import {
   Input,
   Text,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
@@ -16,6 +17,7 @@ import ReactQuill from "react-quill";
 import switchAudio from "../audio/light-switch.mp3";
 import "../styles/checkbox.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddBlog = () => {
   const [blog, setBlog] = useState({
@@ -38,19 +40,17 @@ const AddBlog = () => {
   const [first, setFirst] = useState("");
   const [second, setSecond] = useState("");
   const [third, setThird] = useState("");
-
   const [bannerUrl, setBannerUrl] = useState("");
-
   const [firstUrl, setFirstUrl] = useState("");
   const [secondUrl, setSecondUrl] = useState("");
   const [thirdUrl, setThirdUrl] = useState("");
-
   const url = process.env.REACT_APP_DEV_URL;
   const [text1, setText1] = useState("");
   const [text2, setText2] = useState("");
   const [text3, setText3] = useState("");
-
   let audio = new Audio(switchAudio);
+  const toast=useToast()
+  const navigate=useNavigate()
 
   const toolbarOptions = [
     ["bold", "italic", "underline", "strike"], // toggled buttons
@@ -140,8 +140,36 @@ const AddBlog = () => {
     try {
       let data=await axios.post(`${url}/blog/add`,formData)
       console.log(data.data);
+      if(data.data){
+        toast({
+          title: "Blog Added",
+          description: data.msg,
+          status: "success",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
+      }else{
+        toast({
+          title: "Invalid Response",
+          description: data.msg,
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
+      }
+        navigate("/admin/blog");
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Invalid Response",
+        description: error.message,
+        status: "error",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
     }
   };
 
