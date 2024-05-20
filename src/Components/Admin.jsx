@@ -93,6 +93,7 @@ import AddEbrochure from "./AddEbrochure";
 import EditEbrochure from "./EditEbrochure";
 import UpdateHomeBenefits from "./EditHomeBenefits";
 import ViewHomeBanefits from "./ViewHomeBenefits";
+import EditBlog from "./EditBlog";
 
 
 const Admin = () => {
@@ -551,7 +552,7 @@ const Admin = () => {
             <Route path="/admin/ebrochure/:edit/:id" element={<EditEbrochure />} />
             <Route path="/admin/robenefits/:edit/:id" element={<UpdateHomeBenefits />} />
             <Route path="/admin/robenefits/:id" element={<ViewHomeBanefits />} />
-            
+            <Route path="/admin/blog/edit/:id" element={<EditBlog/>}/>
           </Routes>
           <Box rounded="md" h="" />
         </Box>
