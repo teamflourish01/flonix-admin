@@ -27,10 +27,31 @@ const getBlog=async()=>{
   }
 }
 
+const getCount=async()=>{
+  try {
+    let data=await fetch(`${url}/blog`)
+    data=await data.json()
+    setCount(data.data.length)
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
-const handleSearch=()=>{
-
+const handleSearch=async()=>{
+  try {
+    if(!search){
+      getBlog();
+      getCount()
+      setFlag(true)
+    }else{
+      let data=await fetch(`${url}/blog/search/${search}`)
+      data=await data.json()
+      setBlog(data.data)
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 const handleDelete=async(id)=>{
@@ -48,6 +69,7 @@ const handleDelete=async(id)=>{
 
 useEffect(()=>{
   getBlog()
+  getCount()
 },[])
 
   return (
