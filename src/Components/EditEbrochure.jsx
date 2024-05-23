@@ -11,6 +11,7 @@ import {
   Textarea,
   Flex,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
@@ -21,6 +22,7 @@ const EditEbrochure = () => {
   const [singleImg, setSingleImg] = useState("");
   const [selctSinImg, setselectSingImg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
   const Navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -82,10 +84,24 @@ const EditEbrochure = () => {
         }
       );
       if (response.status === 200) {
-        alert("data Update Successfuly");
+        toast({
+          title: "Data Added Successfuly",
+          description: response.msg,
+          status: "success",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
         Navigate("/admin/ebrochure/");
       } else {
-        throw new Error("Faild to update Data");
+        toast({
+          title: "Data Not Added ",
+          description: response.msg,
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
       }
     } catch (error) {
       console.error("Update faild", error);

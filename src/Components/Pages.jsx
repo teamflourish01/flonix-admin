@@ -83,19 +83,9 @@ const Pages = () => {
           <Tbody>
             <Tr>
               <Td> 1 </Td>
-              <Td>About Page</Td>
+              <Td>About Us Page</Td>
               <Td>
                 <ButtonGroup>
-                  <Button
-                    leftIcon={<ViewIcon />}
-                    bgColor={"black"}
-                    _hover={{ bgColor: "#add8e6", color: "black" }}
-                    variant="solid"
-                    color="#add8e6"
-                    onClick={() => navigate("/admin/aboutus")}
-                  >
-                    View
-                  </Button>
                   <Button
                     leftIcon={<BiEditAlt />}
                     border="1px solid #add8e6"
@@ -118,18 +108,6 @@ const Pages = () => {
               <Td>
                 <ButtonGroup>
                   <Button
-                    leftIcon={<ViewIcon />}
-                    bgColor={"black"}
-                    _hover={{ bgColor: "#add8e6", color: "black" }}
-                    variant="solid"
-                    color="#add8e6"
-                    onClick={() =>
-                      navigate(`/admin/newsheading/${newsheading[0]._id}`)
-                    }
-                  >
-                    View
-                  </Button>
-                  <Button
                     leftIcon={<BiEditAlt />}
                     border="1px solid #add8e6"
                     variant={"outline"}
@@ -148,7 +126,7 @@ const Pages = () => {
               <Td>Home</Td>
               <Td>
                 <ButtonGroup>
-                  <Button
+                  {/* <Button
                     leftIcon={<ViewIcon />}
                     bgColor={"black"}
                     _hover={{ bgColor: "#add8e6", color: "black" }}
@@ -157,7 +135,7 @@ const Pages = () => {
                     onClick={() => navigate(`/admin/home/${homeItem[0]._id}`)}
                   >
                     View
-                  </Button>
+                  </Button> */}
                   <Button
                     leftIcon={<BiEditAlt />}
                     border="1px solid #add8e6"
@@ -177,18 +155,6 @@ const Pages = () => {
               <Td>Home Product Benefits</Td>
               <Td>
                 <ButtonGroup>
-                  <Button
-                    leftIcon={<ViewIcon />}
-                    bgColor={"black"}
-                    _hover={{ bgColor: "#add8e6", color: "black" }}
-                    variant="solid"
-                    color="#add8e6"
-                    onClick={() =>
-                      navigate(`/admin/robenefits/${homeBeneft[0]._id}`)
-                    }
-                  >
-                    View
-                  </Button>
                   <Button
                     leftIcon={<BiEditAlt />}
                     border="1px solid #add8e6"

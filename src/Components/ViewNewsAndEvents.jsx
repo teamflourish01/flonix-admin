@@ -12,6 +12,7 @@ import {
   Textarea,
   Image,
   SimpleGrid,
+  useToast,
 } from "@chakra-ui/react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiEditAlt } from "react-icons/bi";
@@ -19,6 +20,7 @@ import { BiEditAlt } from "react-icons/bi";
 const ViewNewsAndEvents = () => {
   const { id } = useParams();
   const [item, setItem] = useState([]);
+  const toast = useToast();
   const navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -41,7 +43,14 @@ const ViewNewsAndEvents = () => {
       const res = await fetch(`${url}/newsandevent/${id}`, {
         method: "DELETE",
       });
-      alert("Data Delete Successfuly");
+      toast({
+        title: "Data Delete Successfuly",
+        description: res.msg,
+        status: "success",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
       navigate("/admin/newsandevents");
     } catch (error) {
       console.log(error);
@@ -119,7 +128,7 @@ const ViewNewsAndEvents = () => {
           _readOnly
         />
         <br />
-        <br />            
+        <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
           Detail Page Single Image
         </Text>

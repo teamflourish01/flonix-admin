@@ -8,15 +8,16 @@ import {
   Center,
   Textarea,
   Flex,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import { MdDelete } from "react-icons/md";
 
 const AddFormNewsandEvents = () => {
   const [eventdata, setEventdata] = useState({
-    // generalheading: "",
-    // generaltext: "",
     cardimage: "",
     cardheading: "",
     date: "",
@@ -31,6 +32,8 @@ const AddFormNewsandEvents = () => {
   const [selectedImages, setSelectedImages] = useState("");
   const [image, setImage] = useState({});
   const [selectedDetail, setselectedDetail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
   const [detailImg, setDetailImg] = useState({});
 
   const [varImage, setVarImage] = useState([]);
@@ -143,6 +146,7 @@ const AddFormNewsandEvents = () => {
   };
 
   const handleSubmit = async (imageArr, varArr, detimg) => {
+    setIsLoading(true);
     console.log(imageArr, varArr);
     let dup = { ...eventdata };
     if (imageArr) {
@@ -162,27 +166,44 @@ const AddFormNewsandEvents = () => {
         },
         body: JSON.stringify(dup),
       });
-      data = await data.json();
-      alert("News & Event Is Add Successfuly");
-      setEventdata({
-        // generalheading: "",
-        // generaltext: "",
-        cardimage: "",
-        cardheading: "",
-        date: "",
-        place: "",
-        cardtext: "",
-        detailheading: "",
-        detailtext: "",
-        video: "",
-        detailimages: "",
-      });
-      setSelectedImages("");
-      setVarImage([]);
-      setselectedDetail("");
-      Navigate("/admin/newsandevents/");
+      // data = await data.json();
+      console.log("my testing", data);
+      if (data.status === 200) {
+        toast({
+          title: "Data Added Successfuly",
+          description: data.data.msg,
+          status: "success",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
+        setEventdata({
+          cardimage: "",
+          cardheading: "",
+          date: "",
+          place: "",
+          cardtext: "",
+          detailheading: "",
+          detailtext: "",
+          video: "",
+          detailimages: "",
+        });
+
+        Navigate("/admin/newsandevents/");
+      } else {
+        toast({
+          title: "Data Not Added ",
+          description: data.msg,
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -202,35 +223,6 @@ const AddFormNewsandEvents = () => {
             borderRadius={"20px"}
           >
             <form encType="multipart/form-data">
-              {/* <FormControl mb={4} isRequired>
-                <FormLabel htmlFor="generalheading" color={"#add8e6"}>
-                  Heading
-                </FormLabel>
-                <Input
-                  id="generalheading"
-                  type="text"
-                  variant={"flushed"}
-                  placeholder="Enter your Heading"
-                  name="generalheading"
-                  value={eventdata.generalheading}
-                  onChange={handleInput}
-                  mb={4}
-                />
-              </FormControl>
-              <FormControl isRequired>
-                <FormLabel htmlFor="generaltext" color={"#add8e6"}>
-                  Description
-                </FormLabel>
-                <Textarea
-                  id="generaltext"
-                  placeholder="Enter your message"
-                  mb={4}
-                  name="generaltext"
-                  value={eventdata.generaltext}
-                  onChange={handleInput}
-                />
-              </FormControl> */}
-
               <FormControl>
                 <FormLabel htmlFor="cardimage" color={"#add8e6"}>
                   Image
@@ -256,18 +248,13 @@ const AddFormNewsandEvents = () => {
                         margin: "5px",
                       }}
                     />
-                    <Button
-                      leftIcon={<DeleteIcon />}
-                      bgColor={"red.400"}
+                    <MdDelete
+                      color="red"
+                      cursor={"pointer"}
+                      size={"30px"}
                       position="absolute"
-                      size="sm"
-                      top={0}
-                      left={170}
-                      zIndex={1}
-                      _hover={{ bgColor: "red.500", color: "white" }}
-                      color="white"
                       onClick={handleDeleteSingleImage}
-                    ></Button>
+                    />
                   </Flex>
                 )}
               </FormControl>
@@ -488,6 +475,8 @@ const AddFormNewsandEvents = () => {
                 .then((res) => handleSubmit(res[0], res[1], res[2]))
                 .catch((err) => console.log(err));
             }}
+            isLoading={isLoading}
+            spinner={<Spinner color="blue.500" />}
           >
             Add New
           </Button>
