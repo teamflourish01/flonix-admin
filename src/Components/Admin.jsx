@@ -94,6 +94,8 @@ import EditEbrochure from "./EditEbrochure";
 import UpdateHomeBenefits from "./EditHomeBenefits";
 import ViewHomeBanefits from "./ViewHomeBenefits";
 import EditBlog from "./EditBlog";
+import OurProduct from "./OurProduct";
+import TopProducts from "./TopProducts";
 
 
 const Admin = () => {
@@ -532,7 +534,6 @@ const Admin = () => {
               element={<EditCertificate />}
             />
             <Route path="/admin/contectdetails" element={<Contectdetails />} />
-
             <Route path="/admin/blog" element={<Blog/>}/>
             <Route path="/admin/blogcategory" element={<BlogCategory/>}/>
             <Route path="/admin/blogcategory/add" element={<AddBlogCategory/>}/>
@@ -553,6 +554,8 @@ const Admin = () => {
             <Route path="/admin/robenefits/:edit/:id" element={<UpdateHomeBenefits />} />
             <Route path="/admin/robenefits/:id" element={<ViewHomeBanefits />} />
             <Route path="/admin/blog/edit/:id" element={<EditBlog/>}/>
+            <Route path="/admin/page/ourproduct" element={<OurProduct/>}/>
+            <Route path="/admin/page/topproduct" element={<TopProducts/>}/>
           </Routes>
           <Box rounded="md" h="" />
         </Box>

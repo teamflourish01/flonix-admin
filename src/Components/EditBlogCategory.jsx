@@ -8,6 +8,9 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import EditPermalink from "./EditPermalink";
+import getSlug from "speakingurl";
+import generateSlug from "../util/generateSlug";
 
 const EditBlogCategory = () => {
   const { id } = useParams();
@@ -15,6 +18,7 @@ const EditBlogCategory = () => {
   const url = process.env.REACT_APP_DEV_URL;
   const toast = useToast();
   const navigate = useNavigate();
+  const [slug,setSlug]=useState("")
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,21 +30,25 @@ const EditBlogCategory = () => {
       let data = await fetch(`${url}/blogcategory/${id}`);
       data = await data.json();
       setCategory(data.data);
+      setSlug(data.data.slug)
     } catch (error) {
       console.log(error);
     }
   };
 
   const editData = async () => {
+    // debugger
+    let dup=generateSlug(slug)
     try {
       let data = await fetch(`${url}/blogcategory/edit/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(category),
+        body: JSON.stringify({...category,slug:dup}),
       });
       data = await data.json();
+      // console.log(data);
       if (data.data) {
         toast({
           title: "Category Updated",
@@ -90,6 +98,7 @@ const EditBlogCategory = () => {
             />
           </FormControl>
           <br />
+          <EditPermalink slug={slug} folder={"blogcategory"} setSlug={setSlug} />
           <Button
             bgColor={"black"}
             color="#add8e6"
