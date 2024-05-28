@@ -8,14 +8,16 @@ import {
   Input,
   Select,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import ReactQuill from "react-quill";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import switchAudio from "../audio/light-switch.mp3";
 import axios from "axios";
-
+import EditPermalink from "./EditPermalink";
+import generateSlug from "../util/generateSlug";
 
 const EditBlog = () => {
   const url = process.env.REACT_APP_DEV_URL;
@@ -27,14 +29,17 @@ const EditBlog = () => {
   const [bannerUrl, setBannerUrl] = useState("");
   const [first, setFirst] = useState("");
   const [firstUrl, setFirstUrl] = useState("");
-  const [secondUrl,setSecondUrl]=useState("");
-  const [second,setSecond]=useState("")
-  const [text2,setText2]=useState("")
-  const [third,setThird]=useState("")
-  const [thirdUrl,setThirdUrl]=useState("")
-  const [text3,setText3]=useState("")
-  let audio = new Audio(switchAudio);
+  const [secondUrl, setSecondUrl] = useState("");
+  const [second, setSecond] = useState("");
+  const [text2, setText2] = useState("");
+  const [third, setThird] = useState("");
+  const [thirdUrl, setThirdUrl] = useState("");
+  const [text3, setText3] = useState("");
+  const [slug, setSlug] = useState("");
 
+  let audio = new Audio(switchAudio);
+  const toast = useToast();
+  const navigate = useNavigate();
 
   const toolbarOptions = [
     ["bold", "italic", "underline", "strike"], // toggled buttons
@@ -72,8 +77,9 @@ const EditBlog = () => {
       data = await data.json();
       setBlog(data.data);
       setText1(data.data.text1);
-      setText2(data.data.text2)
-      setText3(data.data.text3)
+      setText2(data.data.text2);
+      setText3(data.data.text3);
+      setSlug(data.data.slug);
     } catch (error) {
       console.log(error);
     }
@@ -101,34 +107,56 @@ const EditBlog = () => {
     x("");
   };
 
-  const editData = async() => {
-    let formData=new FormData()
-    let dup={...blog}
-    if(banner){
-      formData.append("banner",banner)
+  const editData = async () => {
+    let formData = new FormData();
+    let dup = { ...blog };
+    if (banner) {
+      formData.append("banner", banner);
     }
-    if(first){
-      formData.append("first",first)
+    if (first) {
+      formData.append("first", first);
     }
-    if(second){
-      formData.append("second",second)
+    if (second) {
+      formData.append("second", second);
     }
-    if(third){
-      formData.append("third",third)
+    if (third) {
+      formData.append("third", third);
     }
-    if(text1){
-      dup.text1=text1
+    if (text1) {
+      dup.text1 = text1;
     }
-    if(text2){
-      dup.text2=text2
+    if (text2) {
+      dup.text2 = text2;
     }
-    if(text3){
-      dup.text3=text3
+    if (text3) {
+      dup.text3 = text3;
     }
-    formData.append("dup",JSON.stringify(dup))
+    let newSlug=generateSlug(slug)
+    dup.slug=newSlug
+    formData.append("dup", JSON.stringify(dup));
     try {
-      let data=await axios.post(`${url}/blog/edit/${id}`,formData)
+      let data = await axios.post(`${url}/blog/edit/${id}`, formData);
       console.log(data);
+      if (data.status == 200) {
+        toast({
+          title: "Blog Edited Successfully",
+          description: data.msg,
+          status: "success",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
+        navigate("/admin/blog");
+      } else {
+        toast({
+          title: "Blog Not Edited ",
+          description: data.msg,
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -146,35 +174,42 @@ const EditBlog = () => {
     <Box p="4">
       <center>
         <Box
-        width={"50%"}
-        padding="20px"
-        border={"1px solid #add8e6"}
-        borderRadius={"20px"}
-        boxShadow={
+          width={"50%"}
+          padding="20px"
+          border={"1px solid #add8e6"}
+          borderRadius={"20px"}
+          boxShadow={
             "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;"
-        }
+          }
         >
-        <FormControl isRequired>
+          <FormControl isRequired>
             <FormLabel color={"#add8e6"}>Name</FormLabel>
             <Input
-            type="text"
-            name="name"
-            value={blog.name}
-            onChange={(e) => handleChange(e)}
+              type="text"
+              name="name"
+              value={blog.name}
+              onChange={(e) => {
+                handleChange(e);
+              }}
             />
-        </FormControl>
-        <br />
-        <FormControl isRequired>
+          </FormControl>
+          <br />
+          <EditPermalink
+            slug={slug}
+            setSlug={setSlug}
+            folder={"blog"}
+          />
+          <FormControl isRequired>
             <FormLabel color={"#add8e6"}>Banner Image</FormLabel>
             {blog?.banner_image && (
-            <Flex>
+              <Flex>
                 <Image src={`${url}/blog/${blog?.banner_image}`} />
                 <MdDelete
-                color="red"
-                size={"30px"}
-                onClick={() => handleImageDelete("banner_image")}
+                  color="red"
+                  size={"30px"}
+                  onClick={() => handleImageDelete("banner_image")}
                 />
-            </Flex>
+              </Flex>
             )}
             {bannerUrl && (
               <Flex>
@@ -332,7 +367,7 @@ const EditBlog = () => {
             </div>
           </FormControl>
           <br />
-          
+
           <FormControl isRequired>
             <FormLabel color={"#add8e6"}>Third Image</FormLabel>
             {blog?.third_image && (

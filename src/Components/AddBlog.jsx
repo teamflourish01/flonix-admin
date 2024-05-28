@@ -18,6 +18,9 @@ import switchAudio from "../audio/light-switch.mp3";
 import "../styles/checkbox.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import EditPermalink from "./EditPermalink";
+import getSlug from "speakingurl";
+import generateSlug from "../util/generateSlug";
 
 const AddBlog = () => {
   const [blog, setBlog] = useState({
@@ -33,6 +36,7 @@ const AddBlog = () => {
     third_image: "",
     third_toggle: false,
     category: "",
+    slug:""
   });
 
   const [category, setCategory] = useState([]);
@@ -51,6 +55,7 @@ const AddBlog = () => {
   let audio = new Audio(switchAudio);
   const toast=useToast()
   const navigate=useNavigate()
+  const [slug,setSlug]=useState("")
 
   const toolbarOptions = [
     ["bold", "italic", "underline", "strike"], // toggled buttons
@@ -134,7 +139,10 @@ const AddBlog = () => {
     if(third){
       formData.append("third",third)
     }
+    let newSlug=generateSlug(slug)
+    dup.slug=newSlug
     setBlog(dup);
+
     console.log(dup);
     formData.append("dup",JSON.stringify(dup))
     try {
@@ -203,10 +211,13 @@ const AddBlog = () => {
               type="text"
               name="name"
               value={blog.name}
-              onChange={(e) => handleChange(e)}
+              onChange={(e) =>{ handleChange(e);
+                setSlug(generateSlug(e.target.value))
+              }}
             />
           </FormControl>
           <br />
+          <EditPermalink slug={slug} folder={"blog"} setSlug={setSlug}/>
           <FormControl>
             <FormLabel color={"#add8e6"}>Category</FormLabel>
             <select
@@ -422,7 +433,7 @@ const AddBlog = () => {
             border: "1px solid #add8e6",
           }}
           onClick={handleSave}
-          isDisabled={!blog.name}
+          isDisabled={!slug}
         >
           Save
         </Button>

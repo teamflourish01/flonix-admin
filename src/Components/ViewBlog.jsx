@@ -85,6 +85,18 @@ const ViewBlog = () => {
       </Box>
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
+        PermaLink
+      </Text>
+      <Box
+        padding="10px 20px"
+        width="50%"
+        bgColor={"#eef1f4"}
+        fontSize={"medium"}
+      >
+        {url+"/blog/"+blog?.slug}
+      </Box>
+      <br />
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
         Category
       </Text>
       <Text
@@ -96,18 +108,7 @@ const ViewBlog = () => {
         {blog?.category?.name}
       </Text>
       <br />
-      <Text fontWeight={"semibold"} fontSize={"xl"}>
-        Name
-      </Text>
-      <Input
-        padding="10px 20px"
-        width="50%"
-        bgColor={"#eef1f4"}
-        value={blog?.name}
-        fontSize={"medium"}
-      />
-      <br />
-      <br />
+      
       <Text fontWeight={"semibold"} fontSize={"xl"}>
         Banner Image
       </Text>

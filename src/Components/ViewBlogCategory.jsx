@@ -76,6 +76,18 @@ const ViewBlogCategory = () => {
       </Box>
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
+        PermaLink
+      </Text>
+      <Box
+        padding="10px 20px"
+        width="50%"
+        bgColor={"#eef1f4"}
+        fontSize={"medium"}
+      >
+        {url+"/blogcategory/"+category?.slug}
+      </Box>
+      <br />
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
         Created at
       </Text>
       {category?.createdAt ? (

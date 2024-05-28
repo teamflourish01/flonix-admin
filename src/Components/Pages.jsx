@@ -203,6 +203,68 @@ const Pages = () => {
                 </ButtonGroup>
               </Td>
             </Tr>
+            <Tr>
+              <Td> 5 </Td>
+              <Td> Home Our Products</Td>
+              <Td>
+                <ButtonGroup>
+                  {/* <Button
+                    leftIcon={<ViewIcon />}
+                    bgColor={"black"}
+                    _hover={{ bgColor: "#add8e6", color: "black" }}
+                    variant="solid"
+                    color="#add8e6"
+                    onClick={() =>
+                      navigate(`/admin/page/ourproduct`)
+                    }
+                  >
+                    View
+                  </Button> */}
+                  <Button
+                    leftIcon={<BiEditAlt />}
+                    border="1px solid #add8e6"
+                    variant={"outline"}
+                    _hover={{ bgColor: "#add8e6", color: "black" }}
+                    onClick={() =>
+                      navigate(`/admin/page/ourproduct`)
+                    }
+                  >
+                    Edit
+                  </Button>
+                </ButtonGroup>
+              </Td>
+            </Tr>
+            <Tr>
+              <Td> 6 </Td>
+              <Td> Home Top Products</Td>
+              <Td>
+                <ButtonGroup>
+                  {/* <Button
+                    leftIcon={<ViewIcon />}
+                    bgColor={"black"}
+                    _hover={{ bgColor: "#add8e6", color: "black" }}
+                    variant="solid"
+                    color="#add8e6"
+                    onClick={() =>
+                      navigate(`/admin/page/ourproduct`)
+                    }
+                  >
+                    View
+                  </Button> */}
+                  <Button
+                    leftIcon={<BiEditAlt />}
+                    border="1px solid #add8e6"
+                    variant={"outline"}
+                    _hover={{ bgColor: "#add8e6", color: "black" }}
+                    onClick={() =>
+                      navigate(`/admin/page/topproduct`)
+                    }
+                  >
+                    Edit
+                  </Button>
+                </ButtonGroup>
+              </Td>
+            </Tr>
           </Tbody>
         </Table>
       </TableContainer>
