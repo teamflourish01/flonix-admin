@@ -27,10 +27,31 @@ const getBlog=async()=>{
   }
 }
 
+const getCount=async()=>{
+  try {
+    let data=await fetch(`${url}/blog`)
+    data=await data.json()
+    setCount(data.data.length)
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
-const handleSearch=()=>{
-
+const handleSearch=async()=>{
+  try {
+    if(!search){
+      getBlog();
+      getCount()
+      setFlag(true)
+    }else{
+      let data=await fetch(`${url}/blog/search/${search}`)
+      data=await data.json()
+      setBlog(data.data)
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 const handleDelete=async(id)=>{
@@ -48,6 +69,7 @@ const handleDelete=async(id)=>{
 
 useEffect(()=>{
   getBlog()
+  getCount()
 },[])
 
   return (
@@ -128,7 +150,7 @@ useEffect(()=>{
                       _hover={{ bgColor: "#add8e6", color: "black" }}
                       variant="solid"
                       color="#add8e6"
-                      onClick={() => navigate(`/admin/blog/${e._id}`)}
+                      onClick={() => navigate(`/admin/blog/${e?.slug}`)}
                     >
                       View
                     </Button>
@@ -137,11 +159,11 @@ useEffect(()=>{
                       border="1px solid #add8e6"
                       variant={"outline"}
                       _hover={{ bgColor: "#add8e6", color: "black" }}
-                      onClick={() => navigate(`/admin/blog/edit/${e._id}`)}
+                      onClick={() => navigate(`/admin/blog/edit/${e?.slug}`)}
                     >
                       Edit
                     </Button>
-                    <DeleteBtn handleDelete={() => handleDelete(e._id)} />
+                    <DeleteBtn handleDelete={() => handleDelete(e?.slug)} />
                   </ButtonGroup>
                 </Td>
               </Tr>
