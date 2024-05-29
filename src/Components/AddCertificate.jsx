@@ -7,6 +7,8 @@ import {
   Button,
   Textarea,
   Flex,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
@@ -20,6 +22,8 @@ const AddCertificate = () => {
   const [selectedImages, setSelectedImages] = useState("");
   const [ctimage, setctImage] = useState({});
   const Navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
   const url = process.env.REACT_APP_DEV_URL;
 
   const handleInput = (e) => {
@@ -44,6 +48,7 @@ const AddCertificate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const formdata = new FormData();
       formdata.append("imgdescription", certificate.imgdescription);
@@ -56,11 +61,29 @@ const AddCertificate = () => {
       });
 
       if (res.status === 200) {
-        alert("Certificate Add successfuly");
+        toast({
+          title: "Data Added Successfuly",
+          description: res.msg,
+          status: "success",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
         Navigate("/admin/certificate");
+      } else {
+        toast({
+          title: "Data Not Added ",
+          description: res.msg,
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -144,8 +167,10 @@ const AddCertificate = () => {
                 bgColor: "#add8e6",
                 border: "1px solid #add8e6",
               }}
+              isLoading={isLoading}
+              spinner={<Spinner color="blue.500" />}
             >
-              Add New Certificate
+              Add New
             </Button>
           </center>
         </form>

@@ -11,6 +11,8 @@ import {
   Textarea,
   Flex,
   Image,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
@@ -24,6 +26,8 @@ const UpdateNewsAndEvents = () => {
   const [detailImg, setDetailImg] = useState({});
   const [detImgsUrl, setdetImgsUrl] = useState([]);
   const [detImgs, setdetImgs] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
   const Navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -101,6 +105,7 @@ const UpdateNewsAndEvents = () => {
   const handleSubmit = async (e) => {
     const formData = new FormData();
     e.preventDefault();
+    setIsLoading(true);
     let dup = { ...item };
     if (singleImg) {
       formData.append("cardimage", singleImg);
@@ -115,23 +120,6 @@ const UpdateNewsAndEvents = () => {
     }
     formData.append("dup", JSON.stringify(dup));
     try {
-      // formData.append("cardheading", item.cardheading);
-      // formData.append("date", item.date);
-      // formData.append("place", item.place);
-      // formData.append("cardtext", item.cardtext);
-      // formData.append("detailheading", item.detailheading);
-      // formData.append("detailtext", item.detailtext);
-      // formData.append("video", item.video);
-      // for (let x of selectedImages) {
-      //   formData.append("detailimages", x);
-      // }
-      // if (singleImg) {
-      //   formData.append("cardimage", singleImg);
-      // }
-      // if (detailImg) {
-      //   formData.append("detailimage", detailImg);
-      // }
-      // console.log("FormData:", formData);
       const response = await axios.put(
         `${url}/newsandevent/edit/${Id}`,
         formData,
@@ -142,13 +130,29 @@ const UpdateNewsAndEvents = () => {
         }
       );
       if (response.status === 200) {
-        alert("data Update Successfuly");
+        toast({
+          title: "Data Update Successfuly",
+          description: response.msg,
+          status: "success",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
         Navigate("/admin/newsandevents/");
       } else {
-        throw new Error("Faild to update Data");
+        toast({
+          title: "Data Not Added ",
+          description: response.msg,
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
       }
     } catch (error) {
       console.error("Update faild", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -168,35 +172,6 @@ const UpdateNewsAndEvents = () => {
             borderRadius={"20px"}
           >
             <form encType="multipart/form-data">
-              {/* <FormControl mb={4} isRequired>
-                <FormLabel htmlFor="generalheading" color={"#add8e6"}>
-                  Heading
-                </FormLabel>
-                <Input
-                  id="generalheading"
-                  type="text"
-                  variant={"flushed"}
-                  placeholder="Enter your Heading"
-                  name="generalheading"
-                  value={item.generalheading}
-                  onChange={handleInput}
-                  mb={4}
-                />
-              </FormControl>
-              <FormControl isRequired>
-                <FormLabel htmlFor="generaltext" color={"#add8e6"}>
-                  Description
-                </FormLabel>
-                <Textarea
-                  id="generaltext"
-                  placeholder="Enter your message"
-                  mb={4}
-                  name="generaltext"
-                  value={item.generaltext}
-                  onChange={handleInput}
-                />
-              </FormControl> */}
-
               <FormControl>
                 <FormLabel htmlFor="cardimage" color={"#add8e6"}>
                   Image
@@ -219,9 +194,8 @@ const UpdateNewsAndEvents = () => {
                       alt="selected img"
                       style={{
                         width: "200px",
-                        height: "150px",
+
                         margin: "5px",
-                        // marginLeft: "150px",
                       }}
                     />
                     <Button
@@ -503,6 +477,8 @@ const UpdateNewsAndEvents = () => {
                 border: "1px solid #161616",
               }}
               type="submit"
+              isLoading={isLoading}
+              spinner={<Spinner color="blue.500" />}
             >
               Save
             </Button>

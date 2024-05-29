@@ -112,18 +112,18 @@ const ViewProduct = () => {
       <Text fontWeight={"semibold"} fontSize={"xl"}>
         Key Features
       </Text>
-      
-      {product?.key_features?.map((e)=>
-      <Text
-      padding="10px 20px"
-      width="50%"
-      bgColor={"#eef1f4"}
-      fontSize={"medium"}
-    >
-     {e}
-    </Text>
-      )}
-      
+
+      {product?.key_features?.map((e) => (
+        <Text
+          padding="10px 20px"
+          width="50%"
+          bgColor={"#eef1f4"}
+          fontSize={"medium"}
+        >
+          {e}
+        </Text>
+      ))}
+
       <br />
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
@@ -135,24 +135,41 @@ const ViewProduct = () => {
       </SimpleGrid>
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
+        Key Features
+      </Text>
+
+      {product?.image_alt?.map((e) => (
+        <Text
+          padding="10px 20px"
+          width="50%"
+          bgColor={"#eef1f4"}
+          fontSize={"medium"}
+        >
+          {e}
+        </Text>
+      ))}
+
+      <br />
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
         Testing
       </Text>
       <SimpleGrid columns={[1, 1, 1, 2, 2]} rowGap={"9"}>
         {product?.mark &&
-          product?.mark.map((e,i) => {
-          return <>
-          <Image src={`${url}/product/${e}`} />
-          <br />
-          <Box
-        padding="10px 20px"
-        width="50%"
-        bgColor={"#eef1f4"}
-        fontSize={"medium"}
-      >
-
-{product?.mark_text[i]}
-      </Box>
-          </>
+          product?.mark.map((e, i) => {
+            return (
+              <>
+                <Image src={`${url}/product/${e}`} />
+                <br />
+                <Box
+                  padding="10px 20px"
+                  width="50%"
+                  bgColor={"#eef1f4"}
+                  fontSize={"medium"}
+                >
+                  {product?.mark_text[i]}
+                </Box>
+              </>
+            );
           })}
       </SimpleGrid>
       <br />

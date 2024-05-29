@@ -17,6 +17,7 @@ const ViewTestimonials = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
+  const toast = useToast();
   const url = process.env.REACT_APP_DEV_URL;
   const handleDelete = async (id) => {
     try {
@@ -26,8 +27,16 @@ const ViewTestimonials = () => {
           "Content-Type": "application/json",
         },
       });
-      alert("Data Delete Successfuly");
-      navigate("/admin/certificate");
+      toast({
+        title: "Data Delete Successfuly",
+        description: data.msg,
+        status: "success",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
+
+      navigate("/admin/testimonials");
       console.log(data);
     } catch (error) {
       console.log(error);

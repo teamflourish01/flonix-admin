@@ -11,6 +11,8 @@ import {
   Textarea,
   Flex,
   Image,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 
@@ -24,7 +26,9 @@ const EditHome = () => {
   const [trfText, settrfText] = useState([]);
   const [logoUrl, setlogoUrl] = useState([]);
   const [logoImg, setlogoImg] = useState([]);
+  const toast = useToast();
   const Navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const url = process.env.REACT_APP_DEV_URL;
 
   const getHomebyID = async () => {
@@ -159,6 +163,7 @@ const EditHome = () => {
   const handleSubmit = async (e) => {
     const formData = new FormData();
     e.preventDefault();
+    setIsLoading(true);
     let dup = { ...item };
     if (bImage.length > 0) {
       for (let x of bImage) {
@@ -180,38 +185,41 @@ const EditHome = () => {
 
     formData.append("dup", JSON.stringify(dup));
     try {
-      // formData.append("banner_heading", item.banner_heading);
-      // formData.append("about_heading", item.about_heading);
-      // formData.append("about_pera", item.about_pera);
-      // formData.append("about_video", item.about_video);
-      // formData.append("our_distributor_text", item.our_distributor_text);
-
-      // for (let x of trfImg) {
-      //   formData.append("trust_factor_images", x);
-      // }
-      // for (let x of logoImg) {
-      //   formData.append("our_distributor_logo", x);
-      // }
-      // console.log("FormData:", formData);
       const response = await axios.put(`${url}/home/edit/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
       if (response.status === 200) {
-        alert("data Update Successfuly");
+        toast({
+          title: "Data Edit Successfuly",
+          description: response.msg,
+          status: "success",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
         Navigate("/admin/page/");
       } else {
-        throw new Error("Faild to update Data");
+        toast({
+          title: "Data Not Update ",
+          description: response.msg,
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
       }
     } catch (error) {
       console.error("Update faild", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <>
-      <Box p="4">
+      <Box p="4" marginLeft="20px">
         <Flex
           justifyContent={"space-around"}
           gap="40px"
@@ -350,16 +358,8 @@ const EditHome = () => {
                   );
                 })}
               </FormControl>
-            </form>
-          </Box>
-          <Box
-            backgroundColor={"#white"}
-            boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-            padding={"20px"}
-            w={["100%", "100%", "100%", "100%", "100%"]}
-            borderRadius={"20px"}
-          >
-            <form encType="multipart/form-data">
+              <br />
+              <br />
               <FormControl isRequired>
                 <FormLabel htmlFor="about_video" color={"#add8e6"}>
                   About Video
@@ -375,6 +375,16 @@ const EditHome = () => {
                   onChange={handleInput}
                 />
               </FormControl>
+            </form>
+          </Box>
+          <Box
+            backgroundColor={"#white"}
+            boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+            padding={"20px"}
+            w={["100%", "100%", "100%", "100%", "100%"]}
+            borderRadius={"20px"}
+          >
+            <form encType="multipart/form-data">
               <FormControl>
                 <FormLabel htmlFor="trust_factor_images" color={"#add8e6"}>
                   Trust Factor Images
@@ -530,6 +540,8 @@ const EditHome = () => {
                 border: "1px solid #161616",
               }}
               type="submit"
+              isLoading={isLoading}
+              spinner={<Spinner color="blue.500" />}
             >
               Save
             </Button>

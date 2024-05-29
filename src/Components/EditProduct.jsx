@@ -37,15 +37,15 @@ const EditProduct = () => {
   const [markUrl, setMarkUrl] = useState([]);
   const [mark, setMark] = useState([]);
   const [markText, setMarkText] = useState([]);
-  const [detail,setDetail]=useState({})
-  const [detailParameter,setDetailParameter]=useState("")
-  const [detailValue,setDetailValue]=useState("")
-  const [feature,setFeature]=useState({})
-  const [featureParameter,setFeatureParameter]=useState("")
-  const [featureValue,setFeatureValue]=useState("")
+  const [imgText, setImgText] = useState([]);
+  const [detail, setDetail] = useState({});
+  const [detailParameter, setDetailParameter] = useState("");
+  const [detailValue, setDetailValue] = useState("");
+  const [feature, setFeature] = useState({});
+  const [featureParameter, setFeatureParameter] = useState("");
+  const [featureValue, setFeatureValue] = useState("");
   const toast = useToast();
-  const navigate=useNavigate()
-
+  const navigate = useNavigate();
 
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -69,8 +69,8 @@ const EditProduct = () => {
       console.log(data);
       setProduct(data.data);
       setSpec(data.data?.specification);
-      setDetail(data.data?.details)
-      setFeature(data.data?.performance)
+      setDetail(data.data?.details);
+      setFeature(data.data?.performance);
     } catch (error) {
       console.log(error);
     }
@@ -102,15 +102,34 @@ const EditProduct = () => {
   };
 
   const handleImageLocal = (index) => {
-    let dup = [...dataUrl];
-    dup.splice(index, 1);
-    setDataUrl(dup);
+    // let dup = [...image];
+    // let dupUrl = [...dataUrl];
+    // let dupText = [...imgText];
+    // dupText.splice(i, 1);
+    // dup.splice(i, 1);
+    // dupUrl.splice(i, 1);
+    // setImage(dup);
+    // setDataUrl(dupUrl);
+    // setImgText(dupText);
+
+    // //remove image_Alt
+    // let dupProductAlt = [...product.image_alt];
+    // dupProductAlt.splice(i, 1);
+    // setProduct({ ...product, image_alt: dupProductAlt });
+
+    setImage((prev) => prev.filter((_, i) => i !== index));
+    setDataUrl((prev) => prev.filter((_, i) => i !== index));
+    setImgText((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleImage = (index) => {
     let dup = [...product.image];
     dup.splice(index, 1);
-    setProduct({ ...product, image: dup });
+
+    // Remove imag_alt
+    let dupProductAlt = [...product.image_alt];
+    dupProductAlt.splice(index, 1);
+    setProduct({ ...product, image: dup, image_alt: dupProductAlt });
   };
 
   const handleFileChanger = (e) => {
@@ -126,6 +145,7 @@ const EditProduct = () => {
       };
       reader.readAsDataURL(file);
     }
+    e.target.value = "";
   };
 
   const handleMarkText = (e, i) => {
@@ -136,7 +156,11 @@ const EditProduct = () => {
     marktext[i] = e.target.value;
     setMarkText([...marktext]);
   };
-
+  const handleImgText = (e, i) => {
+    let imagetext = [...imgText];
+    imagetext[i] = e.target.value;
+    setImgText([...imagetext]);
+  };
   const handleMarkLocal = (i) => {
     let dup = [...mark];
     let dupUrl = [...markUrl];
@@ -183,21 +207,25 @@ const EditProduct = () => {
     dup[i] = e.target.value;
     setProduct({ ...product, mark_text: dup });
   };
-
+  const handleImgTextData = (e, i) => {
+    let dup = [...product.image_alt];
+    dup[i] = e.target.value;
+    setProduct({ ...product, image_alt: dup });
+  };
   const handleMark = (i) => {
     let dup = [...product.mark];
     dup.splice(i, 1);
     setProduct({ ...product, mark: dup });
   };
 
-  const handleDetailChange=(parameter,value)=>{
+  const handleDetailChange = (parameter, value) => {
     setDetail((prevData) => ({
       ...prevData,
       [parameter]: value,
     }));
-  }
+  };
 
-  const addDetailEntry=()=>{
+  const addDetailEntry = () => {
     if (detailParameter && detailValue) {
       setDetail((prevData) => ({
         ...prevData,
@@ -206,90 +234,93 @@ const EditProduct = () => {
       setDetailParameter("");
       setDetailValue("");
     }
-  }
+  };
 
-  const addFeatureEntry=()=>{
-    if(featureParameter&&featureValue){
-      setFeature((prev)=>({
+  const addFeatureEntry = () => {
+    if (featureParameter && featureValue) {
+      setFeature((prev) => ({
         ...prev,
-        [featureParameter]:featureValue
-      }))
+        [featureParameter]: featureValue,
+      }));
     }
-  }
+  };
 
-  const handleFeatureChange=(parameter,value)=>{
+  const handleFeatureChange = (parameter, value) => {
     setFeature((prevData) => ({
       ...prevData,
       [parameter]: value,
     }));
-  }
+  };
 
   //                                      send data
 
-  const handleUpdate = async() => {
-    let formData=new FormData()
-    
-    let dup={...product}
-    if(image.length>0){
+  const handleUpdate = async () => {
+    let formData = new FormData();
+
+    let dup = { ...product };
+    if (image.length > 0) {
       // dup.image=[...dup.image,...image]
-      for(let x of image){
-        formData.append("product",x)
+      for (let x of image) {
+        formData.append("product", x);
       }
     }
-    if(mark.length>0){
+    if (mark.length > 0) {
       // dup.mark=[...dup.mark,...mark]
-      for(let x of mark){
-        formData.append("marks",x)
+      for (let x of mark) {
+        formData.append("marks", x);
       }
     }
-    if(markText.length>0){
-      dup.mark_text=[...dup.mark_text,...markText]
+    if (markText.length > 0) {
+      dup.mark_text = [...dup.mark_text, ...markText];
     }
-    if(spec){
-      dup.specification=spec
+    if (imgText.length > 0) {
+      dup.image_alt = [...dup.image_alt, ...imgText];
     }
-    if(detail){
-      dup.details=detail
+    if (spec) {
+      dup.specification = spec;
     }
-    if(feature){
-      dup.performance=feature
+    if (detail) {
+      dup.details = detail;
     }
-    console.log(dup,"dup");
-    formData.append("dup",JSON.stringify(dup))
-      try {
-        let data=await axios.post(`${url}/product/edit/${id}`,formData)
-        console.log(data);
-        if (data.status==200) {
-          toast({
-            title: "Product Edited Successfully",
-            description: data.msg,
-            status: "success",
-            position: "top",
-            duration: 7000,
-            isClosable: true,
-          });
-          navigate("/admin/product")
-        } else {
-          toast({
-            title: "Product Not Edited ",
-            description: data.msg,
-            status: "error",
-            position: "top",
-            duration: 7000,
-            isClosable: true,
-          });
-        }
-      } catch (error) {
-        console.log(error);
+    if (feature) {
+      dup.performance = feature;
+    }
+    console.log(dup, "dup");
+    formData.append("dup", JSON.stringify(dup));
+    try {
+      let data = await axios.post(`${url}/product/edit/${id}`, formData);
+      console.log(data);
+      if (data.status == 200) {
+        toast({
+          title: "Product Edited Successfully",
+          description: data.msg,
+          status: "success",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
+        navigate("/admin/product");
+      } else {
         toast({
           title: "Product Not Edited ",
-          description: error.message,
+          description: data.msg,
           status: "error",
           position: "top",
           duration: 7000,
           isClosable: true,
         });
       }
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Product Not Edited ",
+        description: error.message,
+        status: "error",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
+    }
   };
 
   useEffect(() => {
@@ -432,7 +463,7 @@ const EditProduct = () => {
                 <Th>Value</Th>
               </Tr>
             </Thead>
-            
+
             <Tbody>
               {spec &&
                 Object.entries(spec).map(([parameter, value], index) => (
@@ -511,8 +542,14 @@ const EditProduct = () => {
               dataUrl?.map((e, i) => {
                 return (
                   <>
-                    <Flex gap="20px">
-                      <Image src={e} width="200px" />
+                    <Flex key={i}>
+                      <Box>
+                        <Image src={e} width="200px" />
+                        <Input
+                          value={imgText[i]}
+                          onChange={(event) => handleImgText(event, i)}
+                        />
+                      </Box>
                       <MdDelete
                         color="red"
                         size={"30px"}
@@ -527,14 +564,19 @@ const EditProduct = () => {
                 return (
                   <>
                     <Flex gap="20px">
-                      <Image width="200px" src={`${url}/product/${e}`} />
-                      <Box _hover={{ cursor: "pointer" }}>
-                        <MdDelete
-                          color="red"
-                          size={"30px"}
-                          onClick={() => handleImage(i)}
+                      <Box>
+                        <Image width="200px" src={`${url}/product/${e}`} />
+                        <Input
+                          value={product.image_alt[i]}
+                          onChange={(event) => handleImgTextData(event, i)}
                         />
                       </Box>
+                      <MdDelete
+                        color="red"
+                        cursor="pointer"
+                        size={"30px"}
+                        onClick={() => handleImage(i)}
+                      />
                     </Flex>
                   </>
                 );

@@ -8,6 +8,8 @@ import {
   Button,
   Textarea,
   Flex,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
 
 const EditNewsHeading = () => {
@@ -16,7 +18,8 @@ const EditNewsHeading = () => {
     heading: "",
     description: "",
   });
-
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
   const Navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -45,7 +48,7 @@ const EditNewsHeading = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const response = await fetch(`${url}/newsheading/edit/${id}`, {
         method: "PUT",
@@ -55,13 +58,29 @@ const EditNewsHeading = () => {
         body: JSON.stringify(item),
       });
       if (response.status === 200) {
-        alert("Data Update Successfuly");
+        toast({
+          title: "Data Edit Successfuly",
+          description: response.msg,
+          status: "success",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
         Navigate("/admin/page/");
       } else {
-        throw new Error("Faild to update Data");
+        toast({
+          title: "Data Not Update ",
+          description: response.msg,
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
       }
     } catch (error) {
       console.error("Update faild", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -99,7 +118,7 @@ const EditNewsHeading = () => {
               </FormControl>
               <FormControl isRequired>
                 <FormLabel htmlFor="description" color={"#add8e6"}>
-                Description
+                  Description
                 </FormLabel>
                 <Textarea
                   id="description"
@@ -111,7 +130,6 @@ const EditNewsHeading = () => {
                 />
               </FormControl>
             </Box>
-           
           </Flex>
           <br />
           <center>
@@ -125,11 +143,12 @@ const EditNewsHeading = () => {
                 border: "1px solid #161616",
               }}
               type="submit"
+              isLoading={isLoading}
+              spinner={<Spinner color="blue.500" />}
             >
               Save
             </Button>
           </center>
-          
         </form>
       </Box>
     </>

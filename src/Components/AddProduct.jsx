@@ -34,17 +34,18 @@ const AddProduct = () => {
   const [markUrl, setMarkUrl] = useState([]);
   const [newParameter, setNewParameter] = useState("");
   const [newValue, setNewValue] = useState("");
-  const [feature,setFeature]=useState({})
-  const [featureParam, setFeatureParam] = useState("")
-  const [featureValue, setFeatureValue]=useState("")
-  const [detail,setDetail]=useState({})
-  const [detailParameter, setDetailParameter] = useState("")
-  const [detailValue, setDetailValue] = useState("")
+  const [feature, setFeature] = useState({});
+  const [featureParam, setFeatureParam] = useState("");
+  const [featureValue, setFeatureValue] = useState("");
+  const [detail, setDetail] = useState({});
+  const [detailParameter, setDetailParameter] = useState("");
+  const [detailValue, setDetailValue] = useState("");
   const [product, setProduct] = useState({
     name: "",
     category: "",
     description: "",
     image: [],
+    image_alt:[],
     key_features: [],
     mark: [],
     mark_text: [],
@@ -65,22 +66,22 @@ const AddProduct = () => {
     }
   };
 
-  const addFeatureEntry=()=>{
-    if(featureParam&&featureValue){
-      setFeature((prev)=>({
+  const addFeatureEntry = () => {
+    if (featureParam && featureValue) {
+      setFeature((prev) => ({
         ...prev,
-        [featureParam]:featureValue
-      }))
-      setFeatureParam("")
-      setFeatureValue("")
+        [featureParam]: featureValue,
+      }));
+      setFeatureParam("");
+      setFeatureValue("");
     }
-  }
+  };
 
-  const handleFeatureChange=(parameter,value)=>{
-    setFeature((prev)=>({...prev,[parameter]:value}))
-  }
+  const handleFeatureChange = (parameter, value) => {
+    setFeature((prev) => ({ ...prev, [parameter]: value }));
+  };
 
-  const addDetailEntry=()=>{
+  const addDetailEntry = () => {
     if (detailParameter && detailValue) {
       setDetail((prevData) => ({
         ...prevData,
@@ -89,11 +90,11 @@ const AddProduct = () => {
       setDetailParameter("");
       setDetailValue("");
     }
-  }
+  };
 
-  const handleDetailChange=(parameter,value)=>{
-    setDetail((prev)=>({...prev,[parameter]:value}))
-  }
+  const handleDetailChange = (parameter, value) => {
+    setDetail((prev) => ({ ...prev, [parameter]: value }));
+  };
 
   const handleValueChange = (parameter, value) => {
     setSpec((prevData) => ({
@@ -123,6 +124,11 @@ const AddProduct = () => {
     markText[i] = event.target.value;
     setProduct({ ...product, mark_text: markText });
   };
+  const handleImgText = (event, i) => {
+    let imgText = [...product.image_alt];
+    imgText[i] = event.target.value;
+    setProduct({ ...product, image_alt: imgText });
+  };
   const handleImageLocal = (i) => {
     console.log(i);
     let dup = [...imageurl];
@@ -131,9 +137,11 @@ const AddProduct = () => {
     let dupImage = [...image];
     dupImage.splice(i, 1);
     setImage(dupImage);
+
+    let dupText = [...product.image_alt];
+    dupText.splice(i, 1);
+    setProduct({ ...product, image_alt: dupText });
   };
-
-
 
   const handleImageChanger = (e) => {
     let file = e.target.files[0];
@@ -235,14 +243,14 @@ const AddProduct = () => {
     if (markArr?.length > 0) {
       dup.mark = markArr;
     }
-    if (spec){
-      dup.specification=spec
+    if (spec) {
+      dup.specification = spec;
     }
-    if(detail){
-      dup.details=detail
+    if (detail) {
+      dup.details = detail;
     }
-    if(feature){
-      dup.performance=feature
+    if (feature) {
+      dup.performance = feature;
     }
     try {
       let res = await fetch(`${url}/product/add`, {
@@ -493,6 +501,11 @@ const AddProduct = () => {
                     <Flex gap="20px">
                       <Box>
                         <Image src={e} width="200px" />
+                        <Input
+                          value={product.image_alt[i]}
+                          onChange={(event) => handleImgText(event, i)}
+                          placeholder="Add IMG ALT Text"
+                        />
                         <br />
                       </Box>
                       <MdDelete

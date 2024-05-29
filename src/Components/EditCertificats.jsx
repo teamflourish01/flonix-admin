@@ -10,6 +10,8 @@ import {
   Center,
   Textarea,
   Flex,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
@@ -19,7 +21,10 @@ const EditCertificate = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [singleImg, setSingleImg] = useState("");
   const [selctSinImg, setselectSingImg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
   const Navigate = useNavigate();
+
   const url = process.env.REACT_APP_DEV_URL;
 
   const getCertificateById = async () => {
@@ -59,7 +64,7 @@ const EditCertificate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const formData = new FormData();
 
@@ -79,13 +84,22 @@ const EditCertificate = () => {
         }
       );
       if (response.status === 200) {
-        alert("data Update Successfuly");
+        toast({
+          title: "Certificate Edited Successfully",
+          description: response.msg,
+          status: "success",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
         Navigate("/admin/certificate/");
       } else {
         throw new Error("Faild to update Data");
       }
     } catch (error) {
       console.error("Update faild", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -188,6 +202,8 @@ const EditCertificate = () => {
                     border: "1px solid #161616",
                   }}
                   type="submit"
+                  isLoading={isLoading}
+                  spinner={<Spinner color="blue.500" />}
                 >
                   Save
                 </Button>

@@ -11,6 +11,8 @@ import {
   Textarea,
   Flex,
   Image,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
@@ -20,6 +22,8 @@ const UpdateHomeBenefits = () => {
   const [firstImg, setfirstImg] = useState("");
   const [selctFstImg, setselectFstImg] = useState("");
   const [secndImg, setsecndImg] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
   const [selectedSecnd, setselectedSecnd] = useState("");
 
   const Navigate = useNavigate();
@@ -77,6 +81,7 @@ const UpdateHomeBenefits = () => {
   const handleSubmit = async (e) => {
     const formData = new FormData();
     e.preventDefault();
+    setIsLoading(true);
     let dup = { ...item };
     if (firstImg) {
       formData.append("first_image", firstImg);
@@ -97,13 +102,29 @@ const UpdateHomeBenefits = () => {
         }
       );
       if (response.status === 200) {
-        alert("data Update Successfuly");
+        toast({
+          title: "Data Edit Successfuly",
+          description: response.msg,
+          status: "success",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
         Navigate("/admin/page/");
       } else {
-        throw new Error("Faild to update Data");
+        toast({
+          title: "Data Not Update ",
+          description: response.msg,
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
       }
     } catch (error) {
       console.error("Update faild", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -503,6 +524,8 @@ const UpdateHomeBenefits = () => {
                 border: "1px solid #161616",
               }}
               type="submit"
+              isLoading={isLoading}
+              spinner={<Spinner color="blue.500" />}
             >
               Save
             </Button>

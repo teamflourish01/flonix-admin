@@ -26,9 +26,6 @@ import DeleteBtn from "./DeleteBtn";
 const NewsAndEvents = () => {
   const [category, setCategory] = useState([]);
   const [newsAndEvents, setNewsAndEvents] = useState([]);
-  const [newsheading, setNewsheading] = useState([]);
-  const [searchNewsAndEvnts, setSearchNewsAndEvents] = useState([]);
-  const [flag, setFlag] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -39,47 +36,28 @@ const NewsAndEvents = () => {
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
-    setFlag(false);
+    setPage(1); // Reset to first page on new search
   };
-
-  const handleSearch = () => {
-    if (!search.trim()) {
-      setFlag(true);
-      setCount(newsAndEvents.length);
-    }
-    const filteredData = newsAndEvents.filter((item) =>
-      item.cardheading.toLowerCase().includes(search.toLowerCase())
-    );
-    setSearchNewsAndEvents(filteredData);
-    setCount(filteredData.length);
-  };
-
-  useEffect(() => {
-    handleSearch();
-  }, [search, newsAndEvents]);
 
   const getCategory = async () => {
     try {
-      // console.log(url);
       let res = await fetch(`${url}/category`);
       res = await res.json();
-      console.log(res);
       setCategory(res.data);
     } catch (error) {
       console.log(error);
     }
   };
-  const getNewsAndEvents = async (page) => {
+
+  const getNewsAndEvents = async () => {
     try {
       let res = await fetch(
         `${url}/newsandevent?page=${page}&limit=12&search=${search}`
       );
       const data = await res.json();
-
       setNewsAndEvents(data.data);
       setTotalPages(Math.ceil(data.count / 12));
-      // setCount(data.data.length);
-      console.log(res.data);
+      setCount(data.count);
     } catch (error) {
       console.log(error);
     }
@@ -87,8 +65,11 @@ const NewsAndEvents = () => {
 
   useEffect(() => {
     getCategory();
-    getNewsAndEvents(page);
-  }, [page]);
+  }, []);
+
+  useEffect(() => {
+    getNewsAndEvents();
+  }, [page, search]);
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
@@ -96,10 +77,10 @@ const NewsAndEvents = () => {
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`${url}/newsandevent/${id}`, {
+      await fetch(`${url}/newsandevent/${id}`, {
         method: "DELETE",
       });
-      alert("Data Delete Successfuly");
+
       getNewsAndEvents();
     } catch (error) {
       console.log(error);
@@ -124,20 +105,11 @@ const NewsAndEvents = () => {
           <span>Search:</span>
           <Input
             color={"black"}
-            onFocus={() => setFlag(false)}
-            onBlur={() => {
-              if (!search.trim()) {
-                setFlag(true);
-              }
-            }}
             w="150px"
             onChange={handleSearchChange}
             value={search}
           />
         </Box>
-        {/* <Button border={"1px solid #cfcccc"} rightIcon={<DeleteIcon />}>
-          Bulk Delete
-        </Button> */}
       </Flex>
       <br />
 
@@ -160,7 +132,7 @@ const NewsAndEvents = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {searchNewsAndEvnts?.map((item, index) => {
+            {newsAndEvents?.map((item, index) => {
               const serialNumber = (page - 1) * 12 + index + 1;
               const formattedDate = new Date(item.date).toLocaleDateString(
                 "en-GB",
@@ -201,7 +173,6 @@ const NewsAndEvents = () => {
                       >
                         Edit
                       </Button>
-
                       <DeleteBtn handleDelete={() => handleDelete(item._id)} />
                     </ButtonGroup>
                   </Td>
@@ -212,30 +183,28 @@ const NewsAndEvents = () => {
         </Table>
       </TableContainer>
       <br />
-      <Flex justifyContent={"center"}>
-        {flag && (
-          <div>
-            <Button
-              border="1px solid #add8e6"
-              bgColor={"black"}
-              isDisabled={page === 1}
-              onClick={() => handlePageChange(page - 1)}
-            >
-              <BsArrowLeft color="#add8e6" />
-            </Button>
-            <Button>{page}</Button>
-            <Button
-              variant={"outline"}
-              border="1px solid #add8e6"
-              bgColor={"black"}
-              isDisabled={page === totalPages}
-              onClick={() => handlePageChange(page + 1)}
-            >
-              <BsArrowRight color="#add8e6" />
-            </Button>
-          </div>
-        )}
-      </Flex>
+      {search === "" && (
+        <Flex justifyContent={"center"}>
+          <Button
+            border="1px solid #add8e6"
+            bgColor={"black"}
+            isDisabled={page === 1}
+            onClick={() => handlePageChange(page - 1)}
+          >
+            <BsArrowLeft color="#add8e6" />
+          </Button>
+          <Button>{page}</Button>
+          <Button
+            variant={"outline"}
+            border="1px solid #add8e6"
+            bgColor={"black"}
+            isDisabled={page >= count / 12}
+            onClick={() => handlePageChange(page + 1)}
+          >
+            <BsArrowRight color="#add8e6" />
+          </Button>
+        </Flex>
+      )}
     </Box>
   );
 };

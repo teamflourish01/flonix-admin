@@ -10,6 +10,8 @@ import {
   Center,
   Textarea,
   Flex,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
@@ -19,6 +21,8 @@ const EditTestimonials = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [singleImg, setSingleImg] = useState("");
   const [selctSinImg, setselectSingImg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
   const Navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -59,7 +63,7 @@ const EditTestimonials = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const formData = new FormData();
 
@@ -81,13 +85,29 @@ const EditTestimonials = () => {
         }
       );
       if (response.status === 200) {
-        alert("data Update Successfuly");
+        toast({
+          title: "Data Added Successfuly",
+          description: response.msg,
+          status: "success",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
         Navigate("/admin/testimonials/");
       } else {
-        throw new Error("Faild to update Data");
+        toast({
+          title: "Data Not Added ",
+          description: response.msg,
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
       }
     } catch (error) {
       console.error("Update faild", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -219,6 +239,8 @@ const EditTestimonials = () => {
                     border: "1px solid #161616",
                   }}
                   type="submit"
+                  isLoading={isLoading}
+                  spinner={<Spinner color="blue.500" />}
                 >
                   Save
                 </Button>

@@ -8,6 +8,7 @@ import {
   Textarea,
   Flex,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
@@ -21,6 +22,7 @@ const AddEbrochure = () => {
   const [selectedImages, setSelectedImages] = useState("");
   const [ctimage, setctImage] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
   const Navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -57,15 +59,30 @@ const AddEbrochure = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-
       if (res.status === 200) {
-        alert("E-Brochure Add successfuly");
+        toast({
+          title: "Data Added Successfuly",
+          description: res.msg,
+          status: "success",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
         Navigate("/admin/ebrochure");
+      } else {
+        toast({
+          title: "Data Not Added ",
+          description: res.msg,
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
       }
     } catch (error) {
       console.log(error);
-    }finally{
-      setIsLoading(false)
+    } finally {
+      setIsLoading(false);
     }
   };
 

@@ -10,6 +10,9 @@ import {
   Center,
   Textarea,
   Flex,
+  Spinner,
+  useToast,
+  Image,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
@@ -17,8 +20,11 @@ const EditAboutus = () => {
   const { id } = useParams();
   const [item, setItem] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
+  const [logoUrl, setlogoUrl] = useState([]);
   const [singleImg, setSingleImg] = useState("");
   const [selctSinImg, setselectSingImg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
   const Navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -50,27 +56,27 @@ const EditAboutus = () => {
     setSingleImg("");
     setselectSingImg("");
   };
-
+  // Logo Images
   const handleMultipleImage = (e) => {
     const file = e.target.files[0];
     setSelectedImages([...selectedImages, file]);
+    if (file) {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        setlogoUrl([...logoUrl, reader.result]);
+      };
+      reader.readAsDataURL(file);
+    }
   };
   const handleDeleteMultipleImage = (index) => {
-    const updatedImages = [...selectedImages];
-    updatedImages.splice(index, 1);
-    setSelectedImages(updatedImages);
+    const dup = [...logoUrl];
+    dup.splice(index, 1);
+    setlogoUrl(dup);
   };
   const handleDBImgdelete = async (index) => {
-    try {
-      const response = await fetch(`${url}/aboutus/deleteimg/${id}/${index}`, {
-        method: "DELETE",
-      });
-      if (response.ok) {
-        getAboutusById();
-      }
-    } catch (error) {
-      console.log("Error Deleting Multiple Img From DB", error);
-    }
+    let dup = [...item.logoimages];
+    dup.splice(index, 1);
+    setItem({ ...item, logoimages: dup });
   };
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -79,38 +85,64 @@ const EditAboutus = () => {
   };
 
   const handleSubmit = async (e) => {
+    const formData = new FormData();
     e.preventDefault();
-
-    try {
-      const formData = new FormData();
-      formData.append("heading", item.heading);
-      formData.append("description", item.description);
-      formData.append("bannerheading", item.bannerheading);
-      formData.append("bannerdescription", item.bannerdescription);
-      formData.append("mission", item.mission);
-      formData.append("vision", item.vision);
-      formData.append("goals", item.goals);
-
+    setIsLoading(true);
+    let dup = { ...item };
+    if (singleImg) {
+      formData.append("banner", singleImg);
+    }
+    if (selectedImages.length > 0) {
       for (let x of selectedImages) {
         formData.append("logoimages", x);
       }
-      if (singleImg) {
-        formData.append("banner", singleImg);
-      }
-      console.log("FormData:", formData);
+    }
+    formData.append("dup", JSON.stringify(dup));
+    try {
+      // formData.append("heading", item.heading);
+      // formData.append("description", item.description);
+      // formData.append("bannerheading", item.bannerheading);
+      // formData.append("bannerdescription", item.bannerdescription);
+      // formData.append("mission", item.mission);
+      // formData.append("vision", item.vision);
+      // formData.append("goals", item.goals);
+
+      // for (let x of selectedImages) {
+      //   formData.append("logoimages", x);
+      // }
+      // if (singleImg) {
+      //   formData.append("banner", singleImg);
+      // }
+      // console.log("FormData:", formData);
       const response = await axios.put(`${url}/aboutus/edit/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
       if (response.status === 200) {
-        alert("data Update Successfuly");
-        Navigate("/admin/aboutus/");
+        toast({
+          title: "Data Edit Successfuly",
+          description: response.msg,
+          status: "success",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
+        Navigate("/admin/page/");
       } else {
-        throw new Error("Faild to update Data");
+        toast({
+          title: "Data Not Update ",
+          description: response.msg,
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
       }
     } catch (error) {
       console.error("Update faild", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -295,7 +327,7 @@ const EditAboutus = () => {
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor="detailimages" color={"#add8e6"}>
+                <FormLabel htmlFor="logoimages" color={"#add8e6"}>
                   Logo Images
                 </FormLabel>
                 <Input
@@ -310,12 +342,12 @@ const EditAboutus = () => {
                 />
                 <Flex wrap="wrap">
                   {item.logoimages &&
-                    item.logoimages.map((image, index) => (
-                      <Flex key={index} alignItems="center" position="relative">
-                        <img
-                          key={index}
-                          src={`${url}/aboutus/${image}`}
-                          alt={`Image ${index}`}
+                    item.logoimages.map((e, i) => (
+                      <Flex key={i} alignItems="center" position="relative">
+                        <Image
+                          key={i}
+                          src={`${url}/aboutus/${e}`}
+                          alt={`Image ${i}`}
                           style={{
                             width: "200px",
 
@@ -334,25 +366,14 @@ const EditAboutus = () => {
                           zIndex={1}
                           _hover={{ bgColor: "red.500", color: "white" }}
                           color="white"
-                          onClick={() => handleDBImgdelete(index)}
+                          onClick={() => handleDBImgdelete(i)}
                         ></Button>
                       </Flex>
                     ))}
 
-                  {selectedImages.map((image, index) => (
-                    <Flex key={index} alignItems="center" position="relative">
-                      <img
-                        key={index}
-                        src={URL.createObjectURL(image)}
-                        alt={`selected image ${index}`}
-                        style={{
-                          width: "200px",
-
-                          objectFit: "cover",
-                          marginRight: "10px",
-                          marginBottom: "10px",
-                        }}
-                      />
+                  {logoUrl.map((e, i) => (
+                    <Flex key={i} alignItems="center" position="relative">
+                      <Image src={e} width="200px" />
                       <Button
                         leftIcon={<DeleteIcon />}
                         bgColor={"red.400"}
@@ -363,7 +384,7 @@ const EditAboutus = () => {
                         zIndex={1}
                         _hover={{ bgColor: "red.500", color: "white" }}
                         color="white"
-                        onClick={() => handleDeleteMultipleImage(index)}
+                        onClick={() => handleDeleteMultipleImage(i)}
                       ></Button>
                     </Flex>
                   ))}
@@ -385,6 +406,8 @@ const EditAboutus = () => {
                 border: "1px solid #161616",
               }}
               type="submit"
+              isLoading={isLoading}
+              spinner={<Spinner color="blue.500" />}
             >
               Save
             </Button>

@@ -9,22 +9,24 @@ import {
   Textarea,
   Flex,
   Hide,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
 
 const EditContectDetails = () => {
   const { id } = useParams();
   const [item, setItem] = useState({
     email: "",
-    twiterlink: "",
+    whatsapplink: "",
     fblink: "",
     instalink: "",
     ytlink: "",
-    pinterestlink: "",
     officeaddress: "",
     addresslink: "",
     officenumber: "",
   });
-
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
   const Navigate = useNavigate();
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -53,7 +55,7 @@ const EditContectDetails = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const response = await fetch(`${url}/contect/edit/${id}`, {
         method: "PUT",
@@ -63,20 +65,29 @@ const EditContectDetails = () => {
         body: JSON.stringify(item),
       });
       if (response.status === 200) {
-        alert("Data Update Successfuly");
+        toast({
+          title: "Data Added Successfuly",
+          description: response.msg,
+          status: "success",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+        });
         Navigate("/admin/contectdetails/");
       } else {
         throw new Error("Faild to update Data");
       }
     } catch (error) {
       console.error("Update faild", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <>
       <br />
-      <Box p="4">
+      <Box p="4" marginLeft="25px">
         <form onSubmit={handleSubmit}>
           <Flex
             justifyContent={"space-around"}
@@ -106,16 +117,16 @@ const EditContectDetails = () => {
                 />
               </FormControl>
               <FormControl mb={4} isRequired>
-                <FormLabel htmlFor="twiterlink" color={"#add8e6"}>
-                  Twiter
+                <FormLabel htmlFor="whatsapplink" color={"#add8e6"}>
+                  WhatsApp
                 </FormLabel>
                 <Input
-                  id="twiterlink"
+                  id="whatsapplink"
                   type="text"
                   variant={"flushed"}
-                  placeholder="Enter your Heading"
-                  name="twiterlink"
-                  value={item.twiterlink}
+                  placeholder="Enter your Link"
+                  name="whatsapplink"
+                  value={item.whatsapplink}
                   onChange={handleInput}
                   mb={4}
                 />
@@ -173,21 +184,7 @@ const EditContectDetails = () => {
                   mb={4}
                 />
               </FormControl>
-              <FormControl mb={4} isRequired>
-                <FormLabel htmlFor="pinterestlink" color={"#add8e6"}>
-                  Pinterest
-                </FormLabel>
-                <Input
-                  id="pinterestlink"
-                  type="text"
-                  variant={"flushed"}
-                  placeholder="Enter your Heading"
-                  name="pinterestlink"
-                  value={item.pinterestlink}
-                  onChange={handleInput}
-                  mb={4}
-                />
-              </FormControl>
+              
               <FormControl mb={4} isRequired>
                 <FormLabel htmlFor="officenumber" color={"#add8e6"}>
                   Office Number
@@ -245,6 +242,8 @@ const EditContectDetails = () => {
                 border: "1px solid #161616",
               }}
               type="submit"
+              isLoading={isLoading}
+              spinner={<Spinner color="blue.500" />}
             >
               Save
             </Button>
