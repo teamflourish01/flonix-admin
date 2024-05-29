@@ -150,7 +150,7 @@ useEffect(()=>{
                       _hover={{ bgColor: "#add8e6", color: "black" }}
                       variant="solid"
                       color="#add8e6"
-                      onClick={() => navigate(`/admin/blog/${e._id}`)}
+                      onClick={() => navigate(`/admin/blog/${e?.slug}`)}
                     >
                       View
                     </Button>
@@ -159,11 +159,11 @@ useEffect(()=>{
                       border="1px solid #add8e6"
                       variant={"outline"}
                       _hover={{ bgColor: "#add8e6", color: "black" }}
-                      onClick={() => navigate(`/admin/blog/edit/${e._id}`)}
+                      onClick={() => navigate(`/admin/blog/edit/${e?.slug}`)}
                     >
                       Edit
                     </Button>
-                    <DeleteBtn handleDelete={() => handleDelete(e._id)} />
+                    <DeleteBtn handleDelete={() => handleDelete(e?.slug)} />
                   </ButtonGroup>
                 </Td>
               </Tr>

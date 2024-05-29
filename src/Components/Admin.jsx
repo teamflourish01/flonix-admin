@@ -537,10 +537,10 @@ const Admin = () => {
             <Route path="/admin/blog" element={<Blog/>}/>
             <Route path="/admin/blogcategory" element={<BlogCategory/>}/>
             <Route path="/admin/blogcategory/add" element={<AddBlogCategory/>}/>
-            <Route path="/admin/blogcategory/:id" element={<ViewBlogCategory/>}/>
-            <Route path="/admin/blogcategory/edit/:id" element={<EditBlogCategory/>}/>
+            <Route path="/admin/blogcategory/:slugname" element={<ViewBlogCategory/>}/>
+            <Route path="/admin/blogcategory/edit/:slugname" element={<EditBlogCategory/>}/>
             <Route path="/admin/blog/add" element={<AddBlog/>}/>
-            <Route path="/admin/blog/:id"element={<ViewBlog/>}/>
+            <Route path="/admin/blog/:slugname"element={<ViewBlog/>}/>
             <Route path="/admin/contectdetails/edit/:id" element={<EditContectDetails />} />
             <Route path="/admin/home/:id" element={<ViewHome />} />
             <Route path="/admin/home/edit/:id" element={<EditHome />} /> 
@@ -553,7 +553,7 @@ const Admin = () => {
             <Route path="/admin/ebrochure/:edit/:id" element={<EditEbrochure />} />
             <Route path="/admin/robenefits/:edit/:id" element={<UpdateHomeBenefits />} />
             <Route path="/admin/robenefits/:id" element={<ViewHomeBanefits />} />
-            <Route path="/admin/blog/edit/:id" element={<EditBlog/>}/>
+            <Route path="/admin/blog/edit/:slugname" element={<EditBlog/>}/>
             <Route path="/admin/page/ourproduct" element={<OurProduct/>}/>
             <Route path="/admin/page/topproduct" element={<TopProducts/>}/>
           </Routes>

@@ -14,13 +14,13 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const ViewBlog = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { slugname } = useParams();
   const [blog, setBlog] = useState({});
   const url = process.env.REACT_APP_DEV_URL;
 
   const getBlog = async () => {
     try {
-      let data = await fetch(`${url}/blog/${id}`);
+      let data = await fetch(`${url}/blog/${slugname}`);
       data = await data.json();
       console.log(data.data);
       setBlog(data.data);
@@ -30,12 +30,12 @@ const ViewBlog = () => {
   };
   const handleDelete = async (id) => {
     try {
-      let data = await fetch(`${url}/blog/delete/${id}`, {
+      let data = await fetch(`${url}/blog/delete/${slugname}`, {
         method: "DELETE",
       });
       data = await data.json();
       console.log(data);
-      getBlog();
+      navigate("/admin/blog")
     } catch (error) {
       console.log(error);
     }
@@ -55,7 +55,7 @@ const ViewBlog = () => {
           bgColor={"black"}
           _hover={{ color: "black", bgColor: "#add8e6" }}
           leftIcon={<BiEditAlt />}
-          onClick={() => navigate(`/admin/blog/edit/${id}`)}
+          onClick={() => navigate(`/admin/blog/edit/${slugname}`)}
         >
           Edit
         </Button>
@@ -65,7 +65,7 @@ const ViewBlog = () => {
           bgColor={"black"}
           _hover={{ color: "black", bgColor: "#add8e6" }}
           leftIcon={<RiDeleteBin6Line />}
-          onClick={() => handleDelete(id)}
+          onClick={() => handleDelete(slugname)}
         >
           Delete
         </Button>

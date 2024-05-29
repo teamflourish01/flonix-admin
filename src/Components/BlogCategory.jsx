@@ -163,7 +163,7 @@ const BlogCategory = () => {
                         _hover={{ bgColor: "#add8e6", color: "black" }}
                         variant="solid"
                         color="#add8e6"
-                        onClick={() => navigate(`/admin/blogcategory/${e._id}`)}
+                        onClick={() => navigate(`/admin/blogcategory/${e?.slug}`)}
                       >
                         View
                       </Button>
@@ -172,11 +172,11 @@ const BlogCategory = () => {
                         border="1px solid #add8e6"
                         variant={"outline"}
                         _hover={{ bgColor: "#add8e6", color: "black" }}
-                        onClick={() => navigate(`/admin/blogcategory/edit/${e._id}`)}
+                        onClick={() => navigate(`/admin/blogcategory/edit/${e?.slug}`)}
                       >
                         Edit
                       </Button>
-                      <DeleteBtn handleDelete={() => handleDelete(e._id)} />
+                      <DeleteBtn handleDelete={() => handleDelete(e?.slug)} />
                     </ButtonGroup>
                   </Td>
                 </Tr>

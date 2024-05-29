@@ -5,18 +5,19 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ViewBlogCategory = () => {
-  const { id } = useParams();
+  const { slugname } = useParams();
   const navigate = useNavigate();
   const [category, setCategory] = useState({});
   const url = process.env.REACT_APP_DEV_URL;
 
   const handleDelete = async() => {
     try {
-        let data=await fetch(`${url}/blogcategory/delete/${id}`,{
+        let data=await fetch(`${url}/blogcategory/delete/${slugname}`,{
             method: 'DELETE',
         })
         data=await data.json()
         console.log(data);
+        navigate("/admin/blogcategory")
     } catch (error) {
         console.log(error);
     }
@@ -24,7 +25,7 @@ const ViewBlogCategory = () => {
 
   const getData = async () => {
     try {
-      let data = await fetch(`${url}/blogcategory/${id}`);
+      let data = await fetch(`${url}/blogcategory/${slugname}`);
       data = await data.json();
       setCategory(data.data);
     } catch (error) {
@@ -46,7 +47,7 @@ const ViewBlogCategory = () => {
           bgColor={"black"}
           _hover={{ color: "black", bgColor: "#add8e6" }}
           leftIcon={<BiEditAlt />}
-          onClick={() => navigate(`/admin/blogcategory/edit/${id}`)}
+          onClick={() => navigate(`/admin/blogcategory/edit/${slugname}`)}
         >
           Edit
         </Button>
