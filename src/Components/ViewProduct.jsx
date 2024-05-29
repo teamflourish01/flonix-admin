@@ -135,7 +135,7 @@ const ViewProduct = () => {
       </SimpleGrid>
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
-        Key Features
+        Image Alt Text
       </Text>
 
       {product?.image_alt?.map((e) => (

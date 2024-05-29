@@ -10,6 +10,7 @@ import {
   Flex,
   Spinner,
   useToast,
+  Image,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
@@ -19,6 +20,7 @@ import { MdDelete } from "react-icons/md";
 const AddFormNewsandEvents = () => {
   const [eventdata, setEventdata] = useState({
     cardimage: "",
+    cardimg_alt: "",
     cardheading: "",
     date: "",
     place: "",
@@ -27,6 +29,7 @@ const AddFormNewsandEvents = () => {
     detailtext: "",
     video: "",
     detailimage: "",
+    detailimg_alt: "",
     detailimages: [],
   });
   const [selectedImages, setSelectedImages] = useState("");
@@ -57,6 +60,18 @@ const AddFormNewsandEvents = () => {
   const handleDeleteSingleImage = () => {
     setImage({});
     setSelectedImages("");
+  };
+  //cardImg_Text Logic
+  const handleImgText = (event) => {
+    let cardImgText = [...eventdata.cardimg_alt];
+    cardImgText = event.target.value;
+    setEventdata({ ...eventdata, cardimg_alt: cardImgText });
+  };
+
+  const handleDetImgText = (event) => {
+    let detImgText = [...eventdata.detailimg_alt];
+    detImgText = event.target.value;
+    setEventdata({ ...eventdata, detailimg_alt: detImgText });
   };
   // Detail Single Image Logic
   const handleDetailImgChange = (e) => {
@@ -171,7 +186,7 @@ const AddFormNewsandEvents = () => {
       if (data.status === 200) {
         toast({
           title: "Data Added Successfuly",
-          description: data.data.msg,
+          // description: data.data.msg,
           status: "success",
           position: "top",
           duration: 7000,
@@ -239,26 +254,25 @@ const AddFormNewsandEvents = () => {
               </FormControl>
               <FormControl>
                 {selectedImages && (
-                  <Flex alignItems="center" position="relative">
-                    <img
-                      src={selectedImages}
-                      alt="selected img"
-                      style={{
-                        width: "200px",
-                        margin: "5px",
-                      }}
-                    />
+                  <Flex>
+                    <Box>
+                      <Image src={selectedImages} width="200px" />
+                      <Input
+                        value={eventdata.cardimg_alt}
+                        onChange={(event) => handleImgText(event)}
+                        placeholder="Add IMG ALT Text"
+                      />
+                    </Box>
                     <MdDelete
                       color="red"
                       cursor={"pointer"}
                       size={"30px"}
-                      position="absolute"
                       onClick={handleDeleteSingleImage}
                     />
                   </Flex>
                 )}
               </FormControl>
-
+              <br />
               <FormControl isRequired mb={4}>
                 <FormLabel htmlFor="cardheading" color={"#add8e6"}>
                   Card Heading
@@ -303,27 +317,22 @@ const AddFormNewsandEvents = () => {
               </FormControl>
               <FormControl>
                 {selectedDetail && (
-                  <Flex alignItems="center" position="relative">
-                    <img
-                      src={selectedDetail}
-                      alt="selected img"
-                      style={{
-                        width: "200px",
-                        margin: "5px",
-                      }}
-                    />
-                    <Button
-                      leftIcon={<DeleteIcon />}
-                      bgColor={"red.400"}
-                      position="absolute"
-                      size="sm"
-                      top={0}
-                      left={170}
-                      zIndex={1}
-                      _hover={{ bgColor: "red.500", color: "white" }}
-                      color="white"
+                  <Flex>
+                    <Box>
+                      <Image src={selectedDetail} width="200px" />
+                      <Input
+                        value={eventdata.detailimg_alt}
+                        onChange={(event) => handleDetImgText(event)}
+                        placeholder="Add IMG ALT Text"
+                      />
+                    </Box>
+
+                    <MdDelete
+                      color="red"
+                      cursor={"pointer"}
+                      size={"30px"}
                       onClick={handleDeleteDetailImg}
-                    ></Button>
+                    />
                   </Flex>
                 )}
               </FormControl>
