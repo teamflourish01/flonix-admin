@@ -93,10 +93,13 @@ import AddEbrochure from "./AddEbrochure";
 import EditEbrochure from "./EditEbrochure";
 import UpdateHomeBenefits from "./EditHomeBenefits";
 import ViewHomeBanefits from "./ViewHomeBenefits";
+
+import InquiryForm from "./InquiryForm";
+
 import EditBlog from "./EditBlog";
 import OurProduct from "./OurProduct";
 import TopProducts from "./TopProducts";
-import InquiryForm from "./InquiryForm";
+
 
 
 const Admin = () => {
@@ -554,10 +557,14 @@ const Admin = () => {
             <Route path="/admin/ebrochure/:edit/:id" element={<EditEbrochure />} />
             <Route path="/admin/robenefits/:edit/:id" element={<UpdateHomeBenefits />} />
             <Route path="/admin/robenefits/:id" element={<ViewHomeBanefits />} />
+
             <Route path="/admin/in" element={<InquiryForm />} />
+            
+
             <Route path="/admin/blog/edit/:slugname" element={<EditBlog/>}/>
             <Route path="/admin/page/ourproduct" element={<OurProduct/>}/>
             <Route path="/admin/page/topproduct" element={<TopProducts/>}/>
+
           </Routes>
           <Box rounded="md" h="" />
         </Box>
