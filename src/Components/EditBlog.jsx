@@ -21,7 +21,7 @@ import generateSlug from "../util/generateSlug";
 
 const EditBlog = () => {
   const url = process.env.REACT_APP_DEV_URL;
-  const { id } = useParams();
+  const { slugname } = useParams();
   const [blog, setBlog] = useState({});
   const [category, setCategory] = useState([]);
   const [text1, setText1] = useState("");
@@ -73,7 +73,7 @@ const EditBlog = () => {
   };
   const getBlog = async () => {
     try {
-      let data = await fetch(`${url}/blog/${id}`);
+      let data = await fetch(`${url}/blog/${slugname}`);
       data = await data.json();
       setBlog(data.data);
       setText1(data.data.text1);
@@ -135,7 +135,7 @@ const EditBlog = () => {
     dup.slug=newSlug
     formData.append("dup", JSON.stringify(dup));
     try {
-      let data = await axios.post(`${url}/blog/edit/${id}`, formData);
+      let data = await axios.post(`${url}/blog/edit/${slugname}`, formData);
       console.log(data);
       if (data.status == 200) {
         toast({

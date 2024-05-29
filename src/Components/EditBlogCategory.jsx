@@ -13,7 +13,7 @@ import getSlug from "speakingurl";
 import generateSlug from "../util/generateSlug";
 
 const EditBlogCategory = () => {
-  const { id } = useParams();
+  const { slugname } = useParams();
   const [category, setCategory] = useState({});
   const url = process.env.REACT_APP_DEV_URL;
   const toast = useToast();
@@ -27,7 +27,7 @@ const EditBlogCategory = () => {
 
   const getCategory = async () => {
     try {
-      let data = await fetch(`${url}/blogcategory/${id}`);
+      let data = await fetch(`${url}/blogcategory/${slugname}`);
       data = await data.json();
       setCategory(data.data);
       setSlug(data.data.slug)
@@ -40,7 +40,7 @@ const EditBlogCategory = () => {
     // debugger
     let dup=generateSlug(slug)
     try {
-      let data = await fetch(`${url}/blogcategory/edit/${id}`, {
+      let data = await fetch(`${url}/blogcategory/edit/${slugname}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -93,7 +93,7 @@ const EditBlogCategory = () => {
             <Input
               type="text"
               name="name"
-              value={category.name}
+              value={category?.name}
               onChange={(e) => handleChange(e)}
             />
           </FormControl>
