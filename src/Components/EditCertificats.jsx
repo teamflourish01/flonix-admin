@@ -14,6 +14,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
+import { MdDelete } from "react-icons/md";
 
 const EditCertificate = () => {
   const { id } = useParams();
@@ -83,10 +84,11 @@ const EditCertificate = () => {
           },
         }
       );
+
       if (response.status === 200) {
         toast({
           title: "Certificate Edited Successfully",
-          description: response.msg,
+          description: response.data.msg,
           status: "success",
           position: "top",
           duration: 7000,
@@ -149,7 +151,7 @@ const EditCertificate = () => {
               </FormControl>
               <FormControl>
                 {selctSinImg && (
-                  <Flex alignItems="center" position="relative">
+                  <Flex >
                     <img
                       src={selctSinImg}
                       alt="selected img"
@@ -159,18 +161,12 @@ const EditCertificate = () => {
                         margin: "5px",
                       }}
                     />
-                    <Button
-                      leftIcon={<DeleteIcon />}
-                      bgColor={"red.400"}
-                      position="absolute"
-                      size="sm"
-                      top={0}
-                      left="180px"
-                      zIndex={1}
-                      _hover={{ bgColor: "red.500", color: "white" }}
-                      color="white"
+                    <MdDelete
+                      color="red"
+                      cursor={"pointer"}
+                      size={"30px"}
                       onClick={handleDeleteSingleImage}
-                    ></Button>
+                    />
                   </Flex>
                 )}
               </FormControl>

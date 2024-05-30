@@ -85,8 +85,8 @@ const EditEbrochure = () => {
       );
       if (response.status === 200) {
         toast({
-          title: "Data Added Successfuly",
-          description: response.msg,
+          title: "Data Edit Successfuly",
+          description: response.data.msg,
           status: "success",
           position: "top",
           duration: 7000,
@@ -151,7 +151,7 @@ const EditEbrochure = () => {
                   id="doc"
                   type="file"
                   name="doc"
-                  accept="image/*"
+                  accept="application/pdf"
                   onChange={handleSingleImage}
                   mb={4}
                 />

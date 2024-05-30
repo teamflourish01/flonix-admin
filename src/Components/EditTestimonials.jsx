@@ -14,6 +14,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
+import { MdDelete } from "react-icons/md";
 
 const EditTestimonials = () => {
   const { id } = useParams();
@@ -87,7 +88,7 @@ const EditTestimonials = () => {
       if (response.status === 200) {
         toast({
           title: "Data Added Successfuly",
-          description: response.msg,
+          description: response.data.msg,
           status: "success",
           position: "top",
           duration: 7000,
@@ -97,7 +98,7 @@ const EditTestimonials = () => {
       } else {
         toast({
           title: "Data Not Added ",
-          description: response.msg,
+          description: response.data.msg,
           status: "error",
           position: "top",
           duration: 7000,
@@ -186,7 +187,7 @@ const EditTestimonials = () => {
               </FormControl>
               <FormControl>
                 {selctSinImg && (
-                  <Flex alignItems="center" position="relative">
+                  <Flex >
                     <img
                       src={selctSinImg}
                       alt="selected img"
@@ -196,18 +197,12 @@ const EditTestimonials = () => {
                         margin: "5px",
                       }}
                     />
-                    <Button
-                      leftIcon={<DeleteIcon />}
-                      bgColor={"red.400"}
-                      position="absolute"
-                      size="sm"
-                      top={0}
-                      left="180px"
-                      zIndex={1}
-                      _hover={{ bgColor: "red.500", color: "white" }}
-                      color="white"
+                    <MdDelete
+                      color="red"
+                      cursor={"pointer"}
+                      size={"30px"}
                       onClick={handleDeleteSingleImage}
-                    ></Button>
+                    />
                   </Flex>
                 )}
               </FormControl>

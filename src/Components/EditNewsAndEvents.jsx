@@ -136,19 +136,16 @@ const UpdateNewsAndEvents = () => {
     }
     formData.append("dup", JSON.stringify(dup));
     try {
-      const response = await axios.put(
-        `${url}/newsandevent/edit/${Id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      if (response.status === 200) {
+      const data = await axios.put(`${url}/newsandevent/edit/${Id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (data.status === 200) {
         toast({
           title: "Data Update Successfuly",
-          description: response.msg,
+          description: data.data.msg,
           status: "success",
           position: "top",
           duration: 7000,
@@ -158,7 +155,7 @@ const UpdateNewsAndEvents = () => {
       } else {
         toast({
           title: "Data Not Added ",
-          description: response.msg,
+          description: data.data.msg,
           status: "error",
           position: "top",
           duration: 7000,

@@ -57,10 +57,11 @@ const EditNewsHeading = () => {
         },
         body: JSON.stringify(item),
       });
+      const data = await response.json();
       if (response.status === 200) {
         toast({
           title: "Data Edit Successfuly",
-          description: response.msg,
+          description: data.msg,
           status: "success",
           position: "top",
           duration: 7000,
@@ -70,7 +71,7 @@ const EditNewsHeading = () => {
       } else {
         toast({
           title: "Data Not Update ",
-          description: response.msg,
+          description: data.msg,
           status: "error",
           position: "top",
           duration: 7000,

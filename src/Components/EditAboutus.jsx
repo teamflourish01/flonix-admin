@@ -15,6 +15,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
+import { MdDelete } from "react-icons/md";
 
 const EditAboutus = () => {
   const { id } = useParams();
@@ -69,9 +70,8 @@ const EditAboutus = () => {
     }
   };
   const handleDeleteMultipleImage = (index) => {
-    const dup = [...logoUrl];
-    dup.splice(index, 1);
-    setlogoUrl(dup);
+    setlogoUrl(logoUrl.filter((_, i) => i !== index));
+    setSelectedImages(selectedImages.filter((_, i) => i !== index));
   };
   const handleDBImgdelete = async (index) => {
     let dup = [...item.logoimages];
@@ -99,21 +99,6 @@ const EditAboutus = () => {
     }
     formData.append("dup", JSON.stringify(dup));
     try {
-      // formData.append("heading", item.heading);
-      // formData.append("description", item.description);
-      // formData.append("bannerheading", item.bannerheading);
-      // formData.append("bannerdescription", item.bannerdescription);
-      // formData.append("mission", item.mission);
-      // formData.append("vision", item.vision);
-      // formData.append("goals", item.goals);
-
-      // for (let x of selectedImages) {
-      //   formData.append("logoimages", x);
-      // }
-      // if (singleImg) {
-      //   formData.append("banner", singleImg);
-      // }
-      // console.log("FormData:", formData);
       const response = await axios.put(`${url}/aboutus/edit/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -122,7 +107,7 @@ const EditAboutus = () => {
       if (response.status === 200) {
         toast({
           title: "Data Edit Successfuly",
-          description: response.msg,
+          description: response.data.msg,
           status: "success",
           position: "top",
           duration: 7000,
@@ -132,7 +117,7 @@ const EditAboutus = () => {
       } else {
         toast({
           title: "Data Not Update ",
-          description: response.msg,
+          description: response.data.msg,
           status: "error",
           position: "top",
           duration: 7000,
@@ -207,7 +192,7 @@ const EditAboutus = () => {
               </FormControl>
               <FormControl>
                 {selctSinImg && (
-                  <Flex alignItems="center" position="relative">
+                  <Flex>
                     <img
                       src={selctSinImg}
                       alt="selected img"
@@ -217,18 +202,12 @@ const EditAboutus = () => {
                         margin: "5px",
                       }}
                     />
-                    <Button
-                      leftIcon={<DeleteIcon />}
-                      bgColor={"red.400"}
-                      position="absolute"
-                      size="sm"
-                      top={0}
-                      left="180px"
-                      zIndex={1}
-                      _hover={{ bgColor: "red.500", color: "white" }}
-                      color="white"
+                    <MdDelete
+                      color="red"
+                      cursor={"pointer"}
+                      size={"30px"}
                       onClick={handleDeleteSingleImage}
-                    ></Button>
+                    />
                   </Flex>
                 )}
               </FormControl>
@@ -343,49 +322,56 @@ const EditAboutus = () => {
                 <Flex wrap="wrap">
                   {item.logoimages &&
                     item.logoimages.map((e, i) => (
-                      <Flex key={i} alignItems="center" position="relative">
+                      <Flex key={i} position="relative">
                         <Image
                           key={i}
                           src={`${url}/aboutus/${e}`}
                           alt={`Image ${i}`}
                           style={{
                             width: "200px",
-
-                            objectFit: "cover",
                             marginRight: "10px",
                             marginBottom: "10px",
                           }}
                         />
-                        <Button
-                          leftIcon={<DeleteIcon />}
-                          bgColor={"red.400"}
-                          position="absolute"
-                          size="sm"
-                          top={0}
-                          right={0}
-                          zIndex={1}
-                          _hover={{ bgColor: "red.500", color: "white" }}
-                          color="white"
+                        <MdDelete
+                          size={"40px"}
+                          color="red"
+                          cursor="pointer"
+                          style={{
+                            position: "absolute",
+                            top: "4px",
+                            right: "0",
+                            marginTop: "-15px",
+                            marginRight: "-8px",
+                          }}
                           onClick={() => handleDBImgdelete(i)}
-                        ></Button>
+                        />
                       </Flex>
                     ))}
 
                   {logoUrl.map((e, i) => (
-                    <Flex key={i} alignItems="center" position="relative">
-                      <Image src={e} width="200px" />
-                      <Button
-                        leftIcon={<DeleteIcon />}
-                        bgColor={"red.400"}
-                        position="absolute"
-                        size="sm"
-                        top={0}
-                        right={0}
-                        zIndex={1}
-                        _hover={{ bgColor: "red.500", color: "white" }}
-                        color="white"
+                    <Flex key={i} position="relative">
+                      <Image
+                        src={e}
+                        style={{
+                          width: "200px",
+                          marginRight: "10px",
+                          marginBottom: "10px",
+                        }}
+                      />
+                      <MdDelete
+                        size={"40px"}
+                        color="red"
+                        cursor="pointer"
+                        style={{
+                          position: "absolute",
+                          top: "4px",
+                          right: "0",
+                          marginTop: "-15px",
+                          marginRight: "-8px",
+                        }}
                         onClick={() => handleDeleteMultipleImage(i)}
-                      ></Button>
+                      />
                     </Flex>
                   ))}
                 </Flex>

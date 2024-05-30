@@ -64,10 +64,11 @@ const EditContectDetails = () => {
         },
         body: JSON.stringify(item),
       });
+      const data = await response.json();
       if (response.status === 200) {
         toast({
           title: "Data Added Successfuly",
-          description: response.msg,
+          description: data.msg,
           status: "success",
           position: "top",
           duration: 7000,
@@ -184,7 +185,7 @@ const EditContectDetails = () => {
                   mb={4}
                 />
               </FormControl>
-              
+
               <FormControl mb={4} isRequired>
                 <FormLabel htmlFor="officenumber" color={"#add8e6"}>
                   Office Number

@@ -174,19 +174,19 @@ const AddFormNewsandEvents = () => {
       dup.detailimage = detimg;
     }
     try {
-      let data = await fetch(`${url}/newsandevent/add`, {
+      let res = await fetch(`${url}/newsandevent/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(dup),
       });
-      // data = await data.json();
+      let data = await res.json();
       console.log("my testing", data);
-      if (data.status === 200) {
+      if (res.ok) {
         toast({
           title: "Data Added Successfuly",
-          // description: data.data.msg,
+          description: data.msg,
           status: "success",
           position: "top",
           duration: 7000,

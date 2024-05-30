@@ -43,6 +43,7 @@ const ViewNewsAndEvents = () => {
       const res = await fetch(`${url}/newsandevent/${id}`, {
         method: "DELETE",
       });
+      console.log("HanleDelete n&E",res);
       toast({
         title: "Data Delete Successfuly",
         description: res.msg,
