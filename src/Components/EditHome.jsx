@@ -15,12 +15,14 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
+import { MdDelete } from "react-icons/md";
 
 const EditHome = () => {
   const { id } = useParams();
   const [item, setItem] = useState([]);
   const [bannerUrl, setbannerUrl] = useState([]);
   const [bImage, setbImage] = useState([]);
+  const [bnrimgText, setbnrimgText] = useState([]);
   const [trfUrl, settrfUrl] = useState([]);
   const [trfImage, settrfImage] = useState([]);
   const [trfText, settrfText] = useState([]);
@@ -60,16 +62,36 @@ const EditHome = () => {
       };
       reader.readAsDataURL(file);
     }
+    e.target.value = "";
   };
   const handleDeleteBannerImage = (index) => {
-    const dup = [...bannerUrl];
-    dup.splice(index, 1);
-    setbannerUrl(dup);
+    // const dup = [...bannerUrl];
+    // dup.splice(index, 1);
+    // setbannerUrl(dup);
+
+    setbImage((prev) => prev.filter((_, i) => i !== index));
+    setbannerUrl((prev) => prev.filter((_, i) => i !== index));
+    setbnrimgText((prev) => prev.filter((_, i) => i !== index));
   };
   const handledbbannerImage = (index) => {
     let dup = [...item.banner_images];
     dup.splice(index, 1);
-    setItem({ ...item, banner_images: dup });
+
+    // Remove Banner_img & Alt_text set
+    let dupBnrText = [...item.bannerimg_alt];
+    dupBnrText.splice(index, 1);
+    setItem({ ...item, banner_images: dup, bannerimg_alt: dupBnrText });
+  };
+
+  const handleBnrImgText = (e, i) => {
+    let bannerText = [...bnrimgText];
+    bannerText[i] = e.target.value;
+    setbnrimgText([...bannerText]);
+  };
+  const handleBnrImgTextData = (e, i) => {
+    let dup = [...item.bannerimg_alt];
+    dup[i] = e.target.value;
+    setItem({ ...item, bannerimg_alt: dup });
   };
   // Trust-factor-img handle section
 
@@ -95,22 +117,34 @@ const EditHome = () => {
     trftext[i] = e.target.value;
     settrfText([...trfText]);
   };
-  const handleDeleteTrustFactrImage = (i) => {
-    const dup = [...trfImage];
-    let dupUrl = [...trfUrl];
-    let dupText = [...trfText];
-    dupText.splice(i, 1);
-    dup.splice(i, 1);
-    dupUrl.splice(i, 1);
-    settrfImage(dup);
-    settrfUrl(dupUrl);
-    settrfText(dupText);
+  const handleDeleteTrustFactrImage = (index) => {
+    // const dup = [...trfImage];
+    // let dupUrl = [...trfUrl];
+    // let dupText = [...trfText];
+    // dupText.splice(i, 1);
+    // dup.splice(i, 1);
+    // dupUrl.splice(i, 1);
+    // settrfImage(dup);
+    // settrfUrl(dupUrl);
+    // settrfText(dupText);
+
+    settrfImage((prev) => prev.filter((_, i) => i !== index));
+    settrfUrl((prev) => prev.filter((_, i) => i !== index));
+    settrfText((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleDeleteDBTrfImage = (index) => {
     let dup = [...item.trust_factor_images];
     dup.splice(index, 1);
-    setItem({ ...item, trust_factor_images: dup });
+
+    // Remove TRF_img & Alt_text set
+    let dupTrfText = [...item.trust_factor_text];
+    dupTrfText.splice(index, 1);
+    setItem({
+      ...item,
+      trust_factor_images: dup,
+      trust_factor_text: dupTrfText,
+    });
   };
 
   // Logo-File-img handle section
@@ -170,11 +204,17 @@ const EditHome = () => {
         formData.append("banner_images", x);
       }
     }
+    if (bnrimgText.length > 0) {
+      dup.bannerimg_alt = [...dup.bannerimg_alt, ...bnrimgText];
+    }
     // trfacotr-image add logic
     if (trfImage.length > 0) {
       for (let x of trfImage) {
         formData.append("trust_factor_images", x);
       }
+    }
+    if (trfText.length > 0) {
+      dup.trust_factor_text = [...dup.trust_factor_text, ...trfText];
     }
     // Logo-image add logic
     if (logoImg.length > 0) {
@@ -266,46 +306,37 @@ const EditHome = () => {
                 <Flex wrap="wrap">
                   {bannerUrl &&
                     bannerUrl?.map((e, i) => (
-                      <Flex key={i} alignItems="center" position="relative">
-                        <Image src={e} width="200px" />
-                        <Button
-                          leftIcon={<DeleteIcon />}
-                          bgColor={"red.400"}
-                          position="absolute"
-                          size="sm"
-                          top={0}
-                          right={1}
-                          zIndex={1}
-                          _hover={{ bgColor: "red.500", color: "white" }}
-                          color="white"
+                      <Flex key={i}>
+                        <Box>
+                          <Image src={e} width="200px" />
+                          <Input
+                            value={bnrimgText[i]}
+                            onChange={(event) => handleBnrImgText(event, i)}
+                          />
+                        </Box>
+                        <MdDelete
+                          color="red"
+                          size={"30px"}
                           onClick={() => handleDeleteBannerImage(i)}
-                        ></Button>
+                        />
                       </Flex>
                     ))}
                   {item?.banner_images &&
                     item.banner_images.map((e, i) => (
-                      <Flex key={i} alignItems="center" position="relative">
-                        <Image
-                          src={`${url}/home/${e}`}
-                          style={{
-                            width: "200px",
-                            marginRight: "10px",
-                            marginBottom: "10px",
-                          }}
-                        />
-
-                        <Button
-                          leftIcon={<DeleteIcon />}
-                          bgColor={"red.400"}
-                          position="absolute"
-                          size="sm"
-                          top={0}
-                          right={1}
-                          zIndex={1}
-                          _hover={{ bgColor: "red.500", color: "white" }}
-                          color="white"
+                      <Flex key={i}>
+                        <Box>
+                          <Image width="200px" src={`${url}/home/${e}`} />
+                          <Input
+                            value={item.bannerimg_alt[i]}
+                            onChange={(event) => handleBnrImgTextData(event, i)}
+                          />
+                        </Box>
+                        <MdDelete
+                          color="red"
+                          cursor="pointer"
+                          size={"30px"}
                           onClick={() => handledbbannerImage(i)}
-                        ></Button>
+                        />
                       </Flex>
                     ))}
                 </Flex>

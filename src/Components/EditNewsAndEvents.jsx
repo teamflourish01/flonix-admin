@@ -15,11 +15,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
+import { MdDelete } from "react-icons/md";
 
 const UpdateNewsAndEvents = () => {
   const { Id } = useParams();
   const [item, setItem] = useState([]);
-  const [selectedImages, setSelectedImages] = useState([]);
   const [singleImg, setSingleImg] = useState("");
   const [selctSinImg, setselectSingImg] = useState("");
   const [selectedDetail, setselectedDetail] = useState("");
@@ -59,6 +59,19 @@ const UpdateNewsAndEvents = () => {
     setSingleImg("");
     setselectSingImg("");
   };
+  // image_alt Text logic
+
+  const hancardText = (e) => {
+    let dup = [...item.cardimg_alt];
+    dup = e.target.value;
+    setItem({ ...item, cardimg_alt: dup });
+  };
+
+  const handleDetImgText = (e) => {
+    let dup = [...item.detailimg_alt];
+    dup = e.target.value;
+    setItem({ ...item, detailimg_alt: dup });
+  };
   // Detail Image logic
   const handleDetailImgChange = (e) => {
     let file = e.target.files[0];
@@ -87,9 +100,12 @@ const UpdateNewsAndEvents = () => {
     }
   };
   const handleDeleteMultipleImage = (index) => {
-    const dup = [...detImgsUrl];
-    dup.splice(index, 1);
-    setdetImgsUrl(dup);
+    // const dup = [...detImgsUrl];
+    // dup.splice(index, 1);
+    // setdetImgsUrl(dup);
+
+    setdetImgsUrl(detImgsUrl.filter((_, i) => i !== index));
+    setdetImgs(detImgs.filter((_, i) => i !== index));
   };
   const handleDBImgdelete = (index) => {
     let dup = [...item.detailimages];
@@ -188,47 +204,43 @@ const UpdateNewsAndEvents = () => {
               </FormControl>
               <FormControl>
                 {selctSinImg && (
-                  <Flex alignItems="center" position="relative">
-                    <img
-                      src={selctSinImg}
-                      alt="selected img"
-                      style={{
-                        width: "200px",
+                  <Flex>
+                    <Box>
+                      <Image src={selctSinImg} width="200px" />
 
-                        margin: "5px",
-                      }}
-                    />
-                    <Button
-                      leftIcon={<DeleteIcon />}
-                      bgColor={"red.400"}
-                      position="absolute"
-                      size="sm"
-                      top={0}
-                      left="180px"
-                      zIndex={1}
-                      _hover={{ bgColor: "red.500", color: "white" }}
-                      color="white"
+                      <Input
+                        value={item.cardimg_alt}
+                        onChange={(event) => hancardText(event)}
+                      />
+                    </Box>
+                    <MdDelete
+                      color="red"
+                      size={"30px"}
+                      cursor="pointer"
                       onClick={handleDeleteSingleImage}
-                    ></Button>
+                    />
                   </Flex>
                 )}
               </FormControl>
               {!selctSinImg && item.cardimage && (
                 <FormControl mr={4}>
-                  <Flex alignItems="center" position="relative">
-                    <img
-                      src={`${url}/newsAndevents/${item.cardimage}`}
-                      alt="selected img"
-                      style={{
-                        width: "200px",
+                  <img
+                    src={`${url}/newsAndevents/${item.cardimage}`}
+                    alt="selected img"
+                    style={{
+                      width: "200px",
 
-                        margin: "5px",
-                        marginBottom: "10px",
-                      }}
-                    />
-                  </Flex>
+                      margin: "5px",
+                      marginBottom: "10px",
+                    }}
+                  />
+                  <Input
+                    value={item.cardimg_alt}
+                    onChange={(event) => hancardText(event)}
+                  />
                 </FormControl>
               )}
+              <br />
               <FormControl isRequired mb={4}>
                 <FormLabel htmlFor="cardheading" color={"#add8e6"}>
                   Card Heading
@@ -273,44 +285,39 @@ const UpdateNewsAndEvents = () => {
               </FormControl>
               <FormControl>
                 {selectedDetail && (
-                  <Flex alignItems="center" position="relative">
-                    <img
-                      src={selectedDetail}
-                      alt="selected img"
-                      style={{
-                        width: "200px",
-                        margin: "5px",
-                      }}
-                    />
-                    <Button
-                      leftIcon={<DeleteIcon />}
-                      bgColor={"red.400"}
-                      position="absolute"
-                      size="sm"
-                      top={0}
-                      left={170}
-                      zIndex={1}
-                      _hover={{ bgColor: "red.500", color: "white" }}
-                      color="white"
+                  <Flex>
+                    <Box>
+                      <Image src={selectedDetail} width="200px" />
+                      <Input
+                        value={item.detailimg_alt}
+                        onChange={(event) => handleDetImgText(event)}
+                      />
+                    </Box>
+                    <MdDelete
+                      color="red"
+                      size={"30px"}
+                      cursor="pointer"
                       onClick={handleDeleteDetailImg}
-                    ></Button>
+                    />
                   </Flex>
                 )}
               </FormControl>
               {!selectedDetail && item.detailimage && (
                 <FormControl mr={4}>
-                  <Flex alignItems="center" position="relative">
-                    <img
-                      src={`${url}/newsAndevents/${item.detailimage}`}
-                      alt="selected img"
-                      style={{
-                        width: "200px",
+                  <img
+                    src={`${url}/newsAndevents/${item.detailimage}`}
+                    alt="selected img"
+                    style={{
+                      width: "200px",
 
-                        margin: "5px",
-                        marginBottom: "10px",
-                      }}
-                    />
-                  </Flex>
+                      margin: "5px",
+                      marginBottom: "10px",
+                    }}
+                  />
+                  <Input
+                    value={item.detailimg_alt}
+                    onChange={(event) => handleDetImgText(event)}
+                  />
                 </FormControl>
               )}
             </form>
@@ -413,50 +420,57 @@ const UpdateNewsAndEvents = () => {
                 <Flex wrap="wrap">
                   {item.detailimages &&
                     item.detailimages.map((e, i) => (
-                      <Flex key={i} alignItems="center" position="relative">
+                      <Flex key={i} position="relative">
                         <Image
                           key={i}
                           src={`${url}/newsAndevents/${e}`}
                           alt={`Image ${i}`}
                           style={{
                             width: "200px",
-
-                            objectFit: "cover",
                             marginRight: "10px",
                             marginBottom: "10px",
                           }}
                         />
-                        <Button
-                          leftIcon={<DeleteIcon />}
-                          bgColor={"red.400"}
-                          position="absolute"
-                          size="sm"
-                          top={0}
-                          right={0}
-                          zIndex={1}
-                          _hover={{ bgColor: "red.500", color: "white" }}
-                          color="white"
+                        <MdDelete
+                          size={"40px"}
+                          color="red"
+                          cursor="pointer"
                           onClick={() => handleDBImgdelete(i)}
-                        ></Button>
+                          style={{
+                            position: "absolute",
+                            top: "4px",
+                            right: "0",
+                            marginTop: "-15px",
+                            marginRight: "-8px",
+                          }}
+                        />
                       </Flex>
                     ))}
 
                   {detImgsUrl &&
                     detImgsUrl.map((e, i) => (
-                      <Flex key={i} alignItems="center" position="relative">
-                        <Image src={e} width="200px" />
-                        <Button
-                          leftIcon={<DeleteIcon />}
-                          bgColor={"red.400"}
-                          position="absolute"
-                          size="sm"
-                          top={0}
-                          right={0}
-                          zIndex={1}
-                          _hover={{ bgColor: "red.500", color: "white" }}
-                          color="white"
+                      <Flex key={i} position="relative">
+                        <Image
+                          src={e}
+                          style={{
+                            width: "200px",
+                            marginRight: "10px",
+                            marginBottom: "10px",
+                          }}
+                        />
+                        <MdDelete
+                          size={"40px"}
+                          color="red"
+                          cursor="pointer"
                           onClick={() => handleDeleteMultipleImage(i)}
-                        ></Button>
+                          style={{
+                            position: "absolute",
+                            top: "4px",
+                            right: "0",
+                            marginTop: "-15px",
+                            marginRight: "-8px",
+                          }}
+                        />
                       </Flex>
                     ))}
                 </Flex>

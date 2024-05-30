@@ -103,6 +103,20 @@ const ViewNewsAndEvents = () => {
           />
         </SimpleGrid>
         <br />
+
+        <Text fontWeight={"semibold"} fontSize={"xl"}>
+          Card Image Alt Text
+        </Text>
+        <Box
+          padding="10px 20px"
+          width="50%"
+          bgColor={"#eef1f4"}
+          fontSize={"medium"}
+          _readOnly
+        >
+          {item?.cardimg_alt}
+        </Box>
+        <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
           Card Hading
         </Text>
@@ -143,6 +157,20 @@ const ViewNewsAndEvents = () => {
             }}
           />
         </SimpleGrid>
+        <br />
+        <Text fontWeight={"semibold"} fontSize={"xl"}>
+          Detail Image Alt Text
+        </Text>
+        <Box
+          padding="10px 20px"
+          width="50%"
+          bgColor={"#eef1f4"}
+          fontSize={"medium"}
+          _readOnly
+        >
+          {item?.detailimg_alt}
+        </Box>
+        <br />
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
           Date
