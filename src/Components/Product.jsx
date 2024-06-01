@@ -106,8 +106,8 @@ const Product = () => {
         <Td>{e?.category?.name}</Td>
         <Td>  
             <ButtonGroup>
-            <Button leftIcon={<ViewIcon/>} bgColor={"black"} _hover={{bgColor:"#add8e6",color:"black"}} variant="solid" color="#add8e6" onClick={()=>navigate(`/admin/product/${e._id}`)}>View</Button>
-            <Button leftIcon={<BiEditAlt/>} border="1px solid #add8e6" variant={"outline"}  _hover={{bgColor:"#add8e6",color:"black"}}  onClick={()=>navigate(`/admin/product/edit/${e._id}`)}>Edit</Button>
+            <Button leftIcon={<ViewIcon/>} bgColor={"black"} _hover={{bgColor:"#add8e6",color:"black"}} variant="solid" color="#add8e6" onClick={()=>navigate(`/admin/product/${e?.slug}`)}>View</Button>
+            <Button leftIcon={<BiEditAlt/>} border="1px solid #add8e6" variant={"outline"}  _hover={{bgColor:"#add8e6",color:"black"}}  onClick={()=>navigate(`/admin/product/edit/${e?.slug}`)}>Edit</Button>
             <DeleteBtn handleDelete={()=>handleDelete(e._id)}/>
             </ButtonGroup>
         </Td>

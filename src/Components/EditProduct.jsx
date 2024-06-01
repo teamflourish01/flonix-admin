@@ -23,9 +23,11 @@ import { GrFormAdd } from "react-icons/gr";
 import { IoIosRemove } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
+import EditPermalink from "./EditPermalink";
+import generateSlug from "../util/generateSlug";
 
 const EditProduct = () => {
-  const { id } = useParams();
+  const { slugname } = useParams();
   const [product, setProduct] = useState({});
   const [category, setCategory] = useState([]);
   const [spec, setSpec] = useState({});
@@ -46,6 +48,7 @@ const EditProduct = () => {
   const [featureValue, setFeatureValue] = useState("");
   const toast = useToast();
   const navigate = useNavigate();
+  const [slug,setSlug]=useState("")
 
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -64,13 +67,14 @@ const EditProduct = () => {
 
   const getProduct = async () => {
     try {
-      let data = await fetch(`${url}/product/${id}`);
+      let data = await fetch(`${url}/product/${slugname}`);
       data = await data.json();
       console.log(data);
       setProduct(data.data);
       setSpec(data.data?.specification);
       setDetail(data.data?.details);
       setFeature(data.data?.performance);
+      setSlug(data.data?.slug)
     } catch (error) {
       console.log(error);
     }
@@ -256,7 +260,6 @@ const EditProduct = () => {
 
   const handleUpdate = async () => {
     let formData = new FormData();
-
     let dup = { ...product };
     if (image.length > 0) {
       // dup.image=[...dup.image,...image]
@@ -285,10 +288,12 @@ const EditProduct = () => {
     if (feature) {
       dup.performance = feature;
     }
+    let newSlug=generateSlug(slug)
+    dup.slug=newSlug
     console.log(dup, "dup");
     formData.append("dup", JSON.stringify(dup));
     try {
-      let data = await axios.post(`${url}/product/edit/${id}`, formData);
+      let data = await axios.post(`${url}/product/edit/${slugname}`, formData);
       console.log(data);
       if (data.status == 200) {
         toast({
@@ -349,7 +354,7 @@ const EditProduct = () => {
             />
           </FormControl>
           <br />
-
+          <EditPermalink slug={slug} setSlug={setSlug} folder={"product"} />
           <FormControl>
             <FormLabel>Category</FormLabel>
             <select

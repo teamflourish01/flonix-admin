@@ -137,7 +137,7 @@ const EditBlog = () => {
     try {
       let data = await axios.post(`${url}/blog/edit/${slugname}`, formData);
       console.log(data);
-      if (data.status == 200) {
+      if (data.data) {
         toast({
           title: "Blog Edited Successfully",
           description: data.msg,
@@ -158,7 +158,14 @@ const EditBlog = () => {
         });
       }
     } catch (error) {
-      console.log(error);
+      toast({
+        title: "Blog Not Edited ",
+        description: error.request.response,
+        status: "error",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
     }
   };
 
@@ -432,6 +439,7 @@ const EditBlog = () => {
             color="#add8e6"
             _hover={{ bgColor: "#add8e6", color: "black" }}
             onClick={editData}
+            isDisabled={!slug}
           >
             Edit Item
           </Button>

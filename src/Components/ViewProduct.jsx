@@ -20,7 +20,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ViewProduct = () => {
-  const { id } = useParams();
+  const { slugname } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
   const toast = useToast();
@@ -28,11 +28,22 @@ const ViewProduct = () => {
   const detailArray = Object.entries(product?.details || {});
   const performanceArray = Object.entries(product?.performance || {});
   const url = process.env.REACT_APP_DEV_URL;
-  const handleDelete = () => {};
+  const handleDelete = async(id) => {
+    try {
+      let data = await fetch(`${url}/blog/delete/${id}`, {
+        method: "DELETE",
+      });
+      data = await data.json();
+      console.log(data);
+      navigate("/admin/product")
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getProduct = async () => {
     try {
-      let data = await fetch(`${url}/product/${id}`);
+      let data = await fetch(`${url}/product/${slugname}`);
       data = await data.json();
       console.log(data.data, "single");
       setProduct(data.data);
@@ -56,7 +67,7 @@ const ViewProduct = () => {
           bgColor={"black"}
           _hover={{ color: "black", bgColor: "#add8e6" }}
           leftIcon={<BiEditAlt />}
-          onClick={() => navigate(`/admin/product/edit/${id}`)}
+          onClick={() => navigate(`/admin/product/edit/${slugname}`)}
         >
           Edit
         </Button>
@@ -66,7 +77,7 @@ const ViewProduct = () => {
           bgColor={"black"}
           _hover={{ color: "black", bgColor: "#add8e6" }}
           leftIcon={<RiDeleteBin6Line />}
-          onClick={() => handleDelete(id)}
+          onClick={() => handleDelete(slugname)}
         >
           Delete
         </Button>
@@ -83,6 +94,18 @@ const ViewProduct = () => {
         fontSize={"medium"}
       >
         {product?.name}
+      </Box>
+      <br />
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
+        PermaLink
+      </Text>
+      <Box
+        padding="10px 20px"
+        width="50%"
+        bgColor={"#eef1f4"}
+        fontSize={"medium"}
+      >
+        {url+"/product/"+product?.slug}
       </Box>
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>

@@ -22,6 +22,10 @@ import React, { useEffect, useState } from "react";
 import { GrFormAdd } from "react-icons/gr";
 import { IoIosRemove } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
+import EditPermalink from "./EditPermalink";
+import generateSlug from "../util/generateSlug";
+import { useNavigate } from "react-router-dom";
+
 
 const AddProduct = () => {
   const url = process.env.REACT_APP_DEV_URL;
@@ -52,9 +56,13 @@ const AddProduct = () => {
     specification: {},
     details: {},
     performance: {},
+    slug:""
   });
 
   const [spec, setSpec] = useState({});
+  const [slug,setSlug]=useState("")
+  const navigate=useNavigate()
+
   let formData = new FormData();
   const getCategory = async () => {
     try {
@@ -252,6 +260,8 @@ const AddProduct = () => {
     if (feature) {
       dup.performance = feature;
     }
+    let newSlug=generateSlug(slug)
+    dup.slug=newSlug
     try {
       let res = await fetch(`${url}/product/add`, {
         method: "POST",
@@ -271,6 +281,8 @@ const AddProduct = () => {
           duration: 7000,
           isClosable: true,
         });
+      navigate("/admin/product")
+
       } else {
         toast({
           title: "Product Not Added ",
@@ -311,10 +323,14 @@ const AddProduct = () => {
               type="text"
               name="name"
               value={product.name}
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => {handleChange(e);
+                setSlug(generateSlug(e.target.value))
+              }}
             />
           </FormControl>
           <br />
+          <EditPermalink slug={slug} folder={"product"} setSlug={setSlug}/>
+
           {/* <FormControl isRequired>
           <FormLabel color={"#add8e6"}> Caption</FormLabel>
           <Input
