@@ -27,7 +27,8 @@ const ViewBlogCategory = () => {
     try {
       let data = await fetch(`${url}/blogcategory/${slugname}`);
       data = await data.json();
-      setCategory(data.data);
+      setCategory(data.data[0]);
+      console.log(data.data);
     } catch (error) {
       console.log(error);
     }

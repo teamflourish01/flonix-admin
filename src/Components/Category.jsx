@@ -155,7 +155,7 @@ const Category = () => {
                         _hover={{ bgColor: "#add8e6", color: "black" }}
                         variant="solid"
                         color="#add8e6"
-                        onClick={() => navigate(`/admin/category/${e._id}`)}
+                        onClick={() => navigate(`/admin/category/${e?.slug}`)}
                       >
                         View
                       </Button>
@@ -165,12 +165,12 @@ const Category = () => {
                         variant={"outline"}
                         _hover={{ bgColor: "#add8e6", color: "black" }}
                         onClick={() =>
-                          navigate(`/admin/category/edit/${e._id}`)
+                          navigate(`/admin/category/edit/${e?.slug}`)
                         }
                       >
                         Edit
                       </Button>
-                      <DeleteBtn handleDelete={() => handleDelete(e._id)} />
+                      <DeleteBtn handleDelete={() => handleDelete(e?.slug)} />
                     </ButtonGroup>
                   </Td>
                 </Tr>

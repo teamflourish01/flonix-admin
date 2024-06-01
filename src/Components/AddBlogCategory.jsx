@@ -88,7 +88,7 @@ const AddBlogCategory = () => {
               type="text"
               color={"black"}
               borderColor={"#add8e6"}
-              value={category.name}
+              value={category?.name}
               name="name"
               onChange={(e) =>{ handleChange(e);
                 setSlug(generateSlug(e.target.value));
