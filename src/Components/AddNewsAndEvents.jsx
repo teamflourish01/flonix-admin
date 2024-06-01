@@ -16,6 +16,8 @@ import axios from "axios";
 import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
+import generateSlug from "../util/generateSlug";
+import EditPermalink from "./EditPermalink";
 
 const AddFormNewsandEvents = () => {
   const [eventdata, setEventdata] = useState({
@@ -31,6 +33,7 @@ const AddFormNewsandEvents = () => {
     detailimage: "",
     detailimg_alt: "",
     detailimages: [],
+    slug: "",
   });
   const [selectedImages, setSelectedImages] = useState("");
   const [image, setImage] = useState({});
@@ -41,6 +44,7 @@ const AddFormNewsandEvents = () => {
 
   const [varImage, setVarImage] = useState([]);
   const Navigate = useNavigate();
+  const [slug, setSlug] = useState("");
   const url = process.env.REACT_APP_DEV_URL;
 
   const formData = new FormData();
@@ -173,6 +177,9 @@ const AddFormNewsandEvents = () => {
     if (detimg) {
       dup.detailimage = detimg;
     }
+    let newSlug=generateSlug(slug)
+    dup.slug=newSlug
+    setEventdata(dup)
     try {
       let res = await fetch(`${url}/newsandevent/add`, {
         method: "POST",
@@ -182,7 +189,6 @@ const AddFormNewsandEvents = () => {
         body: JSON.stringify(dup),
       });
       let data = await res.json();
-      console.log("my testing", data);
       if (res.ok) {
         toast({
           title: "Data Added Successfuly",
@@ -207,7 +213,7 @@ const AddFormNewsandEvents = () => {
         Navigate("/admin/newsandevents/");
       } else {
         toast({
-          title: "Data Not Added ",
+          title: "Data Not Add X ",
           description: data.msg,
           status: "error",
           position: "top",
@@ -220,6 +226,11 @@ const AddFormNewsandEvents = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleChange = (e) => {
+    let { name, value } = e.target;
+    setEventdata({ ...eventdata, [name]: value });
   };
 
   return (
@@ -273,7 +284,7 @@ const AddFormNewsandEvents = () => {
                 )}
               </FormControl>
               <br />
-              <FormControl isRequired mb={4}>
+              <FormControl isRequired mb={1}>
                 <FormLabel htmlFor="cardheading" color={"#add8e6"}>
                   Card Heading
                 </FormLabel>
@@ -285,9 +296,14 @@ const AddFormNewsandEvents = () => {
                   mb={4}
                   name="cardheading"
                   value={eventdata.cardheading}
-                  onChange={handleInput}
+                  onChange={(e) => {
+                    handleChange(e);
+                    setSlug(generateSlug(e.target.value));
+                  }}
                 />
               </FormControl>
+              <EditPermalink slug={slug} folder={"newsandevent"} setSlug={setSlug} />
+
               <FormControl isRequired>
                 <FormLabel htmlFor="cardtext" color={"#add8e6"}>
                   Card Description

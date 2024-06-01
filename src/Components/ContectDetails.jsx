@@ -34,11 +34,8 @@ const Contectdetails = () => {
     getContectDetails();
   }, []);
   return (
-    <Box p="4">
+    <Box p="10">
       <br />
-      <Text fontSize={"xl"} fontWeight={"semibold"}>
-        Contect Details Page
-      </Text>
       <br />
       <TableContainer border={"1px solid #161616"} borderRadius={"20px"}>
         <Table variant="simple">
@@ -56,7 +53,15 @@ const Contectdetails = () => {
                 <Tr key={e._id}>
                   <Td> {i + 1} </Td>
                   <Td>{e?.email}</Td>
-                  <Td style={{overflow:"hidden"}}>{e?.officeaddress}</Td>
+                  <Td
+                    style={{
+                      width: "400px",
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    {e?.officeaddress}
+                  </Td>
                   <Td>
                     <ButtonGroup>
                       <Button

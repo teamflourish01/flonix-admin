@@ -138,10 +138,11 @@ const Certificates = () => {
                   <Td
                     style={{
                       whiteSpace: "normal",
-                      padding: "0",
+                      // padding: "0",
                       width: "500px",
                       textAlign: "justify",
                       overflow: "hidden",
+                      wordBreak: "break-word",
                     }}
                   >
                     {e?.imgdescription}
