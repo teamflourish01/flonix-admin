@@ -106,6 +106,29 @@ const EditBlog = () => {
   const handleImageUrl = (x) => {
     x("");
   };
+  // Img_alt- Text Logic
+
+  const hanldebnnrImgText = (e) => {
+    let dup = [...blog.bannerimg_alt];
+    dup = e.target.value;
+    setBlog({ ...blog, bannerimg_alt: dup });
+  };
+
+  const handleFstImgText = (e) => {
+    let dup = [...blog.firstimg_alt];
+    dup = e.target.value;
+    setBlog({ ...blog, firstimg_alt: dup });
+  };
+  const handleSecImgText = (e) => {
+    let dup = [...blog.secondimg_alt];
+    dup = e.target.value;
+    setBlog({ ...blog, secondimg_alt: dup });
+  };
+  const handleThrdImgText = (e) => {
+    let dup = [...blog.thirdimg_alt];
+    dup = e.target.value;
+    setBlog({ ...blog, thirdimg_alt: dup });
+  };
 
   const editData = async () => {
     let formData = new FormData();
@@ -131,8 +154,8 @@ const EditBlog = () => {
     if (text3) {
       dup.text3 = text3;
     }
-    let newSlug=generateSlug(slug)
-    dup.slug=newSlug
+    let newSlug = generateSlug(slug);
+    dup.slug = newSlug;
     formData.append("dup", JSON.stringify(dup));
     try {
       let data = await axios.post(`${url}/blog/edit/${slugname}`, formData);
@@ -162,8 +185,8 @@ const EditBlog = () => {
     }
   };
 
-  const handleImageDelete = (x) => {
-    setBlog({ ...blog, [x]: "" });
+  const handleImageDelete = (x, y) => {
+    setBlog({ ...blog, [x]: "", [y]: "" });
   };
 
   useEffect(() => {
@@ -194,26 +217,36 @@ const EditBlog = () => {
             />
           </FormControl>
           <br />
-          <EditPermalink
-            slug={slug}
-            setSlug={setSlug}
-            folder={"blog"}
-          />
+          <EditPermalink slug={slug} setSlug={setSlug} folder={"blog"} />
           <FormControl isRequired>
             <FormLabel color={"#add8e6"}>Banner Image</FormLabel>
             {blog?.banner_image && (
               <Flex>
-                <Image src={`${url}/blog/${blog?.banner_image}`} />
+                <Box>
+                  <Image w="200px" src={`${url}/blog/${blog?.banner_image}`} />
+                  <Input
+                    value={blog.bannerimg_alt}
+                    onChange={(event) => hanldebnnrImgText(event)}
+                  />
+                </Box>
                 <MdDelete
                   color="red"
                   size={"30px"}
-                  onClick={() => handleImageDelete("banner_image")}
+                  onClick={() =>
+                    handleImageDelete("banner_image", "bannerimg_alt")
+                  }
                 />
               </Flex>
             )}
             {bannerUrl && (
               <Flex>
-                <Image w="200px" src={`${bannerUrl}`} />
+                <Box>
+                  <Image w="200px" src={`${bannerUrl}`} />
+                  <Input
+                    value={blog.bannerimg_alt}
+                    onChange={(event) => hanldebnnrImgText(event)}
+                  />
+                </Box>
                 <MdDelete
                   color="red"
                   size={"30px"}
@@ -253,17 +286,29 @@ const EditBlog = () => {
             <FormLabel color={"#add8e6"}>First Image</FormLabel>
             {blog?.first_image && (
               <Flex>
-                <Image w="200px" src={`${url}/blog/${blog?.first_image}`} />
+                <Box>
+                  <Image w="200px" src={`${url}/blog/${blog?.first_image}`} />
+                  <Input
+                    value={blog.firstimg_alt}
+                    onChange={(event) => handleFstImgText(event)}
+                  />
+                </Box>
                 <MdDelete
                   color="red"
                   size={"30px"}
-                  onClick={() => handleImageDelete("first_image")}
+                  onClick={() => handleImageDelete("first_image","firstimg_alt")}
                 />
               </Flex>
             )}
             {firstUrl && (
               <Flex>
-                <Image w="200px" src={`${firstUrl}`} />
+                <Box>
+                  <Image w="200px" src={`${firstUrl}`} />
+                  <Input
+                    value={blog.firstimg_alt}
+                    onChange={(event) => handleFstImgText(event)}
+                  />
+                </Box>
                 <MdDelete
                   color="red"
                   size={"30px"}
@@ -312,17 +357,29 @@ const EditBlog = () => {
             <FormLabel color={"#add8e6"}>Second Image</FormLabel>
             {blog?.second_image && (
               <Flex>
-                <Image w="200px" src={`${url}/blog/${blog?.second_image}`} />
+                <Box>
+                  <Image w="200px" src={`${url}/blog/${blog?.second_image}`} />
+                  <Input
+                    value={blog.secondimg_alt}
+                    onChange={(event) => handleSecImgText(event)}
+                  />
+                </Box>
                 <MdDelete
                   color="red"
                   size={"30px"}
-                  onClick={() => handleImageDelete("second_image")}
+                  onClick={() => handleImageDelete("second_image","secondimg_alt")}
                 />
               </Flex>
             )}
             {secondUrl && (
               <Flex>
-                <Image w="200px" src={`${secondUrl}`} />
+                <Box>
+                  <Image w="200px" src={`${secondUrl}`} />
+                  <Input
+                    value={blog.secondimg_alt}
+                    onChange={(event) => handleSecImgText(event)}
+                  />
+                </Box>
                 <MdDelete
                   color="red"
                   size={"30px"}
@@ -372,17 +429,29 @@ const EditBlog = () => {
             <FormLabel color={"#add8e6"}>Third Image</FormLabel>
             {blog?.third_image && (
               <Flex>
-                <Image w="200px" src={`${url}/blog/${blog?.third_image}`} />
+                <Box>
+                  <Image w="200px" src={`${url}/blog/${blog?.third_image}`} />
+                  <Input
+                    value={blog.thirdimg_alt}
+                    onChange={(event) => handleThrdImgText(event)}
+                  />
+                </Box>
                 <MdDelete
                   color="red"
                   size={"30px"}
-                  onClick={() => handleImageDelete("third_image")}
+                  onClick={() => handleImageDelete("third_image","thirdimg_alt")}
                 />
               </Flex>
             )}
             {thirdUrl && (
               <Flex>
-                <Image w="200px" src={`${thirdUrl}`} />
+                <Box>
+                  <Image w="200px" src={`${thirdUrl}`} />
+                  <Input
+                    value={blog.thirdimg_alt}
+                    onChange={(event) => handleThrdImgText(event)}
+                  />
+                </Box>
                 <MdDelete
                   color="red"
                   size={"30px"}

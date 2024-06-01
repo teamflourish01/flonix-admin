@@ -26,17 +26,21 @@ const AddBlog = () => {
   const [blog, setBlog] = useState({
     name: "",
     banner_image: "",
+    bannerimg_alt: "",
     first_image: "",
+    firstimg_alt: "",
     first_toggle: false,
     text1: "",
     text2: "",
     second_image: "",
+    secondimg_alt: "",
     second_toggle: false,
     text3: "",
     third_image: "",
+    thirdimg_alt: "",
     third_toggle: false,
     category: "",
-    slug:""
+    slug: "",
   });
 
   const [category, setCategory] = useState([]);
@@ -53,9 +57,9 @@ const AddBlog = () => {
   const [text2, setText2] = useState("");
   const [text3, setText3] = useState("");
   let audio = new Audio(switchAudio);
-  const toast=useToast()
-  const navigate=useNavigate()
-  const [slug,setSlug]=useState("")
+  const toast = useToast();
+  const navigate = useNavigate();
+  const [slug, setSlug] = useState("");
 
   const toolbarOptions = [
     ["bold", "italic", "underline", "strike"], // toggled buttons
@@ -112,11 +116,32 @@ const AddBlog = () => {
     img("");
     url("");
   };
+  // Image_Alt text input
+  const handlebnrImgTex = (event) => {
+    let bnnrImgText = [...blog.bannerimg_alt];
+    bnnrImgText = event.target.value;
+    setBlog({ ...blog, bannerimg_alt: bnnrImgText });
+  };
 
+  const handleFimgText = (event) => {
+    let fstImgText = [...blog.firstimg_alt];
+    fstImgText = event.target.value;
+    setBlog({ ...blog, firstimg_alt: fstImgText });
+  };
+  const handleSecImgText = (event) => {
+    let secImgText = [...blog.secondimg_alt];
+    secImgText = event.target.value;
+    setBlog({ ...blog, secondimg_alt: secImgText });
+  };
+  const handleThrdImgText = (event) => {
+    let thrdImgText = [...blog.thirdimg_alt];
+    thrdImgText = event.target.value;
+    setBlog({ ...blog, thirdimg_alt: thrdImgText });
+  };
   //                  upload data
 
-  const handleSave = async() => {
-    let formData=new FormData()
+  const handleSave = async () => {
+    let formData = new FormData();
     let dup = { ...blog };
     if (text1) {
       dup.text1 = text1;
@@ -128,27 +153,27 @@ const AddBlog = () => {
       dup.text3 = text3;
     }
     if (banner) {
-     formData.append("banner",banner)
+      formData.append("banner", banner);
     }
     if (first) {
-      formData.append("first",first)
+      formData.append("first", first);
     }
     if (second) {
-      formData.append("second",second)
+      formData.append("second", second);
     }
-    if(third){
-      formData.append("third",third)
+    if (third) {
+      formData.append("third", third);
     }
-    let newSlug=generateSlug(slug)
-    dup.slug=newSlug
+    let newSlug = generateSlug(slug);
+    dup.slug = newSlug;
     setBlog(dup);
 
     console.log(dup);
-    formData.append("dup",JSON.stringify(dup))
+    formData.append("dup", JSON.stringify(dup));
     try {
-      let data=await axios.post(`${url}/blog/add`,formData)
+      let data = await axios.post(`${url}/blog/add`, formData);
       console.log(data.data);
-      if(data.data){
+      if (data.data) {
         toast({
           title: "Blog Added",
           description: data.msg,
@@ -157,7 +182,7 @@ const AddBlog = () => {
           duration: 7000,
           isClosable: true,
         });
-      }else{
+      } else {
         toast({
           title: "Invalid Response",
           description: data.msg,
@@ -167,7 +192,7 @@ const AddBlog = () => {
           isClosable: true,
         });
       }
-        navigate("/admin/blog");
+      navigate("/admin/blog");
     } catch (error) {
       console.log(error);
       toast({
@@ -211,13 +236,14 @@ const AddBlog = () => {
               type="text"
               name="name"
               value={blog.name}
-              onChange={(e) =>{ handleChange(e);
-                setSlug(generateSlug(e.target.value))
+              onChange={(e) => {
+                handleChange(e);
+                setSlug(generateSlug(e.target.value));
               }}
             />
           </FormControl>
           <br />
-          <EditPermalink slug={slug} folder={"blog"} setSlug={setSlug}/>
+          <EditPermalink slug={slug} folder={"blog"} setSlug={setSlug} />
           <FormControl>
             <FormLabel color={"#add8e6"}>Category</FormLabel>
             <select
@@ -246,7 +272,15 @@ const AddBlog = () => {
             <FormLabel color={"#add8e6"}>Banner Image</FormLabel>
             {bannerUrl && (
               <Flex>
-                <Image h="200px" src={bannerUrl} alt="banner" />
+                <Box>
+                  <Image h="200px" src={bannerUrl} alt="banner" />
+                  <Input
+                    value={blog.bannerimg_alt}
+                    onChange={(event) => handlebnrImgTex(event)}
+                    placeholder="Add Img ALT Text"
+                  />
+                </Box>
+
                 <MdDelete
                   color="red"
                   cursor={"pointer"}
@@ -298,7 +332,14 @@ const AddBlog = () => {
             <FormLabel color={"#add8e6"}>First Image</FormLabel>
             {firstUrl && (
               <Flex>
-                <Image src={firstUrl} h="200px" />
+                <Box>
+                  <Image src={firstUrl} h="200px" />
+                  <Input
+                    value={blog.firstimg_alt}
+                    onChange={(event) => handleFimgText(event)}
+                    placeholder="Add Img ALT Text"
+                  />
+                </Box>
                 <MdDelete
                   color="red"
                   cursor={"pointer"}
@@ -349,7 +390,14 @@ const AddBlog = () => {
             <FormLabel color={"#add8e6"}>Second Image</FormLabel>
             {secondUrl && (
               <Flex>
-                <Image src={secondUrl} h="200px" />
+                <Box>
+                  <Image src={secondUrl} h="200px" />
+                  <Input
+                    value={blog.secondimg_alt}
+                    onChange={(event) => handleSecImgText(event)}
+                    placeholder="Add Img ALT Text"
+                  />
+                </Box>
                 <MdDelete
                   color="red"
                   cursor={"pointer"}
@@ -400,7 +448,14 @@ const AddBlog = () => {
             <FormLabel color={"#add8e6"}>Third Image</FormLabel>
             {thirdUrl && (
               <Flex>
-                <Image src={thirdUrl} h="200px" />
+                <Box>
+                  <Image src={thirdUrl} h="200px" />
+                  <Input
+                    value={blog.thirdimg_alt}
+                    onChange={(event) => handleThrdImgText(event)}
+                    placeholder="Add Img ALT Text"
+                  />
+                </Box>
                 <MdDelete
                   color="red"
                   cursor={"pointer"}
