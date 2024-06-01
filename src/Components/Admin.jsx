@@ -476,11 +476,11 @@ const Admin = () => {
               element={<AddFormNewsandEvents />}
             />
             <Route
-              path="/admin/newsandevents/:id"
+              path="/admin/newsandevents/:slug"
               element={<ViewNewsAndEvents />}
             />
             <Route
-              path="/admin/newsandevents/edit/:Id"
+              path="/admin/newsandevents/edit/:slugname"
               element={<UpdateNewsAndEvents />}
             />
             <Route path="/admin/contact" element={<Contact />} />

@@ -115,7 +115,7 @@ const EditHome = () => {
   const handleTrFacText = (e, i) => {
     let trftext = [...trfText];
     trftext[i] = e.target.value;
-    settrfText([...trfText]);
+    settrfText([...trftext]);
   };
   const handleDeleteTrustFactrImage = (index) => {
     // const dup = [...trfImage];
@@ -161,9 +161,11 @@ const EditHome = () => {
     }
   };
   const handleDeleteLogoImage = (index) => {
-    const dup = [...logoUrl];
-    dup.splice(index, 1);
-    setlogoUrl(dup);
+    // const dup = [...logoUrl];
+    // dup.splice(index, 1);
+    // setlogoUrl(dup);
+    setlogoUrl(logoUrl.filter((_, i) => i !== index));
+    setlogoImg(logoImg.filter((_, i) => i !== index));
   };
 
   const handleDeleteDBLogoIMG = (index) => {
@@ -233,7 +235,7 @@ const EditHome = () => {
       if (response.status === 200) {
         toast({
           title: "Data Edit Successfuly",
-          description: response.msg,
+          description: response.data.msg,
           status: "success",
           position: "top",
           duration: 7000,
@@ -243,7 +245,7 @@ const EditHome = () => {
       } else {
         toast({
           title: "Data Not Update ",
-          description: response.msg,
+          description: response.data.msg,
           status: "error",
           position: "top",
           duration: 7000,
@@ -306,9 +308,16 @@ const EditHome = () => {
                 <Flex wrap="wrap">
                   {bannerUrl &&
                     bannerUrl?.map((e, i) => (
-                      <Flex key={i}>
+                      <Flex key={i} position="relative">
                         <Box>
-                          <Image src={e} width="200px" />
+                          <Image
+                            src={e}
+                            style={{
+                              width: "200px",
+                              marginRight: "10px",
+                              marginBottom: "10px",
+                            }}
+                          />
                           <Input
                             value={bnrimgText[i]}
                             onChange={(event) => handleBnrImgText(event, i)}
@@ -316,16 +325,30 @@ const EditHome = () => {
                         </Box>
                         <MdDelete
                           color="red"
-                          size={"30px"}
+                          size={"40px"}
+                          cursor="pointer"
                           onClick={() => handleDeleteBannerImage(i)}
+                          style={{
+                            position: "absolute",
+                            top: "4px",
+                            right: "5px",
+                            marginTop: "-5px",
+                            marginRight: "-8px",
+                          }}
                         />
                       </Flex>
                     ))}
                   {item?.banner_images &&
                     item.banner_images.map((e, i) => (
-                      <Flex key={i}>
+                      <Flex key={i} position="relative">
                         <Box>
-                          <Image width="200px" src={`${url}/home/${e}`} />
+                          <Image
+                            src={`${url}/home/${e}`}
+                            style={{
+                              width: "200px",
+                              marginRight: "10px",
+                            }}
+                          />
                           <Input
                             value={item.bannerimg_alt[i]}
                             onChange={(event) => handleBnrImgTextData(event, i)}
@@ -334,14 +357,21 @@ const EditHome = () => {
                         <MdDelete
                           color="red"
                           cursor="pointer"
-                          size={"30px"}
+                          size={"40px"}
                           onClick={() => handledbbannerImage(i)}
+                          style={{
+                            position: "absolute",
+                            top: "4px",
+                            right: "0",
+                            marginTop: "-5px",
+                            marginRight: "-8px",
+                          }}
                         />
                       </Flex>
                     ))}
                 </Flex>
               </FormControl>
-
+              <br />
               <FormControl isRequired mb={4}>
                 <FormLabel htmlFor="about_heading" color={"#add8e6"}>
                   About Heading
@@ -439,18 +469,22 @@ const EditHome = () => {
                           value={trfText[i]}
                           onChange={(event) => handleTrFacText(event, i)}
                         />
-                        <Button
-                          leftIcon={<DeleteIcon />}
-                          bgColor={"red.400"}
-                          position="absolute"
-                          size="sm"
+                        <MdDelete
+                          size={"40px"}
+                          color="red"
+                          cursor="pointer"
                           top={0}
-                          right={0}
+                          right={1}
                           zIndex={1}
-                          _hover={{ bgColor: "red.500", color: "white" }}
-                          color="white"
                           onClick={() => handleDeleteTrustFactrImage(i)}
-                        ></Button>
+                          style={{
+                            position: "absolute",
+                            top: "4px",
+                            right: "0",
+                            marginTop: "-5px",
+                            marginRight: "-8px",
+                          }}
+                        />
                       </Flex>
                     ))}
                   {item?.trust_factor_images &&
@@ -461,19 +495,22 @@ const EditHome = () => {
                           value={item.trust_factor_text[i]}
                           onChange={(event) => handleTfimgText(event, i)}
                         />
-                        <Button
-                          leftIcon={<DeleteIcon />}
-                          bgColor={"red.400"}
-                          position="absolute"
-                          mar
-                          size="sm"
+                        <MdDelete
+                          size={"40px"}
+                          color="red"
+                          cursor="pointer"
                           top={0}
                           right={1}
                           zIndex={1}
-                          _hover={{ bgColor: "red.500", color: "white" }}
-                          color="white"
                           onClick={() => handleDeleteDBTrfImage(i)}
-                        ></Button>
+                          style={{
+                            position: "absolute",
+                            top: "4px",
+                            right: "0",
+                            marginTop: "-5px",
+                            marginRight: "-8px",
+                          }}
+                        />
                       </Flex>
                     ))}
                 </Flex>
@@ -511,25 +548,35 @@ const EditHome = () => {
                 <Flex wrap="wrap">
                   {logoUrl &&
                     logoUrl?.map((e, i) => (
-                      <Flex key={i} alignItems="center" position="relative">
-                        <Image src={e} width="200px" />
-                        <Button
-                          leftIcon={<DeleteIcon />}
-                          bgColor={"red.400"}
-                          position="absolute"
-                          size="sm"
-                          top={0}
-                          right={0}
-                          zIndex={1}
-                          _hover={{ bgColor: "red.500", color: "white" }}
-                          color="white"
+                      <Flex key={i} position="relative">
+                        <Image
+                          src={e}
+                          style={{
+                            width: "200px",
+                            marginRight: "10px",
+                            marginBottom: "10px",
+                          }}
+                        />
+
+                        <MdDelete
+                          size={"40px"}
+                          color="red"
+                          cursor="pointer"
                           onClick={() => handleDeleteLogoImage(i)}
-                        ></Button>
+                          style={{
+                            position: "absolute",
+                            top: "4px",
+                            right: "5px",
+
+                            marginTop: "-8px",
+                            marginRight: "-8px",
+                          }}
+                        />
                       </Flex>
                     ))}
                   {item?.our_distributor_logo &&
                     item.our_distributor_logo.map((e, i) => (
-                      <Flex key={i} alignItems="center" position="relative">
+                      <Flex key={i} position="relative">
                         <Image
                           src={`${url}/home/${e}`}
                           style={{
@@ -539,18 +586,19 @@ const EditHome = () => {
                           }}
                         />
 
-                        <Button
-                          leftIcon={<DeleteIcon />}
-                          bgColor={"red.400"}
-                          position="absolute"
-                          size="sm"
-                          top={0}
-                          right={1}
-                          zIndex={1}
-                          _hover={{ bgColor: "red.500", color: "white" }}
-                          color="white"
+                        <MdDelete
+                          size={"40px"}
+                          color="red"
+                          cursor="pointer"
                           onClick={() => handleDeleteDBLogoIMG(i)}
-                        ></Button>
+                          style={{
+                            position: "absolute",
+                            top: "4px",
+                            right: "5px",
+                            marginTop: "-8px",
+                            marginRight: "-8px",
+                          }}
+                        />
                       </Flex>
                     ))}
                 </Flex>

@@ -16,9 +16,11 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { MdDelete } from "react-icons/md";
+import EditPermalink from "./EditPermalink";
+import generateSlug from "../util/generateSlug";
 
 const UpdateNewsAndEvents = () => {
-  const { Id } = useParams();
+  const { slugname } = useParams();
   const [item, setItem] = useState([]);
   const [singleImg, setSingleImg] = useState("");
   const [selctSinImg, setselectSingImg] = useState("");
@@ -29,14 +31,15 @@ const UpdateNewsAndEvents = () => {
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
   const Navigate = useNavigate();
+  const [slug, setSlug] = useState("");
   const url = process.env.REACT_APP_DEV_URL;
 
   const fetchEventAndNewsById = async () => {
     try {
-      const response = await fetch(`${url}/newsandevent/${Id}`);
+      const response = await fetch(`${url}/newsandevent/${slugname}`);
       const data = await response.json();
-      setItem(data.DataById);
-
+      setItem(data.data);
+      setSlug(data.data.slug);
       console.log("State ById", item);
     } catch (error) {
       console.log(error);
@@ -44,7 +47,7 @@ const UpdateNewsAndEvents = () => {
   };
   useEffect(() => {
     fetchEventAndNewsById();
-  }, [Id]);
+  }, [slugname]);
 
   // edit logic
   const handleSingleImage = (e) => {
@@ -117,7 +120,10 @@ const UpdateNewsAndEvents = () => {
 
     setItem({ ...item, [name]: value });
   };
-
+  const handlePlinkChange = (e) => {
+    let { name, value } = e.target;
+    setItem({ ...item, [name]: value });
+  };
   const handleSubmit = async (e) => {
     const formData = new FormData();
     e.preventDefault();
@@ -134,10 +140,12 @@ const UpdateNewsAndEvents = () => {
         formData.append("detailimages", x);
       }
     }
+    let newSlug = generateSlug(slug);
+    dup.slug = newSlug;
     formData.append("dup", JSON.stringify(dup));
     try {
       const response = await axios.put(
-        `${url}/newsandevent/edit/${Id}`,
+        `${url}/newsandevent/edit/${slugname}`,
         formData,
         {
           headers: {
@@ -145,28 +153,28 @@ const UpdateNewsAndEvents = () => {
           },
         }
       );
+
       if (response.status === 200) {
         toast({
           title: "Data Update Successfuly",
-          description: response.msg,
+          description: response.data.msg,
           status: "success",
           position: "top",
           duration: 7000,
           isClosable: true,
         });
         Navigate("/admin/newsandevents/");
-      } else {
-        toast({
-          title: "Data Not Added ",
-          description: response.msg,
-          status: "error",
-          position: "top",
-          duration: 7000,
-          isClosable: true,
-        });
       }
     } catch (error) {
       console.error("Update faild", error);
+      toast({
+        title: "Data Not Added ",
+        description: error.response?.data?.msg || "An error occurred",
+        status: "error",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -241,7 +249,7 @@ const UpdateNewsAndEvents = () => {
                 </FormControl>
               )}
               <br />
-              <FormControl isRequired mb={4}>
+              <FormControl isRequired mb={1}>
                 <FormLabel htmlFor="cardheading" color={"#add8e6"}>
                   Card Heading
                 </FormLabel>
@@ -253,9 +261,16 @@ const UpdateNewsAndEvents = () => {
                   mb={4}
                   name="cardheading"
                   value={item.cardheading}
-                  onChange={handleInput}
+                  onChange={(e) => {
+                    handlePlinkChange(e);
+                  }}
                 />
               </FormControl>
+              <EditPermalink
+                slug={slug}
+                setSlug={setSlug}
+                folder={"newsandevent"}
+              />
               <FormControl isRequired>
                 <FormLabel htmlFor="cardtext" color={"#add8e6"}>
                   Card Description

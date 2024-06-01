@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import { MdDelete } from "react-icons/md";
 
 const AddCertificate = () => {
   const [certificate, setCertificate] = useState({
@@ -63,7 +64,7 @@ const AddCertificate = () => {
       if (res.status === 200) {
         toast({
           title: "Data Added Successfuly",
-          description: res.msg,
+          description: res.data.msg,
           status: "success",
           position: "top",
           duration: 7000,
@@ -73,7 +74,7 @@ const AddCertificate = () => {
       } else {
         toast({
           title: "Data Not Added ",
-          description: res.msg,
+          description: res.data.msg,
           status: "error",
           position: "top",
           duration: 7000,
@@ -115,7 +116,7 @@ const AddCertificate = () => {
               </FormControl>
               <FormControl>
                 {selectedImages && (
-                  <Flex alignItems="center" position="relative">
+                  <Flex>
                     <img
                       src={selectedImages}
                       alt="selected img"
@@ -125,17 +126,12 @@ const AddCertificate = () => {
                         margin: "5px",
                       }}
                     />
-                    <Button
-                      leftIcon={<DeleteIcon />}
-                      colorScheme="red"
-                      size="sm"
-                      position="absolute"
-                      top={0}
-                      left="160px"
-                      zIndex={1}
+                    <MdDelete
+                      color="red"
+                      cursor={"pointer"}
+                      size={"30px"}
                       onClick={handleDeleteSingleImage}
-                      borderRadius="50px"
-                    ></Button>
+                    />
                   </Flex>
                 )}
               </FormControl>

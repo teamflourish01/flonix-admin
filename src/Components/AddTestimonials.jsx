@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import { MdDelete } from "react-icons/md";
 
 const AddTestimonials = () => {
   const [item, setItem] = useState({
@@ -67,7 +68,7 @@ const AddTestimonials = () => {
       if (res.status === 200) {
         toast({
           title: "Data Added Successfuly",
-          description: res.msg,
+          description: res.data.msg,
           status: "success",
           position: "top",
           duration: 7000,
@@ -77,7 +78,7 @@ const AddTestimonials = () => {
       } else {
         toast({
           title: "Data Not Added ",
-          description: res.msg,
+          description: res.data.msg,
           status: "error",
           position: "top",
           duration: 7000,
@@ -162,7 +163,7 @@ const AddTestimonials = () => {
               </FormControl>
               <FormControl>
                 {selectedImages && (
-                  <Flex alignItems="center" position="relative">
+                  <Flex >
                     <img
                       src={selectedImages}
                       alt="selected img"
@@ -172,19 +173,12 @@ const AddTestimonials = () => {
                         margin: "5px",
                       }}
                     />
-                    <Button
-                      leftIcon={<DeleteIcon />}
-                      bgColor={"red.400"}
-                      position="absolute"
-                      size="sm"
-                      top={0}
-                      marginLeft="160px"
-                      zIndex={1}
-                      _hover={{ bgColor: "red.500", color: "white" }}
-                      color="white"
+                    <MdDelete
+                      color="red"
+                      cursor={"pointer"}
+                      size={"30px"}
                       onClick={handleDeleteSingleImage}
-                      borderRadius="50px"
-                    ></Button>
+                    />
                   </Flex>
                 )}
               </FormControl>

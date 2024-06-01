@@ -75,9 +75,9 @@ const NewsAndEvents = () => {
     setPage(newPage);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (slug) => {
     try {
-      await fetch(`${url}/newsandevent/${id}`, {
+      await fetch(`${url}/newsandevent/${slug}`, {
         method: "DELETE",
       });
 
@@ -157,7 +157,7 @@ const NewsAndEvents = () => {
                         variant="solid"
                         color="#add8e6"
                         onClick={() =>
-                          navigate(`/admin/newsandevents/${item._id}`)
+                          navigate(`/admin/newsandevents/${item?.slug}`)
                         }
                       >
                         View
@@ -168,12 +168,12 @@ const NewsAndEvents = () => {
                         variant={"outline"}
                         _hover={{ bgColor: "#add8e6", color: "black" }}
                         onClick={() =>
-                          navigate(`/admin/newsandevents/edit/${item._id}`)
+                          navigate(`/admin/newsandevents/edit/${item?.slug}`)
                         }
                       >
                         Edit
                       </Button>
-                      <DeleteBtn handleDelete={() => handleDelete(item._id)} />
+                      <DeleteBtn handleDelete={() => handleDelete(item?.slug)} />
                     </ButtonGroup>
                   </Td>
                 </Tr>

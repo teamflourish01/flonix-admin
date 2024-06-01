@@ -15,6 +15,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
+import { MdDelete } from "react-icons/md";
 
 const UpdateHomeBenefits = () => {
   const { id } = useParams();
@@ -104,7 +105,7 @@ const UpdateHomeBenefits = () => {
       if (response.status === 200) {
         toast({
           title: "Data Edit Successfuly",
-          description: response.msg,
+          description: response.data.msg,
           status: "success",
           position: "top",
           duration: 7000,
@@ -114,7 +115,7 @@ const UpdateHomeBenefits = () => {
       } else {
         toast({
           title: "Data Not Update ",
-          description: response.msg,
+          description: response.data.msg,
           status: "error",
           position: "top",
           duration: 7000,
@@ -288,7 +289,7 @@ const UpdateHomeBenefits = () => {
               </FormControl>
               <FormControl>
                 {selctFstImg && (
-                  <Flex alignItems="center" position="relative">
+                  <Flex position="relative">
                     <img
                       src={selctFstImg}
                       alt="selected img"
@@ -299,18 +300,12 @@ const UpdateHomeBenefits = () => {
                         // marginLeft: "150px",
                       }}
                     />
-                    <Button
-                      leftIcon={<DeleteIcon />}
-                      bgColor={"red.400"}
-                      position="absolute"
-                      size="sm"
-                      top={0}
-                      left="180px"
-                      zIndex={1}
-                      _hover={{ bgColor: "red.500", color: "white" }}
-                      color="white"
+                    <MdDelete
+                      color="red"
+                      cursor={"pointer"}
+                      size={"30px"}
                       onClick={handleDeleteSingleImage}
-                    ></Button>
+                    />
                   </Flex>
                 )}
               </FormControl>
@@ -468,7 +463,7 @@ const UpdateHomeBenefits = () => {
               </FormControl>
               <FormControl>
                 {selectedSecnd && (
-                  <Flex alignItems="center" position="relative">
+                  <Flex position="relative">
                     <img
                       src={selectedSecnd}
                       alt="selected img"
@@ -477,18 +472,12 @@ const UpdateHomeBenefits = () => {
                         margin: "5px",
                       }}
                     />
-                    <Button
-                      leftIcon={<DeleteIcon />}
-                      bgColor={"red.400"}
-                      position="absolute"
-                      size="sm"
-                      top={0}
-                      left={170}
-                      zIndex={1}
-                      _hover={{ bgColor: "red.500", color: "white" }}
-                      color="white"
+                    <MdDelete
+                      color="red"
+                      cursor={"pointer"}
+                      size={"30px"}
                       onClick={handleDeleteDetailImg}
-                    ></Button>
+                    />
                   </Flex>
                 )}
               </FormControl>

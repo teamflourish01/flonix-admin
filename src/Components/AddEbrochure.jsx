@@ -62,7 +62,7 @@ const AddEbrochure = () => {
       if (res.status === 200) {
         toast({
           title: "Data Added Successfuly",
-          description: res.msg,
+          description: res.data.msg,
           status: "success",
           position: "top",
           duration: 7000,
@@ -72,7 +72,7 @@ const AddEbrochure = () => {
       } else {
         toast({
           title: "Data Not Added ",
-          description: res.msg,
+          description: res.data.msg,
           status: "error",
           position: "top",
           duration: 7000,
@@ -122,37 +122,12 @@ const AddEbrochure = () => {
                   id="doc"
                   type="file"
                   name="doc"
-                  accept="image/*"
+                  accept="application/pdf"
                   onChange={handleSingleImageChange}
                   mb={4}
                 />
               </FormControl>
-              {/* <FormControl>
-                {selectedImages && (
-                  <Flex alignItems="center" position="relative">
-                    <img
-                      src={selectedImages}
-                      alt="selected PDF"
-                      style={{
-                        width: "200px",
-
-                        margin: "5px",
-                      }}
-                    />
-                    <Button
-                      leftIcon={<DeleteIcon />}
-                      colorScheme="red"
-                      size="sm"
-                      position="absolute"
-                      top={0}
-                      left="160px"
-                      zIndex={1}
-                      onClick={handleDeleteSingleImage}
-                      borderRadius="50px"
-                    ></Button>
-                  </Flex>
-                )}
-              </FormControl> */}
+             
             </Box>
           </center>
           <br />

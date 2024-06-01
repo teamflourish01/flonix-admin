@@ -18,7 +18,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiEditAlt } from "react-icons/bi";
 
 const ViewNewsAndEvents = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const [item, setItem] = useState([]);
   const toast = useToast();
   const navigate = useNavigate();
@@ -26,23 +26,25 @@ const ViewNewsAndEvents = () => {
 
   const fetchEventAndNewsById = async () => {
     try {
-      const response = await fetch(`${url}/newsandevent/${id}`);
+      const response = await fetch(`${url}/newsandevent/${slug}`);
       const data = await response.json();
-      setItem(data.DataById);
-      console.log("State ById", item);
+      console.log("JSON Data", data);
+      setItem(data.data);
+      console.log("State Slug", item);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
     fetchEventAndNewsById();
-  }, [id]);
+  }, [slug]);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     try {
-      const res = await fetch(`${url}/newsandevent/${id}`, {
+      const res = await fetch(`${url}/newsandevent/${slug}`, {
         method: "DELETE",
       });
+      console.log("HanleDelete n&E", res);
       toast({
         title: "Data Delete Successfuly",
         description: res.msg,
@@ -69,7 +71,7 @@ const ViewNewsAndEvents = () => {
             bgColor={"black"}
             _hover={{ color: "black", bgColor: "#add8e6" }}
             leftIcon={<BiEditAlt />}
-            onClick={() => navigate(`/admin/newsandevents/edit/${id}`)}
+            onClick={() => navigate(`/admin/newsandevents/edit/${slug}`)}
           >
             Edit
           </Button>
@@ -79,21 +81,46 @@ const ViewNewsAndEvents = () => {
             bgColor={"black"}
             _hover={{ color: "black", bgColor: "#add8e6" }}
             leftIcon={<RiDeleteBin6Line />}
-            onClick={() => handleDelete(id)}
+            onClick={() => handleDelete(slug)}
           >
             Delete
           </Button>
         </Flex>
         <br />
         <br />
-
+        <br />
+        <Text fontWeight={"semibold"} fontSize={"xl"}>
+          Card Hading
+        </Text>
+        <Box
+          padding="10px 20px"
+          width="50%"
+          bgColor={"#eef1f4"}
+          fontSize={"medium"}
+          _readOnly
+        >
+          {item?.cardheading}
+        </Box>
+        <br />
+        <Text fontWeight={"semibold"} fontSize={"xl"}>
+          PermaLink
+        </Text>
+        <Box
+          padding="10px 20px"
+          width="50%"
+          bgColor={"#eef1f4"}
+          fontSize={"medium"}
+          _readOnly
+        >
+          {url+"/newsandevent/"+item?.slug}
+        </Box>
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
           Image
         </Text>
         <SimpleGrid columns={[1, 1, 1, 2, 2]} rowGap={"9"}>
           <Image
-            src={`${url}/newsAndevents/${item.cardimage}`}
+            src={`${url}/newsAndevents/${item?.cardimage}`}
             style={{
               width: "200px",
 
@@ -116,19 +143,7 @@ const ViewNewsAndEvents = () => {
         >
           {item?.cardimg_alt}
         </Box>
-        <br />
-        <Text fontWeight={"semibold"} fontSize={"xl"}>
-          Card Hading
-        </Text>
-        <Box
-          padding="10px 20px"
-          width="50%"
-          bgColor={"#eef1f4"}
-          fontSize={"medium"}
-          _readOnly
-        >
-          {item?.cardheading}
-        </Box>
+
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
           Card Description
@@ -170,7 +185,6 @@ const ViewNewsAndEvents = () => {
         >
           {item?.detailimg_alt}
         </Box>
-        <br />
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
           Date
