@@ -29,8 +29,8 @@ const EditBlogCategory = () => {
     try {
       let data = await fetch(`${url}/blogcategory/${slugname}`);
       data = await data.json();
-      setCategory(data.data);
-      setSlug(data.data.slug)
+      setCategory(data.data[0]);
+      setSlug(data.data[0].slug)
     } catch (error) {
       console.log(error);
     }

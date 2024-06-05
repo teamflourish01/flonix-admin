@@ -10,12 +10,16 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import EditPermalink from "./EditPermalink";
+import generateSlug from "../util/generateSlug";
 
 const AddCategory = () => {
   let url = process.env.REACT_APP_DEV_URL;
   const [category, setCategory] = useState({
     name: "",
   });
+  const [slug, setSlug] = useState("");
+
   const navigate = useNavigate();
   const toast = useToast();
   const handleChange = (e) => {
@@ -29,7 +33,7 @@ const AddCategory = () => {
         headers: {
         "Content-Type": "application/json",
         },
-        body: JSON.stringify(category),
+        body: JSON.stringify({...category,slug}),
     });
     data = await data.json();
     console.log(data);
@@ -81,12 +85,15 @@ const AddCategory = () => {
               type="text"
               color={"black"}
               borderColor={"#add8e6"}
-              value={category.name}
+              value={category?.name}
               name="name"
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => {handleChange(e);
+                setSlug(generateSlug(e.target.value));
+              }}
             />
           </FormControl>
           <br />
+        <EditPermalink  slug={slug} folder={"category"} setSlug={setSlug}/>
           <ButtonGroup gap="40px">
             <Button
               variant={"solid"}
@@ -98,7 +105,7 @@ const AddCategory = () => {
                 border: "1px solid #add8e6",
               }}
               onClick={handleSave}
-              isDisabled={!category.name}
+              isDisabled={!slug}
             >
               Save
             </Button>

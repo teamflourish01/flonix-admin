@@ -108,7 +108,11 @@ const Product = () => {
             <ButtonGroup>
             <Button leftIcon={<ViewIcon/>} bgColor={"black"} _hover={{bgColor:"#add8e6",color:"black"}} variant="solid" color="#add8e6" onClick={()=>navigate(`/admin/product/${e?.slug}`)}>View</Button>
             <Button leftIcon={<BiEditAlt/>} border="1px solid #add8e6" variant={"outline"}  _hover={{bgColor:"#add8e6",color:"black"}}  onClick={()=>navigate(`/admin/product/edit/${e?.slug}`)}>Edit</Button>
+
             <DeleteBtn handleDelete={()=>handleDelete(e.slug)}/>
+
+            
+
             </ButtonGroup>
         </Td>
     </Tr>
