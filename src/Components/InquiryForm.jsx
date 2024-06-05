@@ -11,61 +11,21 @@ import {
 } from "@chakra-ui/react";
 
 const InquiryForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const token =
-      "EAAVXY2LxPugBO3kZCU9rZAGLVy5ZCA1C5XO1jN2tMIZA6gLnvoaa38ZAOTyiKWOHkwygPlglZCDOxVUOWouYjQzIrkcdyB5W4ccfjQG1LLH1YuEeU0hw4ySWyjLNmszXjrDQ8IBdBXMk7mKhGZBQiZBoFDbTy74bmkx26vl8LNeA5r8rsaickFMn4h41xRqUYS3tme9Sp1x45NUi2saZCeVWl";
-    const phoneNumberId = "305990135939726";
-    const recipientPhone = "917575043888";
-
-    const messageData = {
-      messaging_product: "whatsapp",
-      to: recipientPhone,
-      type: "text",
-      template: {
-        name: "your_template_name",
-        language: {
-          code: "en_US",
-        },
-        components: [
-          {
-            type: "body",
-            parameters: [
-              { type: "text", text: formData.name },
-              { type: "text", text: formData.email },
-              { type: "text", text: formData.message },
-            ],
-          },
-        ],
-      },
-    };
-
+  const handleSubmit = async () => {
     try {
-      const response = await axios.post(
-        `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`,
-        messageData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("Message sent:", response.data);
+      const response = await axios.post("http://localhost:8080/send", {
+        name,
+        email,
+        message,
+      });
+      alert(response.data);
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.error("There was an error sending the message!", error);
+      alert("Failed to send message.");
     }
   };
 
@@ -79,60 +39,58 @@ const InquiryForm = () => {
         borderRadius={"20px"}
         marginTop={"50px"}
       >
-        <form onSubmit={handleSubmit}>
-          <FormControl>
-            <FormLabel htmlFor="name" color={"#add8e6"}>
-              Name
-            </FormLabel>
-            <Input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              mb={4}
-            />
-          </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="name" color={"#add8e6"}>
+            Name
+          </FormLabel>
+          <Input
+            type="text"
+            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            mb={4}
+          />
+        </FormControl>
 
-          <FormControl>
-            <FormLabel htmlFor="email" color={"#add8e6"}>
-              Email
-            </FormLabel>
-            <Input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              mb={4}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="email" color={"#add8e6"}>
-              Message
-            </FormLabel>
+        <FormControl>
+          <FormLabel htmlFor="email" color={"#add8e6"}>
+            Email
+          </FormLabel>
+          <Input
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            mb={4}
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="message" color={"#add8e6"}>
+            Message
+          </FormLabel>
 
-            <Textarea
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              required
-            />
-          </FormControl>
+          <Textarea
+            name="message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+          />
+        </FormControl>
 
-          <Button
-            type="submit"
-            variant={"solid"}
-            bgColor={"black"}
-            color="#add8e6"
-            marginTop={"20px"}
-            _hover={{
-              color: "black",
-              bgColor: "#add8e6",
-              border: "1px solid #add8e6",
-            }}
-          >
-            Send Inquiry
-          </Button>
-        </form>
+        <Button
+          onClick={handleSubmit}
+          variant={"solid"}
+          bgColor={"black"}
+          color="#add8e6"
+          marginTop={"20px"}
+          _hover={{
+            color: "black",
+            bgColor: "#add8e6",
+            border: "1px solid #add8e6",
+          }}
+        >
+          Send Inquiry
+        </Button>
       </Box>
     </Center>
   );

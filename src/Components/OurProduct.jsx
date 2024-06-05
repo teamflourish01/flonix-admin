@@ -20,12 +20,12 @@ const OurProduct = () => {
   const [ourProduct, setOurProduct] = useState([]);
   const [home, setHome] = useState({});
   let audio = new Audio(switchAudio);
-  const toast=useToast()
-  const navigate=useNavigate()
+  const toast = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     try {
-      if(ourProduct.length<3){
+      if (ourProduct.length < 3) {
         toast({
           title: "Our Product Not Added ",
           description: `Set Min 3 Products Instead of ${ourProduct.length} `,
@@ -34,13 +34,13 @@ const OurProduct = () => {
           duration: 7000,
           isClosable: true,
         });
-        return
+        return;
       }
-      let dup={...home,our_products:ourProduct}
-      let formData=new FormData()
-      formData.append("dup",JSON.stringify(dup))
-      let data = await axios.put(`${url}/home/edit/${home?._id}`,formData);
-      navigate("/admin/page")
+      let dup = { ...home, our_products: ourProduct };
+      let formData = new FormData();
+      formData.append("dup", JSON.stringify(dup));
+      let data = await axios.put(`${url}/home/edit/${home?._id}`, formData);
+      navigate("/admin/page");
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -59,32 +59,35 @@ const OurProduct = () => {
     }
   };
 
-const getProduct = async () => {
+  const getProduct = async () => {
     try {
-    let data = await fetch(`${url}/category`);
-    data = await data.json();
-    setProduct(data.data);
-    console.log(data.data);
+      let data = await fetch(`${url}/category`);
+      data = await data.json();
+      setProduct(data.data);
+      console.log(data.data);
     } catch (error) {
-    console.log(error);
+      console.log(error);
     }
-};
+  };
 
-const handleCheck = useCallback((id) => {
-    let index = ourProduct.findIndex((e) => e === id);
-    if (index > -1) {
-    return true;
-    } else {
-    return false;
-    }
-},[ourProduct])
+  const handleCheck = useCallback(
+    (slug) => {
+      let index = ourProduct.findIndex((e) => e === slug);
+      if (index > -1) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    [ourProduct]
+  );
 
-  const handleChange = (id) => {
+  const handleChange = (slug) => {
     let dup = [...ourProduct];
-    let index = dup.findIndex((e)=>e===id)
+    let index = dup.findIndex((e) => e === slug);
     if (index > -1) {
       dup.splice(index, 1);
-      if(dup.length<3){
+      if (dup.length < 3) {
         toast({
           title: "Our Product Not Added ",
           description: `${dup.length} product is not sufficient`,
@@ -93,7 +96,7 @@ const handleCheck = useCallback((id) => {
           duration: 7000,
           isClosable: true,
         });
-      }else{
+      } else {
         toast({
           title: "Our Product Removed ",
           description: `${dup.length} product is sufficient`,
@@ -104,8 +107,8 @@ const handleCheck = useCallback((id) => {
         });
       }
     } else {
-      dup.push(id);
-      if(dup.length<3){
+      dup.push(slug);
+      if (dup.length < 3) {
         toast({
           title: "Our Product Not Added ",
           description: `${dup.length} product is not sufficient`,
@@ -114,7 +117,7 @@ const handleCheck = useCallback((id) => {
           duration: 7000,
           isClosable: true,
         });
-      }else{
+      } else {
         toast({
           title: "Our Product Added ",
           description: `${dup.length} product is sufficient`,
@@ -125,7 +128,9 @@ const handleCheck = useCallback((id) => {
         });
       }
     }
+    
     setOurProduct(dup);
+    console.log("Handle Change", dup);
   };
   useEffect(() => {
     getProduct();
@@ -155,10 +160,10 @@ const handleCheck = useCallback((id) => {
                           <label class="rocker rocker-small">
                             <input
                               type="checkbox"
-                              checked={handleCheck(element._id)}
+                              checked={handleCheck(element.slug)}
                               onChange={() => {
                                 audio.play();
-                                handleChange(element._id);
+                                handleChange(element.slug);
                               }}
                               // checked={getCheck(blog.first_toggle)}
                             />

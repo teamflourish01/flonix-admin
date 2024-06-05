@@ -558,7 +558,7 @@ const Admin = () => {
             <Route path="/admin/robenefits/:edit/:id" element={<UpdateHomeBenefits />} />
             <Route path="/admin/robenefits/:id" element={<ViewHomeBanefits />} />
 
-            <Route path="/admin/in" element={<InquiryForm />} />
+            <Route path="/admin/inquiryform" element={<InquiryForm />} />
             
 
             <Route path="/admin/blog/edit/:slugname" element={<EditBlog/>}/>

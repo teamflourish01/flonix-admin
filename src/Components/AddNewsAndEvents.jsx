@@ -56,10 +56,15 @@ const AddFormNewsandEvents = () => {
 
   const handleSingleImageChange = (e) => {
     let file = e.target.files[0];
-    setImage(file);
-    // selected image Display
-    const imageUrl = URL.createObjectURL(file);
-    setSelectedImages(imageUrl);
+    if (file) {
+      setImage(file);
+      // selected image Display
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedImages(imageUrl);
+    } else {
+      setImage({});
+      setSelectedImages("");
+    }
   };
   const handleDeleteSingleImage = () => {
     setImage({});
@@ -80,11 +85,16 @@ const AddFormNewsandEvents = () => {
   // Detail Single Image Logic
   const handleDetailImgChange = (e) => {
     let file = e.target.files[0];
-    setDetailImg(file);
+    if (file) {
+      setDetailImg(file);
 
-    //display
-    const imageUrlselect = URL.createObjectURL(file);
-    setselectedDetail(imageUrlselect);
+      //display
+      const imageUrlselect = URL.createObjectURL(file);
+      setselectedDetail(imageUrlselect);
+    } else {
+      setDetailImg({});
+      setselectedDetail("");
+    }
   };
 
   const handleDeleteDetailImg = () => {
@@ -94,8 +104,14 @@ const AddFormNewsandEvents = () => {
 
   // Multiple IMg logic
   const handleImagesChange = (e) => {
-    const file = e.target.files[0];
-    setVarImage([...varImage, file]);
+    // const file = e.target.files[0];
+    // setVarImage([...varImage, file]);
+
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const newImages = Array.from(files); // Convert FileList to an array
+      setVarImage([...varImage, ...newImages]);
+    }
   };
   const handleDeleteMultipleImage = (index) => {
     const updatedImages = [...varImage];
@@ -177,9 +193,9 @@ const AddFormNewsandEvents = () => {
     if (detimg) {
       dup.detailimage = detimg;
     }
-    let newSlug=generateSlug(slug)
-    dup.slug=newSlug
-    setEventdata(dup)
+    let newSlug = generateSlug(slug);
+    dup.slug = newSlug;
+    setEventdata(dup);
     try {
       let res = await fetch(`${url}/newsandevent/add`, {
         method: "POST",
@@ -302,7 +318,11 @@ const AddFormNewsandEvents = () => {
                   }}
                 />
               </FormControl>
-              <EditPermalink slug={slug} folder={"newsandevent"} setSlug={setSlug} />
+              <EditPermalink
+                slug={slug}
+                folder={"newsandevent"}
+                setSlug={setSlug}
+              />
 
               <FormControl isRequired>
                 <FormLabel htmlFor="cardtext" color={"#add8e6"}>
@@ -453,7 +473,7 @@ const AddFormNewsandEvents = () => {
               {/* Display selected images for multiple upload */}
               <Flex wrap="wrap">
                 {varImage.map((image, index) => (
-                  <Flex key={index} alignItems="center" position="relative">
+                  <Flex key={index}  position="relative">
                     <img
                       key={index}
                       src={URL.createObjectURL(image)}
@@ -466,18 +486,19 @@ const AddFormNewsandEvents = () => {
                         marginBottom: "10px",
                       }}
                     />
-                    <Button
-                      leftIcon={<DeleteIcon />}
-                      bgColor={"red.400"}
-                      position="absolute"
-                      size="sm"
-                      top={0}
-                      left={155}
-                      zIndex={1}
-                      _hover={{ bgColor: "red.500", color: "white" }}
-                      color="white"
+                    <MdDelete
+                      size={"40px"}
+                      color="red"
+                      cursor="pointer"
                       onClick={() => handleDeleteMultipleImage(index)}
-                    ></Button>
+                      style={{
+                        position: "absolute",
+                        top: "4px",
+                        right: "0",
+                        marginTop: "-15px",
+                        marginRight: "-8px",
+                      }}
+                    />
                   </Flex>
                 ))}
               </Flex>
@@ -512,3 +533,4 @@ const AddFormNewsandEvents = () => {
 };
 
 export default AddFormNewsandEvents;
+
