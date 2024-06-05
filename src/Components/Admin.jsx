@@ -26,9 +26,14 @@ import {
   BsShopWindow,
 } from "react-icons/bs";
 
-
-
-import { FaCertificate, FaFilePdf,   FaMobileScreen,   FaStore, FaTicketSimple, FaUser } from "react-icons/fa6";
+import {
+  FaCertificate,
+  FaFilePdf,
+  FaMobileScreen,
+  FaStore,
+  FaTicketSimple,
+  FaUser,
+} from "react-icons/fa6";
 
 import { GiModernCity } from "react-icons/gi";
 import { GrCatalog } from "react-icons/gr";
@@ -73,7 +78,6 @@ import ViewNewsHeading from "./ViewNewsHeading";
 import AddNewsHeading from "./AddNewsHeading";
 import EditNewsHeading from "./EditNewsHeading";
 
-
 import Blog from "./Blog";
 import BlogCategory from "./BlogCategory";
 import AddBlogCategory from "./AddBlogCategory";
@@ -99,8 +103,11 @@ import InquiryForm from "./InquiryForm";
 import EditBlog from "./EditBlog";
 import OurProduct from "./OurProduct";
 import TopProducts from "./TopProducts";
-
-
+import Login from "./Login";
+import User from "./User";
+import AddUser from "./AddUser";
+import ViewUser from "./ViewUser";
+import EditUser from "./EditUser";
 
 const Admin = () => {
   const sidebar = useDisclosure();
@@ -231,7 +238,7 @@ const Admin = () => {
           icon={FaUser}
           onClick={() => {
             sidebar.onClose();
-            // navigate("/admin/user");
+            navigate("/admin/user");
           }}
         >
           Users
@@ -454,10 +461,11 @@ const Admin = () => {
           {/* Add content here, remove div below  */}
           {/* <AllRoutes/> */}
           <Routes>
+            <Route path="/" element={<Login/>}/>
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/category" element={<Category />} />
             <Route path="/admin/category/add" element={<AddCategory />} />
-
+            <Route path="/admin/user" element={<User/>}/>
             <Route
               path="/admin/category/:slugname"
               element={<ViewCategory />}
@@ -469,7 +477,10 @@ const Admin = () => {
             <Route path="/admin/product" element={<Product />} />
             <Route path="/admin/product/add" element={<AddProduct />} />
             <Route path="/admin/product/:slugname" element={<ViewProduct />} />
-            <Route path="/admin/product/edit/:slugname" element={<EditProduct />} />
+            <Route
+              path="/admin/product/edit/:slugname"
+              element={<EditProduct />}
+            />
             <Route path="/admin/newsandevents" element={<NewsAndEvents />} />
             <Route
               path="/admin/newsandevents/add"
@@ -538,22 +549,49 @@ const Admin = () => {
               element={<EditCertificate />}
             />
             <Route path="/admin/contectdetails" element={<Contectdetails />} />
-            <Route path="/admin/blog" element={<Blog/>}/>
-            <Route path="/admin/blogcategory" element={<BlogCategory/>}/>
-            <Route path="/admin/blogcategory/add" element={<AddBlogCategory/>}/>
-            <Route path="/admin/blogcategory/:slugname" element={<ViewBlogCategory/>}/>
-            <Route path="/admin/blogcategory/edit/:slugname" element={<EditBlogCategory/>}/>
-            <Route path="/admin/blog/add" element={<AddBlog/>}/>
-            <Route path="/admin/blog/:slugname"element={<ViewBlog/>}/>
-            <Route path="/admin/contectdetails/edit/:id" element={<EditContectDetails />} />
+            <Route path="/admin/blog" element={<Blog />} />
+            <Route path="/admin/blogcategory" element={<BlogCategory />} />
+            <Route
+              path="/admin/blogcategory/add"
+              element={<AddBlogCategory />}
+            />
+            <Route
+              path="/admin/blogcategory/:slugname"
+              element={<ViewBlogCategory />}
+            />
+            <Route
+              path="/admin/blogcategory/edit/:slugname"
+              element={<EditBlogCategory />}
+            />
+            <Route path="/admin/blog/add" element={<AddBlog />} />
+            <Route path="/admin/blog/:slugname" element={<ViewBlog />} />
+            <Route
+              path="/admin/contectdetails/edit/:id"
+              element={<EditContectDetails />}
+            />
             <Route path="/admin/home/:id" element={<ViewHome />} />
-            <Route path="/admin/home/edit/:id" element={<EditHome />} /> 
+            <Route path="/admin/home/edit/:id" element={<EditHome />} />
             <Route path="/admin/testimonials" element={<Testimonials />} />
-            <Route path="/admin/testimonials/add" element={<AddTestimonials />} />
-            <Route path="/admin/testimonials/:id" element={<ViewTestimonials />} />
-            <Route path="/admin/testimonials/edit/:id" element={<EditTestimonials />} />          
+            <Route
+              path="/admin/testimonials/add"
+              element={<AddTestimonials />}
+            />
+            <Route
+              path="/admin/testimonials/:id"
+              element={<ViewTestimonials />}
+            />
+            <Route
+              path="/admin/testimonials/edit/:id"
+              element={<EditTestimonials />}
+            />
             <Route path="/admin/ebrochure" element={<Ebrochure />} />
             <Route path="/admin/ebrochure/add" element={<AddEbrochure />} />
+
+        
+            <Route path="/admin/user/add" element={<AddUser/>}/>
+            <Route path="/admin/user/:id" element={<ViewUser/>}/>
+            <Route path="/admin/user/edit/:id" element={<EditUser/>}/>
+
             <Route path="/admin/ebrochure/:edit/:id" element={<EditEbrochure />} />
             <Route path="/admin/robenefits/:edit/:id" element={<UpdateHomeBenefits />} />
             <Route path="/admin/robenefits/:id" element={<ViewHomeBanefits />} />
