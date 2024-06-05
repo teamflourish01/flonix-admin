@@ -459,17 +459,17 @@ const Admin = () => {
             <Route path="/admin/category/add" element={<AddCategory />} />
 
             <Route
-              path="/admin/category/:categoryid"
+              path="/admin/category/:slugname"
               element={<ViewCategory />}
             />
             <Route
-              path="/admin/category/edit/:categoryid"
+              path="/admin/category/edit/:slugname"
               element={<EditCategory />}
             />
             <Route path="/admin/product" element={<Product />} />
             <Route path="/admin/product/add" element={<AddProduct />} />
-            <Route path="/admin/product/:id" element={<ViewProduct />} />
-            <Route path="/admin/product/edit/:id" element={<EditProduct />} />
+            <Route path="/admin/product/:slugname" element={<ViewProduct />} />
+            <Route path="/admin/product/edit/:slugname" element={<EditProduct />} />
             <Route path="/admin/newsandevents" element={<NewsAndEvents />} />
             <Route
               path="/admin/newsandevents/add"
@@ -558,7 +558,7 @@ const Admin = () => {
             <Route path="/admin/robenefits/:edit/:id" element={<UpdateHomeBenefits />} />
             <Route path="/admin/robenefits/:id" element={<ViewHomeBanefits />} />
 
-            <Route path="/admin/in" element={<InquiryForm />} />
+            <Route path="/admin/inquiryform" element={<InquiryForm />} />
             
 
             <Route path="/admin/blog/edit/:slugname" element={<EditBlog/>}/>
