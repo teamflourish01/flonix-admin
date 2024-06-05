@@ -15,9 +15,9 @@ const Product = () => {
     const [count,setCount]=useState(0)
     const url=process.env.REACT_APP_DEV_URL
 
-    const handleDelete=async(id)=>{
+    const handleDelete=async(slug)=>{
         try {
-            let data=await fetch(`${url}/product/delete/${id}`,{
+            let data=await fetch(`${url}/product/delete/${slug}`,{
                 method:"DELETE",
                 headers:{
                     "Content-Type": "application/json"
@@ -108,7 +108,11 @@ const Product = () => {
             <ButtonGroup>
             <Button leftIcon={<ViewIcon/>} bgColor={"black"} _hover={{bgColor:"#add8e6",color:"black"}} variant="solid" color="#add8e6" onClick={()=>navigate(`/admin/product/${e?.slug}`)}>View</Button>
             <Button leftIcon={<BiEditAlt/>} border="1px solid #add8e6" variant={"outline"}  _hover={{bgColor:"#add8e6",color:"black"}}  onClick={()=>navigate(`/admin/product/edit/${e?.slug}`)}>Edit</Button>
-            <DeleteBtn handleDelete={()=>handleDelete(e._id)}/>
+
+            <DeleteBtn handleDelete={()=>handleDelete(e.slug)}/>
+
+            
+
             </ButtonGroup>
         </Td>
     </Tr>

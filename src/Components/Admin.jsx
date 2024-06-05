@@ -586,25 +586,23 @@ const Admin = () => {
             />
             <Route path="/admin/ebrochure" element={<Ebrochure />} />
             <Route path="/admin/ebrochure/add" element={<AddEbrochure />} />
-            <Route
-              path="/admin/ebrochure/:edit/:id"
-              element={<EditEbrochure />}
-            />
-            <Route
-              path="/admin/robenefits/:edit/:id"
-              element={<UpdateHomeBenefits />}
-            />
-            <Route
-              path="/admin/robenefits/:id"
-              element={<ViewHomeBanefits />}
-            />
-            <Route path="/admin/in" element={<InquiryForm />} />
-            <Route path="/admin/blog/edit/:slugname" element={<EditBlog />} />
-            <Route path="/admin/page/ourproduct" element={<OurProduct />} />
-            <Route path="/admin/page/topproduct" element={<TopProducts />} />
+
+        
             <Route path="/admin/user/add" element={<AddUser/>}/>
             <Route path="/admin/user/:id" element={<ViewUser/>}/>
             <Route path="/admin/user/edit/:id" element={<EditUser/>}/>
+
+            <Route path="/admin/ebrochure/:edit/:id" element={<EditEbrochure />} />
+            <Route path="/admin/robenefits/:edit/:id" element={<UpdateHomeBenefits />} />
+            <Route path="/admin/robenefits/:id" element={<ViewHomeBanefits />} />
+
+            <Route path="/admin/inquiryform" element={<InquiryForm />} />
+            
+
+            <Route path="/admin/blog/edit/:slugname" element={<EditBlog/>}/>
+            <Route path="/admin/page/ourproduct" element={<OurProduct/>}/>
+            <Route path="/admin/page/topproduct" element={<TopProducts/>}/>
+
           </Routes>
           <Box rounded="md" h="" />
         </Box>
