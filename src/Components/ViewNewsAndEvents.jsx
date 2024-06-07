@@ -60,7 +60,7 @@ const ViewNewsAndEvents = () => {
   };
   return (
     <>
-      <Box textAlign={"left"} p="5">
+      <Box textAlign={"left"} p="5" ml={5}>
         <Flex gap="20px">
           <Text fontSize={"xl"} fontWeight={"semibold"}>
             View News & Events Details
@@ -88,6 +88,30 @@ const ViewNewsAndEvents = () => {
         </Flex>
         <br />
         <br />
+        <br />
+        <Text fontWeight={"semibold"} fontSize={"xl"}>
+          Meta Title
+        </Text>
+        <Box
+          padding="10px 20px"
+          width="50%"
+          bgColor={"#eef1f4"}
+          fontSize={"medium"}
+        >
+          {item?.meta_title}
+        </Box>
+        <br />
+        <Text fontWeight={"semibold"} fontSize={"xl"}>
+          Meta Description
+        </Text>
+        <Box
+          padding="10px 20px"
+          width="50%"
+          bgColor={"#eef1f4"}
+          fontSize={"medium"}
+        >
+          {item?.meta_description}
+        </Box>
         <br />
         <Text fontWeight={"semibold"} fontSize={"xl"}>
           Card Hading

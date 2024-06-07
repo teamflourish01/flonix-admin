@@ -48,11 +48,16 @@ const UpdateHomeBenefits = () => {
   // edit logic
   const handleSingleImage = (e) => {
     let file = e.target.files[0];
-    setfirstImg(file);
+    if (file) {
+      setfirstImg(file);
 
-    // Display selected Img
-    const imageUrl = URL.createObjectURL(file);
-    setselectFstImg(imageUrl);
+      // Display selected Img
+      const imageUrl = URL.createObjectURL(file);
+      setselectFstImg(imageUrl);
+    } else {
+      setfirstImg("");
+      setselectFstImg("");
+    }
   };
   const handleDeleteSingleImage = () => {
     setfirstImg("");
@@ -61,11 +66,16 @@ const UpdateHomeBenefits = () => {
   // Detail Image logic
   const handleDetailImgChange = (e) => {
     let file = e.target.files[0];
-    setsecndImg(file);
+    if (file) {
+      setsecndImg(file);
 
-    //display
-    const imageUrlselect = URL.createObjectURL(file);
-    setselectedSecnd(imageUrlselect);
+      //display
+      const imageUrlselect = URL.createObjectURL(file);
+      setselectedSecnd(imageUrlselect);
+    } else {
+      setsecndImg({});
+      setselectedSecnd("");
+    }
   };
 
   const handleDeleteDetailImg = () => {

@@ -34,10 +34,19 @@ const UpdateNewsAndEvents = () => {
   const [slug, setSlug] = useState("");
   const url = process.env.REACT_APP_DEV_URL;
 
+  const formatedate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   const fetchEventAndNewsById = async () => {
     try {
       const response = await fetch(`${url}/newsandevent/${slugname}`);
       const data = await response.json();
+      data.data.date = formatedate(data.data.date);
       setItem(data.data);
       setSlug(data.data.slug);
       console.log("State ById", item);
@@ -52,11 +61,16 @@ const UpdateNewsAndEvents = () => {
   // edit logic
   const handleSingleImage = (e) => {
     let file = e.target.files[0];
-    setSingleImg(file);
+    if (file) {
+      setSingleImg(file);
 
-    // Display selected Img
-    const imageUrl = URL.createObjectURL(file);
-    setselectSingImg(imageUrl);
+      // Display selected Img
+      const imageUrl = URL.createObjectURL(file);
+      setselectSingImg(imageUrl);
+    } else {
+      setSingleImg("");
+      setselectSingImg("");
+    }
   };
   const handleDeleteSingleImage = () => {
     setSingleImg("");
@@ -78,11 +92,16 @@ const UpdateNewsAndEvents = () => {
   // Detail Image logic
   const handleDetailImgChange = (e) => {
     let file = e.target.files[0];
-    setDetailImg(file);
+    if (file) {
+      setDetailImg(file);
 
-    //display
-    const imageUrlselect = URL.createObjectURL(file);
-    setselectedDetail(imageUrlselect);
+      //display
+      const imageUrlselect = URL.createObjectURL(file);
+      setselectedDetail(imageUrlselect);
+    } else {
+      setDetailImg({});
+      setselectedDetail("");
+    }
   };
 
   const handleDeleteDetailImg = () => {
@@ -196,6 +215,35 @@ const UpdateNewsAndEvents = () => {
             borderRadius={"20px"}
           >
             <form encType="multipart/form-data">
+              <FormControl isRequired>
+                <FormLabel htmlFor="meta_title" color={"#add8e6"}>
+                  Meta Title
+                </FormLabel>
+                <Input
+                  id="meta_title"
+                  type="text"
+                  placeholder="Enter your Title"
+                  variant="flushed"
+                  mb={4}
+                  name="meta_title"
+                  value={item.meta_title}
+                  onChange={handleInput}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="meta_description" color={"#add8e6"}>
+                  Meta Description
+                </FormLabel>
+                <Textarea
+                  id="meta_description"
+                  placeholder="Enter your Description"
+                  mb={4}
+                  name="meta_description"
+                  value={item.meta_description}
+                  onChange={handleInput}
+                />
+              </FormControl>
+
               <FormControl>
                 <FormLabel htmlFor="cardimage" color={"#add8e6"}>
                   Image
@@ -271,7 +319,7 @@ const UpdateNewsAndEvents = () => {
                 setSlug={setSlug}
                 folder={"newsandevent"}
               />
-              <FormControl isRequired>
+              <FormControl isRequired mt={5}>
                 <FormLabel htmlFor="cardtext" color={"#add8e6"}>
                   Card Description
                 </FormLabel>
@@ -281,6 +329,45 @@ const UpdateNewsAndEvents = () => {
                   mb={4}
                   name="cardtext"
                   value={item.cardtext}
+                  onChange={handleInput}
+                />
+              </FormControl>
+            </form>
+          </Box>
+          <Box
+            backgroundColor={"#white"}
+            boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+            padding={"20px"}
+            w={["100%", "100%", "100%", "100%", "100%"]}
+            borderRadius={"20px"}
+          >
+            <form encType="multipart/form-data">
+              <FormControl isRequired>
+                <FormLabel htmlFor="date" color={"#add8e6"}>
+                  Date
+                </FormLabel>
+                <Input
+                  variant="flushed"
+                  id="date"
+                  type="date"
+                  name="date"
+                  mb={4}
+                  value={item.date}
+                  onChange={handleInput}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="place" color={"#add8e6"}>
+                  Place
+                </FormLabel>
+                <Input
+                  id="place"
+                  type="text"
+                  placeholder="Enter your place"
+                  variant="flushed"
+                  mb={4}
+                  name="place"
+                  value={item.place}
                   onChange={handleInput}
                 />
               </FormControl>
@@ -335,46 +422,7 @@ const UpdateNewsAndEvents = () => {
                   />
                 </FormControl>
               )}
-            </form>
-          </Box>
-          <Box
-            backgroundColor={"#white"}
-            boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-            padding={"20px"}
-            w={["100%", "100%", "100%", "100%", "100%"]}
-            borderRadius={"20px"}
-          >
-            <form encType="multipart/form-data">
-              <FormControl isRequired>
-                <FormLabel htmlFor="date" color={"#add8e6"}>
-                  Date
-                </FormLabel>
-                <Input
-                  variant="flushed"
-                  id="date"
-                  type="date"
-                  name="date"
-                  mb={4}
-                  value={item.date}
-                  onChange={handleInput}
-                />
-              </FormControl>
-              <FormControl isRequired>
-                <FormLabel htmlFor="place" color={"#add8e6"}>
-                  Place
-                </FormLabel>
-                <Input
-                  id="place"
-                  type="text"
-                  placeholder="Enter your place"
-                  variant="flushed"
-                  mb={4}
-                  name="place"
-                  value={item.place}
-                  onChange={handleInput}
-                />
-              </FormControl>
-              <FormControl isRequired>
+              <FormControl isRequired mt={4}>
                 <FormLabel htmlFor="detailtext" color={"#add8e6"}>
                   Detail Description
                 </FormLabel>

@@ -276,6 +276,35 @@ const EditHome = () => {
           >
             <form encType="multipart/form-data">
               <FormControl mb={4} isRequired>
+                <FormLabel htmlFor="meta_title" color={"#add8e6"}>
+                  Meta Title
+                </FormLabel>
+                <Input
+                  id="meta_title"
+                  type="text"
+                  variant={"flushed"}
+                  placeholder="Enter your Heading"
+                  name="meta_title"
+                  value={item.meta_title}
+                  onChange={handleInput}
+                  mb={2}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="meta_description" color={"#add8e6"}>
+                  Meta Description
+                </FormLabel>
+                <Textarea
+                  id="meta_description"
+                  placeholder="Enter your Description"
+                  mb={4}
+                  name="meta_description"
+                  value={item.meta_description}
+                  onChange={handleInput}
+                />
+              </FormControl>
+
+              <FormControl mb={4} isRequired>
                 <FormLabel htmlFor="banner_heading" color={"#add8e6"}>
                   Heading
                 </FormLabel>
@@ -400,27 +429,7 @@ const EditHome = () => {
                   onChange={handleInput}
                 />
               </FormControl>
-              <br />
-              <FormControl isRequired>
-                <Flex justifyContent={"space-between"}>
-                  <FormLabel color={"#add8e6"}>About Key Features</FormLabel>
-                  <Button onClick={handleAddFeature}>+</Button>
-                </Flex>
-                {item?.about_points?.map((e, i) => {
-                  return (
-                    <Flex gap={"20px"} mt={"10px"}>
-                      <Input
-                        key={i}
-                        value={e}
-                        onChange={(event) => handleKeyFeature(event, i)}
-                      />
-                      <Button onClick={() => handleremoveFeature(i)}>-</Button>
-                    </Flex>
-                  );
-                })}
-              </FormControl>
-              <br />
-              <br />
+              
               <FormControl isRequired>
                 <FormLabel htmlFor="about_video" color={"#add8e6"}>
                   About Video
@@ -446,6 +455,25 @@ const EditHome = () => {
             borderRadius={"20px"}
           >
             <form encType="multipart/form-data">
+              <FormControl isRequired>
+                <Flex justifyContent={"space-between"}>
+                  <FormLabel color={"#add8e6"}>About Key Features</FormLabel>
+                  <Button onClick={handleAddFeature}>+</Button>
+                </Flex>
+                {item?.about_points?.map((e, i) => {
+                  return (
+                    <Flex gap={"20px"} mt={"10px"}>
+                      <Input
+                        key={i}
+                        value={e}
+                        onChange={(event) => handleKeyFeature(event, i)}
+                      />
+                      <Button onClick={() => handleremoveFeature(i)}>-</Button>
+                    </Flex>
+                  );
+                })}
+              </FormControl>
+              <br />
               <FormControl>
                 <FormLabel htmlFor="trust_factor_images" color={"#add8e6"}>
                   Trust Factor Images

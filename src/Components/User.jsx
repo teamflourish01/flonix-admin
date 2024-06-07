@@ -1,50 +1,86 @@
-import { AddIcon, ViewIcon } from '@chakra-ui/icons';
-import { Box, Button, ButtonGroup, Flex, Input, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react'
-import { BiEditAlt } from 'react-icons/bi';
-import { useNavigate } from 'react-router-dom';
-import DeleteBtn from './DeleteBtn';
-import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
+import { AddIcon, ViewIcon } from "@chakra-ui/icons";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Flex,
+  Input,
+  Table,
+  TableCaption,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { BiEditAlt } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import DeleteBtn from "./DeleteBtn";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 const User = () => {
-    const [flag,setFlag]=useState(true)
-    const [page,setPage]=useState(1)
-    const [search,setSearch]=useState("")
-    const [count,setCount]=useState(0)
-    const [user,setUser]=useState([])
-    const url=process.env.REACT_APP_DEV_URL
-    const navigate=useNavigate()
+  const [flag, setFlag] = useState(true);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [count, setCount] = useState(0);
+  const [user, setUser] = useState([]);
+  const url = process.env.REACT_APP_DEV_URL;
+  const navigate = useNavigate();
 
-
-    const handleDelete=async(id)=>{
-        try {
-            let data=await fetch(`${url}/user/delete/${id}`,{
-                method: 'DELETE',
-            })
-            data=await data.json()
-            console.log(data);
-            getUser()
-        } catch (error) {
-            console.log(error);
-        }
+  const handleDelete = async (id) => {
+    try {
+      let data = await fetch(`${url}/user/delete/${id}`, {
+        method: "DELETE",
+      });
+      data = await data.json();
+      console.log(data);
+      getUser();
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    const handleSearch=()=>{
-
+  const handleSearch = async () => {
+    try {
+      if (!search) {
+        getUser();
+        getCount();
+        setFlag(true);
+        return;
+      }
+      let data = await fetch(`${url}/user/search/${search}`);
+      data = await data.json();
+      setUser(data.data);
+      setCount(data.data.length);
+    } catch (error) {
+      console.log(error);
     }
-
-    const getUser=async()=>{
-        try {
-            let data=await fetch(`${url}/user`)
-            data=await data.json()
-            setUser(data.data)
-        } catch (error) {
-            console.log(error);
-        }
+  };
+  const getCount = async () => {
+    try {
+      let data = await fetch(`${url}/user`);
+      data = await data.json();
+      setCount(data.data.length);
+      console.log("Total User Data", count);
+    } catch (error) {
+      console.log(error);
     }
-    useEffect(()=>{
-        getUser()
-    },[])
+  };
+  const getUser = async () => {
+    try {
+      let data = await fetch(`${url}/user?page=${page}`);
+      data = await data.json();
+      setUser(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getUser();
+    getCount();
+  }, [page]);
   return (
     <Box p="4">
       <Flex gap={5} justifyContent={"space-between"}>
@@ -119,9 +155,7 @@ const User = () => {
                         border="1px solid #add8e6"
                         variant={"outline"}
                         _hover={{ bgColor: "#add8e6", color: "black" }}
-                        onClick={() =>
-                          navigate(`/admin/user/edit/${e?.slug}`)
-                        }
+                        onClick={() => navigate(`/admin/user/edit/${e?._id}`)}
                       >
                         Edit
                       </Button>
@@ -135,32 +169,30 @@ const User = () => {
         </Table>
       </TableContainer>
       <br />
-      <Flex justifyContent={"center"}>
-        {flag && (
-          <div>
-            <Button
-              border="1px solid #add8e6"
-              bgColor={"black"}
-              isDisabled={page === 1}
-              onClick={() => setPage(page - 1)}
-            >
-              <BsArrowLeft color="#add8e6" />
-            </Button>
-            <Button>{page}</Button>
-            <Button
-              variant={"outline"}
-              border="1px solid #add8e6"
-              bgColor={"black"}
-              isDisabled={page >= count / 12}
-              onClick={() => setPage(page + 1)}
-            >
-              <BsArrowRight color="#add8e6" />
-            </Button>
-          </div>
-        )}
-      </Flex>
+      {search === "" && (
+        <Flex justifyContent={"center"}>
+          <Button
+            border="1px solid #add8e6"
+            bgColor={"black"}
+            isDisabled={page === 1}
+            onClick={() => setPage(page - 1)}
+          >
+            <BsArrowLeft color="#add8e6" />
+          </Button>
+          <Button>{page}</Button>
+          <Button
+            variant={"outline"}
+            border="1px solid #add8e6"
+            bgColor={"black"}
+            isDisabled={page >= count / 12}
+            onClick={() => setPage(page + 1)}
+          >
+            <BsArrowRight color="#add8e6" />
+          </Button>
+        </Flex>
+      )}
     </Box>
-  )
-}
+  );
+};
 
-export default User
+export default User;

@@ -41,6 +41,8 @@ const AddBlog = () => {
     third_toggle: false,
     category: "",
     slug: "",
+    meta_title: "",
+    meta_description: "",
   });
 
   const [category, setCategory] = useState([]);
@@ -228,6 +230,29 @@ const AddBlog = () => {
           padding={"20px"}
           borderRadius={"20px"}
         >
+          <FormControl isRequired>
+            <FormLabel color={"#add8e6"}>Meta Title</FormLabel>
+            <Input
+              required
+              variant={"flushed"}
+              type="text"
+              name="meta_title"
+              value={blog.meta_title}
+              onChange={(e) => handleChange(e)}
+            />
+          </FormControl>
+          <br />
+          <FormControl isRequired>
+            <FormLabel color={"#add8e6"}>Meta Description</FormLabel>
+            <Textarea
+              variant="flushed"
+              name="meta_description"
+              value={blog.meta_description}
+              onChange={(e) => handleChange(e)}
+              maxLength={850}
+            />
+          </FormControl>
+          <br />
           <FormControl isRequired>
             <FormLabel color={"#add8e6"}>Name</FormLabel>
             <Input

@@ -8,6 +8,7 @@ import {
   Input,
   Select,
   Text,
+  Textarea,
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -212,6 +213,30 @@ const EditBlog = () => {
             "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;"
           }
         >
+          <FormControl isRequired>
+            <FormLabel color={"#add8e6"}>Meta Title</FormLabel>
+            <Input
+              required
+              variant={"flushed"}
+              type="text"
+              name="meta_title"
+              value={blog.meta_title}
+              onChange={(e) => handleChange(e)}
+            />
+          </FormControl>
+          <br />
+          <FormControl isRequired>
+            <FormLabel color={"#add8e6"}>Meta Description</FormLabel>
+            <Textarea
+              variant="flushed"
+              name="meta_description"
+              value={blog.meta_description}
+              onChange={(e) => handleChange(e)}
+              maxLength={850}
+            />
+          </FormControl>
+          <br />
+
           <FormControl isRequired>
             <FormLabel color={"#add8e6"}>Name</FormLabel>
             <Input

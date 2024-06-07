@@ -26,7 +26,6 @@ import EditPermalink from "./EditPermalink";
 import generateSlug from "../util/generateSlug";
 import { useNavigate } from "react-router-dom";
 
-
 const AddProduct = () => {
   const url = process.env.REACT_APP_DEV_URL;
   const [category, setCategory] = useState([]);
@@ -49,19 +48,21 @@ const AddProduct = () => {
     category: "",
     description: "",
     image: [],
-    image_alt:[],
+    image_alt: [],
     key_features: [],
     mark: [],
     mark_text: [],
     specification: {},
     details: {},
     performance: {},
-    slug:""
+    slug: "",
+    meta_title: "",
+    meta_description: "",
   });
 
   const [spec, setSpec] = useState({});
-  const [slug,setSlug]=useState("")
-  const navigate=useNavigate()
+  const [slug, setSlug] = useState("");
+  const navigate = useNavigate();
 
   let formData = new FormData();
   const getCategory = async () => {
@@ -260,8 +261,8 @@ const AddProduct = () => {
     if (feature) {
       dup.performance = feature;
     }
-    let newSlug=generateSlug(slug)
-    dup.slug=newSlug
+    let newSlug = generateSlug(slug);
+    dup.slug = newSlug;
     try {
       let res = await fetch(`${url}/product/add`, {
         method: "POST",
@@ -281,8 +282,7 @@ const AddProduct = () => {
           duration: 7000,
           isClosable: true,
         });
-      navigate("/admin/product")
-
+        navigate("/admin/product");
       } else {
         toast({
           title: "Product Not Added ",
@@ -316,6 +316,29 @@ const AddProduct = () => {
           borderRadius={"20px"}
         >
           <FormControl isRequired>
+            <FormLabel color={"#add8e6"}>Meta Title</FormLabel>
+            <Input
+              required
+              variant={"flushed"}
+              type="text"
+              name="meta_title"
+              value={product.meta_title}
+              onChange={(e) => handleChange(e)}
+            />
+          </FormControl>
+          <br />
+          <FormControl isRequired>
+            <FormLabel color={"#add8e6"}>Meta Description</FormLabel>
+            <Textarea
+              variant="flushed"
+              name="meta_description"
+              value={product.meta_description}
+              onChange={(e) => handleChange(e)}
+              maxLength={850}
+            />
+          </FormControl>
+          <br />
+          <FormControl isRequired>
             <FormLabel color={"#add8e6"}>Name</FormLabel>
             <Input
               required
@@ -323,13 +346,14 @@ const AddProduct = () => {
               type="text"
               name="name"
               value={product.name}
-              onChange={(e) => {handleChange(e);
-                setSlug(generateSlug(e.target.value))
+              onChange={(e) => {
+                handleChange(e);
+                setSlug(generateSlug(e.target.value));
               }}
             />
           </FormControl>
           <br />
-          <EditPermalink slug={slug} folder={"product"} setSlug={setSlug}/>
+          <EditPermalink slug={slug} folder={"product"} setSlug={setSlug} />
 
           {/* <FormControl isRequired>
           <FormLabel color={"#add8e6"}> Caption</FormLabel>

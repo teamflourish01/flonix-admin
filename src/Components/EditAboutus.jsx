@@ -47,11 +47,16 @@ const EditAboutus = () => {
   // edit logic
   const handleSingleImage = (e) => {
     let file = e.target.files[0];
-    setSingleImg(file);
+    if (file) {
+      setSingleImg(file);
 
-    // Display selected Img
-    const imageUrl = URL.createObjectURL(file);
-    setselectSingImg(imageUrl);
+      // Display selected Img
+      const imageUrl = URL.createObjectURL(file);
+      setselectSingImg(imageUrl);
+    } else {
+      setSingleImg("");
+      setselectSingImg("");
+    }
   };
   const handleDeleteSingleImage = () => {
     setSingleImg("");
@@ -136,7 +141,7 @@ const EditAboutus = () => {
       <Box p="4">
         <Flex
           justifyContent={"space-around"}
-          gap="40px"
+          gap="35px"
           flexDirection={["column", "column", "column", "row", "row"]}
         >
           <Box
@@ -147,6 +152,35 @@ const EditAboutus = () => {
             borderRadius={"20px"}
           >
             <form encType="multipart/form-data">
+              <FormControl mb={4} isRequired>
+                <FormLabel htmlFor="meta_title" color={"#add8e6"}>
+                  Meta Title
+                </FormLabel>
+                <Input
+                  id="meta_title"
+                  type="text"
+                  variant={"flushed"}
+                  placeholder="Enter your Heading"
+                  name="meta_title"
+                  value={item.meta_title}
+                  onChange={handleInput}
+                  mb={2}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="meta_description" color={"#add8e6"}>
+                  Meta Description
+                </FormLabel>
+                <Textarea
+                  id="meta_description"
+                  placeholder="Enter your Description"
+                  mb={4}
+                  name="meta_description"
+                  value={item.meta_description}
+                  onChange={handleInput}
+                />
+              </FormControl>
+
               <FormControl mb={4} isRequired>
                 <FormLabel htmlFor="generalheading" color={"#add8e6"}>
                   Heading
@@ -242,6 +276,16 @@ const EditAboutus = () => {
                   onChange={handleInput}
                 />
               </FormControl>
+            </form>
+          </Box>
+          <Box
+            backgroundColor={"#white"}
+            boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+            padding={"20px"}
+            w={["100%", "100%", "100%", "100%", "100%"]}
+            borderRadius={"20px"}
+          >
+            <form encType="multipart/form-data">
               <FormControl isRequired>
                 <FormLabel htmlFor="bannerdescription" color={"#add8e6"}>
                   Banner Description
@@ -255,16 +299,6 @@ const EditAboutus = () => {
                   onChange={handleInput}
                 />
               </FormControl>
-            </form>
-          </Box>
-          <Box
-            backgroundColor={"#white"}
-            boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-            padding={"20px"}
-            w={["100%", "100%", "100%", "100%", "100%"]}
-            borderRadius={"20px"}
-          >
-            <form encType="multipart/form-data">
               <FormControl isRequired>
                 <FormLabel htmlFor="mission" color={"#add8e6"}>
                   Mission

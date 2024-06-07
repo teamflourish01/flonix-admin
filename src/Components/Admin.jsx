@@ -461,147 +461,148 @@ const Admin = () => {
           {/* Add content here, remove div below  */}
           {/* <AllRoutes/> */}
           <Routes>
-            <Route path="/" element={<Login/>}/>
-            <Route path="/admin" element={<Dashboard />} />
-            <Route path="/admin/category" element={<Category />} />
-            <Route path="/admin/category/add" element={<AddCategory />} />
-            <Route path="/admin/user" element={<User/>}/>
+            {/* <Route path="/" element={<Login/>}/> */}
+            
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/category" element={<Category />} />
+            <Route path="/category/add" element={<AddCategory />} />
+            <Route path="/user" element={<User/>}/>
             <Route
-              path="/admin/category/:slugname"
+              path="/category/:slugname"
               element={<ViewCategory />}
             />
             <Route
-              path="/admin/category/edit/:slugname"
+              path="/category/edit/:slugname"
               element={<EditCategory />}
             />
-            <Route path="/admin/product" element={<Product />} />
-            <Route path="/admin/product/add" element={<AddProduct />} />
-            <Route path="/admin/product/:slugname" element={<ViewProduct />} />
+            <Route path="/product" element={<Product />} />
+            <Route path="/product/add" element={<AddProduct />} />
+            <Route path="/product/:slugname" element={<ViewProduct />} />
             <Route
-              path="/admin/product/edit/:slugname"
+              path="/product/edit/:slugname"
               element={<EditProduct />}
             />
-            <Route path="/admin/newsandevents" element={<NewsAndEvents />} />
+            <Route path="/newsandevents" element={<NewsAndEvents />} />
             <Route
-              path="/admin/newsandevents/add"
+              path="/newsandevents/add"
               element={<AddFormNewsandEvents />}
             />
             <Route
-              path="/admin/newsandevents/:slug"
+              path="/newsandevents/:slug"
               element={<ViewNewsAndEvents />}
             />
             <Route
-              path="/admin/newsandevents/edit/:slugname"
+              path="/newsandevents/edit/:slugname"
               element={<UpdateNewsAndEvents />}
             />
-            <Route path="/admin/contact" element={<Contact />} />
-            <Route path="/admin/outlet/add" element={<AddOutlet />} />
-            <Route path="/admin/outlet/:id" element={<ViewOutlet />} />
-            <Route path="/admin/outlet/edit/:id" element={<EditOutlet />} />
-            <Route path="/admin/editor" element={<MyEditor />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/outlet/add" element={<AddOutlet />} />
+            <Route path="/outlet/:id" element={<ViewOutlet />} />
+            <Route path="/outlet/edit/:id" element={<EditOutlet />} />
+            <Route path="/editor" element={<MyEditor />} />
 
             <Route
-              path="/admin/category/:categoryid"
+              path="/category/:categoryid"
               element={<ViewCategory />}
             />
             <Route
-              path="/admin/category/edit/:categoryid"
+              path="/category/edit/:categoryid"
               element={<EditCategory />}
             />
-            <Route path="/admin/product" element={<Product />} />
-            <Route path="/admin/product/add" element={<AddProduct />} />
-            <Route path="/admin/product/:id" element={<ViewProduct />} />
-            <Route path="/admin/product/edit/:id" element={<EditProduct />} />
-            <Route path="/admin/newsandevents" element={<NewsAndEvents />} />
+            <Route path="/product" element={<Product />} />
+            <Route path="/product/add" element={<AddProduct />} />
+            <Route path="/product/:id" element={<ViewProduct />} />
+            <Route path="/product/edit/:id" element={<EditProduct />} />
+            <Route path="/newsandevents" element={<NewsAndEvents />} />
             <Route
-              path="/admin/newsandevents/add"
+              path="/newsandevents/add"
               element={<AddFormNewsandEvents />}
             />
             <Route
-              path="/admin/newsandevents/:id"
+              path="/newsandevents/:id"
               element={<ViewNewsAndEvents />}
             />
             <Route
-              path="/admin/newsandevents/edit/:Id"
+              path="/newsandevents/edit/:Id"
               element={<UpdateNewsAndEvents />}
             />
-            <Route path="/admin/newsheading/add" element={<AddNewsHeading />} />
+            <Route path="/newsheading/add" element={<AddNewsHeading />} />
             <Route
-              path="/admin/newsheading/:id"
+              path="/newsheading/:id"
               element={<ViewNewsHeading />}
             />
             <Route
-              path="/admin/newsheading/edit/:id"
+              path="/newsheading/edit/:id"
               element={<EditNewsHeading />}
             />
 
-            <Route path="/admin/page" element={<Pages />} />
-            <Route path="/admin/aboutus" element={<ViewAboutus />} />
-            <Route path="/admin/aboutus/edit/:id" element={<EditAboutus />} />
-            <Route path="/admin/certificate" element={<Certificates />} />
+            <Route path="/page" element={<Pages />} />
+            <Route path="/aboutus" element={<ViewAboutus />} />
+            <Route path="/aboutus/edit/:id" element={<EditAboutus />} />
+            <Route path="/certificate" element={<Certificates />} />
             <Route
-              path="/admin/certificate/:id"
+              path="/certificate/:id"
               element={<ViewCertificate />}
             />
-            <Route path="/admin/certificate/add" element={<AddCertificate />} />
+            <Route path="/certificate/add" element={<AddCertificate />} />
             <Route
-              path="/admin/certificate/edit/:id"
+              path="/certificate/edit/:id"
               element={<EditCertificate />}
             />
-            <Route path="/admin/contectdetails" element={<Contectdetails />} />
-            <Route path="/admin/blog" element={<Blog />} />
-            <Route path="/admin/blogcategory" element={<BlogCategory />} />
+            <Route path="/contectdetails" element={<Contectdetails />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blogcategory" element={<BlogCategory />} />
             <Route
-              path="/admin/blogcategory/add"
+              path="/blogcategory/add"
               element={<AddBlogCategory />}
             />
             <Route
-              path="/admin/blogcategory/:slugname"
+              path="/blogcategory/:slugname"
               element={<ViewBlogCategory />}
             />
             <Route
-              path="/admin/blogcategory/edit/:slugname"
+              path="/blogcategory/edit/:slugname"
               element={<EditBlogCategory />}
             />
-            <Route path="/admin/blog/add" element={<AddBlog />} />
-            <Route path="/admin/blog/:slugname" element={<ViewBlog />} />
+            <Route path="/blog/add" element={<AddBlog />} />
+            <Route path="/blog/:slugname" element={<ViewBlog />} />
             <Route
-              path="/admin/contectdetails/edit/:id"
+              path="/contectdetails/edit/:id"
               element={<EditContectDetails />}
             />
-            <Route path="/admin/home/:id" element={<ViewHome />} />
-            <Route path="/admin/home/edit/:id" element={<EditHome />} />
-            <Route path="/admin/testimonials" element={<Testimonials />} />
+            <Route path="/home/:id" element={<ViewHome />} />
+            <Route path="/home/edit/:id" element={<EditHome />} />
+            <Route path="/testimonials" element={<Testimonials />} />
             <Route
-              path="/admin/testimonials/add"
+              path="/testimonials/add"
               element={<AddTestimonials />}
             />
             <Route
-              path="/admin/testimonials/:id"
+              path="/testimonials/:id"
               element={<ViewTestimonials />}
             />
             <Route
-              path="/admin/testimonials/edit/:id"
+              path="/testimonials/edit/:id"
               element={<EditTestimonials />}
             />
-            <Route path="/admin/ebrochure" element={<Ebrochure />} />
-            <Route path="/admin/ebrochure/add" element={<AddEbrochure />} />
+            <Route path="/ebrochure" element={<Ebrochure />} />
+            <Route path="/ebrochure/add" element={<AddEbrochure />} />
 
         
-            <Route path="/admin/user/add" element={<AddUser/>}/>
-            <Route path="/admin/user/:id" element={<ViewUser/>}/>
-            <Route path="/admin/user/edit/:id" element={<EditUser/>}/>
+            <Route path="/user/add" element={<AddUser/>}/>
+            <Route path="/user/:id" element={<ViewUser/>}/>
+            <Route path="/user/edit/:id" element={<EditUser/>}/>
 
-            <Route path="/admin/ebrochure/:edit/:id" element={<EditEbrochure />} />
-            <Route path="/admin/robenefits/:edit/:id" element={<UpdateHomeBenefits />} />
-            <Route path="/admin/robenefits/:id" element={<ViewHomeBanefits />} />
+            <Route path="/ebrochure/:edit/:id" element={<EditEbrochure />} />
+            <Route path="/robenefits/:edit/:id" element={<UpdateHomeBenefits />} />
+            <Route path="/robenefits/:id" element={<ViewHomeBanefits />} />
 
-            <Route path="/admin/inquiryform" element={<InquiryForm />} />
+            <Route path="/inquiryform" element={<InquiryForm />} />
             
 
-            <Route path="/admin/blog/edit/:slugname" element={<EditBlog/>}/>
-            <Route path="/admin/page/ourproduct" element={<OurProduct/>}/>
-            <Route path="/admin/page/topproduct" element={<TopProducts/>}/>
+            <Route path="/blog/edit/:slugname" element={<EditBlog/>}/>
+            <Route path="/page/ourproduct" element={<OurProduct/>}/>
+            <Route path="/page/topproduct" element={<TopProducts/>}/>
 
           </Routes>
           <Box rounded="md" h="" />
