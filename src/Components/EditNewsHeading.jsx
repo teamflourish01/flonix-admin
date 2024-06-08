@@ -103,6 +103,34 @@ const EditNewsHeading = () => {
               borderRadius={"20px"}
             >
               <FormControl mb={4} isRequired>
+                <FormLabel htmlFor="meta_title" color={"#add8e6"}>
+                  Meta Title
+                </FormLabel>
+                <Input
+                  id="meta_title"
+                  type="text"
+                  variant={"flushed"}
+                  placeholder="Enter your Heading"
+                  name="meta_title"
+                  value={item.meta_title}
+                  onChange={handleInput}
+                  mb={2}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="meta_description" color={"#add8e6"}>
+                  Meta Description
+                </FormLabel>
+                <Textarea
+                  id="meta_description"
+                  placeholder="Enter your Description"
+                  mb={4}
+                  name="meta_description"
+                  value={item.meta_description}
+                  onChange={handleInput}
+                />
+              </FormControl>
+              <FormControl mb={4} isRequired>
                 <FormLabel htmlFor="heading" color={"#add8e6"}>
                   News Heading
                 </FormLabel>

@@ -35,7 +35,7 @@ const ViewBlog = () => {
       });
       data = await data.json();
       console.log(data);
-      navigate("/admin/blog")
+      navigate("/admin/blog");
     } catch (error) {
       console.log(error);
     }
@@ -44,7 +44,7 @@ const ViewBlog = () => {
     getBlog();
   }, []);
   return (
-    <Box textAlign={"left"} p="6">
+    <Box textAlign={"left"} p="4" ml={5}>
       <Flex gap="20px">
         <Text fontSize={"xl"} fontWeight={"semibold"}>
           View Blog Details
@@ -71,6 +71,30 @@ const ViewBlog = () => {
         </Button>
       </Flex>
       <br />
+      <br />      
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
+        Meta Title
+      </Text>
+      <Box
+        padding="10px 20px"
+        width="50%"
+        bgColor={"#eef1f4"}
+        fontSize={"medium"}
+      >
+        {blog?.meta_title}
+      </Box>
+      <br />
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
+        Meta Description
+      </Text>
+      <Box
+        padding="10px 20px"
+        width="50%"
+        bgColor={"#eef1f4"}
+        fontSize={"medium"}
+      >
+        {blog?.meta_description}
+      </Box>
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
         Name
@@ -93,7 +117,7 @@ const ViewBlog = () => {
         bgColor={"#eef1f4"}
         fontSize={"medium"}
       >
-        {url+"/blog/"+blog?.slug}
+        {url + "/blog/" + blog?.slug}
       </Box>
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
@@ -108,7 +132,7 @@ const ViewBlog = () => {
         {blog?.category?.name}
       </Text>
       <br />
-      
+
       <Text fontWeight={"semibold"} fontSize={"xl"}>
         Banner Image
       </Text>

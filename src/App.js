@@ -1,10 +1,11 @@
-import './App.css';
-import Admin from './Components/Admin';
+import "./App.css";
+
+import AllRoutes from "./Components/AllRoutes";
 
 function App() {
   return (
     <div className="App">
-     <Admin/>
+      <AllRoutes />
     </div>
   );
 }

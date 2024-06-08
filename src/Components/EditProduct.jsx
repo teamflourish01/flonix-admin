@@ -344,6 +344,28 @@ const EditProduct = () => {
           borderRadius={"20px"}
         >
           <FormControl isRequired>
+            <FormLabel>Meta Title</FormLabel>
+            <Input
+              variant={"flushed"}
+              type="text"
+              name="meta_title"
+              value={product.meta_title}
+              onChange={(e) => handleChange(e)}
+            />
+          </FormControl>
+          <br />
+          <FormControl isRequired>
+            <FormLabel>Meta Description</FormLabel>
+            <Textarea
+              variant="flushed"
+              name="meta_description"
+              value={product.meta_description}
+              onChange={(e) => handleChange(e)}
+              maxLength={"250"}
+            />
+          </FormControl>
+          <br />
+          <FormControl isRequired>
             <FormLabel>Name</FormLabel>
             <Input
               variant={"flushed"}

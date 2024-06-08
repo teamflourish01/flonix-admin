@@ -13,7 +13,6 @@ import {
   Image,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import generateSlug from "../util/generateSlug";
@@ -34,6 +33,8 @@ const AddFormNewsandEvents = () => {
     detailimg_alt: "",
     detailimages: [],
     slug: "",
+    meta_title: "",
+    meta_description: "",
   });
   const [selectedImages, setSelectedImages] = useState("");
   const [image, setImage] = useState({});
@@ -265,9 +266,62 @@ const AddFormNewsandEvents = () => {
             borderRadius={"20px"}
           >
             <form encType="multipart/form-data">
+              <FormControl isRequired>
+                <FormLabel htmlFor="meta_title" color={"#add8e6"}>
+                  Meta Title
+                </FormLabel>
+                <Input
+                  id="meta_title"
+                  type="text"
+                  placeholder="Enter your Title"
+                  variant="flushed"
+                  mb={4}
+                  name="meta_title"
+                  value={eventdata.meta_title}
+                  onChange={handleInput}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="meta_description" color={"#add8e6"}>
+                  Meta Description
+                </FormLabel>
+                <Textarea
+                  id="meta_description"
+                  placeholder="Enter your Description"
+                  mb={4}
+                  name="meta_description"
+                  value={eventdata.meta_description}
+                  onChange={handleInput}
+                />
+              </FormControl>
+
+              <FormControl isRequired mb={1}>
+                <FormLabel htmlFor="cardheading" color={"#add8e6"}>
+                  Card Heading
+                </FormLabel>
+                <Input
+                  variant="flushed"
+                  id="cardheading"
+                  type="text"
+                  placeholder="Enter your Heading"
+                  mb={4}
+                  name="cardheading"
+                  value={eventdata.cardheading}
+                  onChange={(e) => {
+                    handleChange(e);
+                    setSlug(generateSlug(e.target.value));
+                  }}
+                />
+              </FormControl>
+              <EditPermalink
+                slug={slug}
+                folder={"newsandevent"}
+                setSlug={setSlug}
+              />
+              <br />
               <FormControl>
                 <FormLabel htmlFor="cardimage" color={"#add8e6"}>
-                  Image
+                  Card Image
                 </FormLabel>
                 <Input
                   variant="flushed"
@@ -300,29 +354,6 @@ const AddFormNewsandEvents = () => {
                 )}
               </FormControl>
               <br />
-              <FormControl isRequired mb={1}>
-                <FormLabel htmlFor="cardheading" color={"#add8e6"}>
-                  Card Heading
-                </FormLabel>
-                <Input
-                  variant="flushed"
-                  id="cardheading"
-                  type="text"
-                  placeholder="Enter your Heading"
-                  mb={4}
-                  name="cardheading"
-                  value={eventdata.cardheading}
-                  onChange={(e) => {
-                    handleChange(e);
-                    setSlug(generateSlug(e.target.value));
-                  }}
-                />
-              </FormControl>
-              <EditPermalink
-                slug={slug}
-                folder={"newsandevent"}
-                setSlug={setSlug}
-              />
 
               <FormControl isRequired>
                 <FormLabel htmlFor="cardtext" color={"#add8e6"}>
@@ -336,41 +367,6 @@ const AddFormNewsandEvents = () => {
                   value={eventdata.cardtext}
                   onChange={handleInput}
                 />
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor="detailimage" color={"#add8e6"}>
-                  Details Page Single Image
-                </FormLabel>
-                <Input
-                  variant="flushed"
-                  id="detailimage"
-                  type="file"
-                  name="detailimage"
-                  accept="image/*"
-                  onChange={handleDetailImgChange}
-                  mb={4}
-                />
-              </FormControl>
-              <FormControl>
-                {selectedDetail && (
-                  <Flex>
-                    <Box>
-                      <Image src={selectedDetail} width="200px" />
-                      <Input
-                        value={eventdata.detailimg_alt}
-                        onChange={(event) => handleDetImgText(event)}
-                        placeholder="Add IMG ALT Text"
-                      />
-                    </Box>
-
-                    <MdDelete
-                      color="red"
-                      cursor={"pointer"}
-                      size={"30px"}
-                      onClick={handleDeleteDetailImg}
-                    />
-                  </Flex>
-                )}
               </FormControl>
             </form>
           </Box>
@@ -411,6 +407,42 @@ const AddFormNewsandEvents = () => {
                   onChange={handleInput}
                 />
               </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="detailimage" color={"#add8e6"}>
+                  Details Page Single Image
+                </FormLabel>
+                <Input
+                  variant="flushed"
+                  id="detailimage"
+                  type="file"
+                  name="detailimage"
+                  accept="image/*"
+                  onChange={handleDetailImgChange}
+                  mb={4}
+                />
+              </FormControl>
+              <FormControl>
+                {selectedDetail && (
+                  <Flex>
+                    <Box>
+                      <Image src={selectedDetail} width="200px" />
+                      <Input
+                        value={eventdata.detailimg_alt}
+                        onChange={(event) => handleDetImgText(event)}
+                        placeholder="Add IMG ALT Text"
+                      />
+                    </Box>
+
+                    <MdDelete
+                      color="red"
+                      cursor={"pointer"}
+                      size={"30px"}
+                      onClick={handleDeleteDetailImg}
+                    />
+                  </Flex>
+                )}
+              </FormControl>
+              <br/>
               <FormControl isRequired>
                 <FormLabel htmlFor="detailtext" color={"#add8e6"}>
                   Detail Description
@@ -473,7 +505,7 @@ const AddFormNewsandEvents = () => {
               {/* Display selected images for multiple upload */}
               <Flex wrap="wrap">
                 {varImage.map((image, index) => (
-                  <Flex key={index}  position="relative">
+                  <Flex key={index} position="relative">
                     <img
                       key={index}
                       src={URL.createObjectURL(image)}
@@ -533,4 +565,3 @@ const AddFormNewsandEvents = () => {
 };
 
 export default AddFormNewsandEvents;
-

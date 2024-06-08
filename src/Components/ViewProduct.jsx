@@ -56,7 +56,7 @@ const ViewProduct = () => {
     getProduct();
   }, []);
   return (
-    <Box textAlign={"left"} p="4">
+    <Box textAlign={"left"} p="4" ml={5}>
       <Flex gap="20px">
         <Text fontSize={"xl"} fontWeight={"semibold"}>
           View Product Details
@@ -84,6 +84,30 @@ const ViewProduct = () => {
       </Flex>
       <br />
       <br />
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
+        Meta Title
+      </Text>
+      <Box
+        padding="10px 20px"
+        width="50%"
+        bgColor={"#eef1f4"}
+        fontSize={"medium"}
+      >
+        {product?.meta_title}
+      </Box>
+      <br />
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
+       Meta Description
+      </Text>
+      <Textarea
+        padding="10px 20px"
+        width="50%"
+        bgColor={"#eef1f4"}
+        value={product?.description}
+        fontSize={"medium"}
+      />
+      <br />
+      <br/>
       <Text fontWeight={"semibold"} fontSize={"xl"}>
         Name
       </Text>
