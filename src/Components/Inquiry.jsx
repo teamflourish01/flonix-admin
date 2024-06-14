@@ -15,12 +15,12 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { BiEditAlt } from "react-icons/bi";
+
 import { useNavigate } from "react-router-dom";
-import DeleteBtn from "./DeleteBtn";
+
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
-const User = () => {
+const Inquiry = () => {
   const [flag, setFlag] = useState(true);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -29,28 +29,15 @@ const User = () => {
   const url = process.env.REACT_APP_DEV_URL;
   const navigate = useNavigate();
 
-  const handleDelete = async (id) => {
-    try {
-      let data = await fetch(`${url}/user/delete/${id}`, {
-        method: "DELETE",
-      });
-      data = await data.json();
-      // console.log(data);
-      getUser();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleSearch = async () => {
     try {
       if (!search) {
-        getUser();
-        getCount();
+        await getInquiry();
+        await getCount();
         setFlag(true);
         return;
       }
-      let data = await fetch(`${url}/user/search/${search}`);
+      let data = await fetch(`${url}/inquiry?search=${search}`);
       data = await data.json();
       setUser(data.data);
       setCount(data.data.length);
@@ -60,7 +47,7 @@ const User = () => {
   };
   const getCount = async () => {
     try {
-      let data = await fetch(`${url}/user`);
+      let data = await fetch(`${url}/inquiry`);
       data = await data.json();
       setCount(data.data.length);
       // console.log("Total User Data", count);
@@ -68,9 +55,9 @@ const User = () => {
       console.log(error);
     }
   };
-  const getUser = async () => {
+  const getInquiry = async () => {
     try {
-      let data = await fetch(`${url}/user?page=${page}`);
+      let data = await fetch(`${url}/inquiry?page=${page}`);
       data = await data.json();
       setUser(data.data);
     } catch (error) {
@@ -78,23 +65,12 @@ const User = () => {
     }
   };
   useEffect(() => {
-    getUser();
+    getInquiry();
     getCount();
   }, [page]);
   return (
     <Box p="4">
-      <Flex gap={5} justifyContent={"space-between"}>
-        <Button
-          leftIcon={<AddIcon />}
-          variant={"ghost"}
-          bgColor={"black"}
-          _hover={{ color: "black", bgColor: "#add8e6" }}
-          color="#add8e6"
-          border={"1px solid #cfcccc"}
-          onClick={() => navigate("/admin/user/add")}
-        >
-          Add New
-        </Button>
+      <Flex justifyContent={"flex-end"} mr={5}>
         <Box>
           <span>Search:</span>
           <Input
@@ -109,9 +85,6 @@ const User = () => {
             onKeyUp={handleSearch}
           />
         </Box>
-        {/* <Button border={"1px solid #cfcccc"} rightIcon={<DeleteIcon/>}>
-            Bulk Delete
-        </Button> */}
       </Flex>
       <br />
       <TableContainer border={"1px solid #161616"} borderRadius={"20px"}>
@@ -121,7 +94,7 @@ const User = () => {
             bgColor={"#add8e6"}
             color={"black"}
           >
-            There Are {count} User
+            There Are {count} Inquiry
           </TableCaption>
           <Thead bgColor={"black"}>
             <Tr>
@@ -133,9 +106,10 @@ const User = () => {
           </Thead>
           <Tbody>
             {user?.map((e, i) => {
+              const sNumber = (page-1) * 12 + i + 1;
               return (
                 <Tr key={e._id}>
-                  <Td> {i + 1} </Td>
+                  <Td> {sNumber} </Td>
                   <Td>{e?.name}</Td>
                   <Td>{e?.email}</Td>
                   <Td>
@@ -146,20 +120,10 @@ const User = () => {
                         _hover={{ bgColor: "#add8e6", color: "black" }}
                         variant="solid"
                         color="#add8e6"
-                        onClick={() => navigate(`/admin/user/${e?._id}`)}
+                        onClick={() => navigate(`/admin/inquiry/${e?._id}`)}
                       >
                         View
                       </Button>
-                      <Button
-                        leftIcon={<BiEditAlt />}
-                        border="1px solid #add8e6"
-                        variant={"outline"}
-                        _hover={{ bgColor: "#add8e6", color: "black" }}
-                        onClick={() => navigate(`/admin/user/edit/${e?._id}`)}
-                      >
-                        Edit
-                      </Button>
-                      <DeleteBtn handleDelete={() => handleDelete(e._id)} />
                     </ButtonGroup>
                   </Td>
                 </Tr>
@@ -195,4 +159,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default Inquiry;

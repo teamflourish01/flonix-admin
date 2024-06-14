@@ -61,6 +61,7 @@ const EditUser = () => {
       const formData = new FormData();
       formData.append("name", data.name);
       formData.append("email", data.email);
+      formData.append("password", data.password);
       if (singleImg) {
         formData.append("image", singleImg);
       }
@@ -170,58 +171,80 @@ const EditUser = () => {
               title="Please enter a valid email address (e.g., user@example.com)"
             />
           </FormControl>
-          <Text
-            textAlign={"end"}
-            _hover={{ cursor: "pointer" }}
-            color={"blue.500"}
-            fontSize={"large"}
-            onClick={onOpen}
-          >
-            Change Password
-          </Text>
-          <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Change Password</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <FormControl isRequired>
-                  <FormLabel>Password</FormLabel>
-                  <Text>Leave It For No Change</Text>
-                  <InputGroup size="md">
-                    <Input
-                      required
-                      w={["xs", "xs", "xs", "sm", "sm"]}
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      {...register("password")}
-                    />
-                    <InputRightElement>
-                      <IconButton
-                        icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
-                        onClick={() => setShowPassword(!showPassword)}
-                        variant="ghost"
-                        mr="20px"
-                        bg="gray.200"
+          <FormControl isRequired>
+            <FormLabel>Password</FormLabel>
+            <InputGroup ml="85px" w={["xs", "xs", "xs", "sm", "sm"]}>
+              <Input
+                required
+                pr="4.5rem"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                {...register("password")}
+              />
+              <InputRightElement>
+                <IconButton
+                  icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                  onClick={() => setShowPassword(!showPassword)}
+                  variant="ghost"
+                  bg="gray.200"
+                />
+              </InputRightElement>
+            </InputGroup>
+          </FormControl>
+
+          {/* <Text
+              textAlign={"end"}
+              _hover={{ cursor: "pointer" }}
+              color={"blue.500"}
+              fontSize={"large"}
+              onClick={onOpen}
+            >
+              Change Password
+            </Text>
+            <Modal isOpen={isOpen} onClose={onClose}>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>Change Password</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <FormControl isRequired>
+                    <FormLabel>Password</FormLabel>
+                    <Text>Leave It For No Change</Text>
+                    <InputGroup size="md">
+                      <Input
+                        required
+                        w={["xs", "xs", "xs", "sm", "sm"]}
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        {...register("password")}
                       />
-                    </InputRightElement>
-                  </InputGroup>
-                </FormControl>
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  colorScheme="blue"
-                  mr={3}
-                  onClick={handleSubmit(handleUpdatePswd)}
-                >
-                  Save
-                </Button>
-                <Button variant="ghost" onClick={onClose}>
-                  Cancel
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
+                      <InputRightElement>
+                        <IconButton
+                          icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                          onClick={() => setShowPassword(!showPassword)}
+                          variant="ghost"
+                          mr="20px"
+                          bg="gray.200"
+                        />
+                      </InputRightElement>
+                    </InputGroup>
+                  </FormControl>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    colorScheme="blue"
+                    mr={3}
+                    onClick={handleSubmit(handleUpdatePswd)}
+                  >
+                    Save
+                  </Button>
+                  <Button variant="ghost" onClick={onClose}>
+                    Cancel
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal> */}
+          <br />
           <FormLabel>Profile Pic</FormLabel>
           <Box w="150px" border={"1px dashed gray"}>
             {selectSingImg ? (

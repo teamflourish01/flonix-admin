@@ -1,28 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 import {
   Box,
   Button,
   Center,
+  Flex,
   FormControl,
   FormLabel,
   Input,
+  Text,
   Textarea,
 } from "@chakra-ui/react";
 
 const InquiryForm = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
-  const handleSubmit = async () => {
+  const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:8080/send", {
-        name,
-        email,
-        message,
-      });
+      const response = await axios.post("http://localhost:8080/inquiry/send", data);
       alert(response.data);
+      reset();
     } catch (error) {
       console.error("There was an error sending the message!", error);
       alert("Failed to send message.");
@@ -32,57 +35,120 @@ const InquiryForm = () => {
   return (
     <Center>
       <Box
-        backgroundColor={"white"}
+        backgroundColor="white"
         w={["100%", "100%", "100%", "50%", "50%"]}
         boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-        padding={"20px"}
-        borderRadius={"20px"}
-        marginTop={"50px"}
+        p="20px"
+        borderRadius="20px"
+        mt="50px"
+        as="form"
+        onSubmit={handleSubmit(onSubmit)}
       >
-        <FormControl>
-          <FormLabel htmlFor="name" color={"#add8e6"}>
+        <FormControl mb={4}>
+          <FormLabel htmlFor="name" color="#add8e6">
             Name
           </FormLabel>
           <Input
             type="text"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            mb={4}
+            id="name"
+            {...register("name", { required: true })}
           />
+          {errors.name && (
+            <Text color="red.500" textAlign="center">
+              Name is required.
+            </Text>
+          )}
         </FormControl>
 
-        <FormControl>
-          <FormLabel htmlFor="email" color={"#add8e6"}>
+        <FormControl mb={4}>
+          <FormLabel htmlFor="email" color="#add8e6">
             Email
           </FormLabel>
           <Input
             type="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            mb={4}
+            id="email"
+            {...register("email", {
+              required: true,
+              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            })}
           />
+          {errors.email && errors.email.type === "required" && (
+            <Text color="red.500" textAlign="center">
+              Email is required.
+            </Text>
+          )}
+          {errors.email && errors.email.type === "pattern" && (
+            <Text color="red.500" textAlign="center">
+              Invalid email format.
+            </Text>
+          )}
         </FormControl>
-        <FormControl>
-          <FormLabel htmlFor="message" color={"#add8e6"}>
+
+        <Flex gap="50px">
+          <FormControl mb={4}>
+            <FormLabel htmlFor="mobile" color="#add8e6">
+              Mobile
+            </FormLabel>
+            <Input
+              type="number"
+              id="mobile"
+              {...register("mobile", {
+                required: true,
+                maxLength: 10,
+                pattern: /^[0-9]{10}$/,
+              })}
+            />
+            {errors.mobile && errors.mobile.type === "required" && (
+              <Text color="red.500" textAlign="center">
+                Mobile number is required.
+              </Text>
+            )}
+            {errors.mobile && errors.mobile.type === "maxLength" && (
+              <Text color="red.500" textAlign="center">
+                Mobile number cannot exceed 10 digits.
+              </Text>
+            )}
+            {errors.mobile && errors.mobile.type === "pattern" && (
+              <Text color="red.500" textAlign="center">
+                Mobile number must be exactly 10 digits.
+              </Text>
+            )}
+          </FormControl>
+          <FormControl mb={4}>
+            <FormLabel htmlFor="city" color="#add8e6">
+              City
+            </FormLabel>
+            <Input
+              type="text"
+              id="city"
+              {...register("city", { required: true })}
+            />
+            {errors.city && (
+              <Text color="red.500" textAlign="center">
+                City is required.
+              </Text>
+            )}
+          </FormControl>
+        </Flex>
+
+        <FormControl mb={4}>
+          <FormLabel htmlFor="message" color="#add8e6">
             Message
           </FormLabel>
-
-          <Textarea
-            name="message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            required
-          />
+          <Textarea id="message" {...register("message", { required: true })} />
+          {errors.message && (
+            <Text color="red.500" textAlign="center">
+              Message is required.
+            </Text>
+          )}
         </FormControl>
 
         <Button
-          onClick={handleSubmit}
-          variant={"solid"}
-          bgColor={"black"}
+          type="submit"
+          variant="solid"
+          bgColor="black"
           color="#add8e6"
-          marginTop={"20px"}
+          mt="20px"
           _hover={{
             color: "black",
             bgColor: "#add8e6",
