@@ -37,6 +37,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const response = await fetch(`${url}/user/signin`, {
         method: "post",
@@ -45,6 +46,7 @@ const Login = () => {
       });
       if (response.ok) {
         const data = await response.json();
+
         localStorage.setItem("token", data.token);
         toast({
           title: "Login Success",
@@ -105,7 +107,7 @@ const Login = () => {
             <form onSubmit={handleSubmit}>
               <Stack spacing={4}>
                 <FormControl id="email" isRequired>
-                  <FormLabel>Email address</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <InputGroup>
                     <InputLeftElement
                       pointerEvents="none"
@@ -144,22 +146,9 @@ const Login = () => {
                     </InputRightElement>
                   </InputGroup>
                 </FormControl>
-                <Button colorScheme="blue" type="submit" w="full">
+                <Button colorScheme="blue" type="submit" w="full" mt={9}>
                   Login
                 </Button>
-                <Text mt={4} textAlign="center">
-                  Not a Member?
-                  <NavLink
-                    to="/admin/user/add"
-                    style={{
-                      color: "blue",
-                      // textDecoration: "underline",
-                      marginLeft: "14px",
-                    }}
-                  >
-                    Create an Account
-                  </NavLink>
-                </Text>
               </Stack>
             </form>
           </Box>
