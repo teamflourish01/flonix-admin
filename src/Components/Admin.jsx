@@ -363,35 +363,9 @@ const Admin = () => {
         >
           Contact
         </NavItem>
-        <NavItem
-          _hover={{ bgColor: "black", color: "#ADD8E6" }}
-          icon={BsDistributeVertical}
-          onClick={() => {
-            sidebar.onClose();
-            // navigate("/admin/distributor");
-          }}
-        >
-          Distributors
-        </NavItem>
-        <NavItem
-          _hover={{ bgColor: "black", color: "#ADD8E6" }}
-          icon={TiThMenu}
-          onClick={() => {
-            sidebar.onClose();
-            // navigate("/admin/menu");
-          }}
-        >
-          Menu
-        </NavItem>
-        <NavItem
-          _hover={{ bgColor: "black", color: "#ADD8E6" }}
-          icon={GrCatalog}
-          onClick={() => {
-            sidebar.onClose();
-          }}
-        >
-          catalogue
-        </NavItem>
+       
+       
+       
       </Flex>
     </Box>
   );
