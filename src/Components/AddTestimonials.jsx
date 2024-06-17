@@ -39,10 +39,13 @@ const AddTestimonials = () => {
 
   const handleSingleImageChange = (e) => {
     let file = e.target.files[0];
-    setctImage(file);
-    // selected image Display
-    const imageUrl = URL.createObjectURL(file);
-    setSelectedImages(imageUrl);
+    if (file) {
+      setctImage(file);
+      // selected image Display
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedImages(imageUrl);
+    }
+    e.target.value = "";
   };
   const handleDeleteSingleImage = () => {
     setctImage({});
@@ -163,7 +166,7 @@ const AddTestimonials = () => {
               </FormControl>
               <FormControl>
                 {selectedImages && (
-                  <Flex >
+                  <Flex>
                     <img
                       src={selectedImages}
                       alt="selected img"

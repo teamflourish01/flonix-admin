@@ -12,14 +12,15 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 const AddUser = () => {
-  const [user, setUser] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [dataUrl, setDataUrl] = useState("");
   const [image, setImage] = useState({});
@@ -27,12 +28,7 @@ const AddUser = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const handleChange = (e) => {
-    let { name, value } = e.target;
-    setUser({ ...user, [name]: value });
-  };
-
-  const handleFileChanger = (e) => {
+  const handleFileChange = (e) => {
     let file = e.target.files[0];
     setImage(file);
     if (file) {
@@ -44,35 +40,31 @@ const AddUser = () => {
     }
   };
 
-  const handleSubmit = async () => {
+  const onSubmit = async (data) => {
+    setIsLoading(true);
     let formData = new FormData();
-    let dup = { ...user };
-    formData.append("dup", JSON.stringify(dup));
-    console.log(Object.keys(image));
+    formData.append("dup", JSON.stringify(data));
     if (Object.keys(image).length > 0) {
       formData.append("user", image);
     }
     try {
       let response = await axios.post(`${url}/user/add`, formData);
-      
-      let data = response.data;
-      console.log("api res data",data);
-      if (data.data) {
-        localStorage.setItem("token", data.token);
+      let responseData = response.data;
+      if (responseData.data) {
+        localStorage.setItem("token", responseData.token);
         toast({
           title: "User Added",
-          description: data.data.msg,
+          description: responseData.msg,
           status: "success",
           position: "top",
           duration: 7000,
           isClosable: true,
         });
-
-        navigate("/");
+        navigate("/admin/user");
       } else {
         toast({
-          title: "User Not Added ",
-          description: data.data.msg,
+          title: "User Not Added",
+          description: responseData.msg,
           status: "error",
           position: "top",
           duration: 7000,
@@ -81,8 +73,11 @@ const AddUser = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   return (
     <Box p="4">
       <Flex justifyContent={"space-around"} gap="40px">
@@ -93,91 +88,82 @@ const AddUser = () => {
           padding={"20px"}
           borderRadius={"20px"}
         >
-          <FormControl isRequired>
-            <FormLabel>Name</FormLabel>
-            <Input
-              variant={"flushed"}
-              type="text"
-              name="name"
-              value={user.name}
-              onChange={(e) => handleChange(e)}
-            />
-          </FormControl>
-          <br />
-          <FormControl isRequired>
-            <FormLabel>Email</FormLabel>
-            <Input
-              variant="flushed"
-              type="email"
-              name="email"
-              value={user.email}
-              onChange={(e) => handleChange(e)}
-            />
-          </FormControl>
-          <br />
-          <FormControl isRequired>
-            <FormLabel>Password</FormLabel>
-            <Input
-              variant="flushed"
-              type="password"
-              name="password"
-              value={user.password}
-              onChange={(e) => handleChange(e)}
-            />
-          </FormControl>
-          <br />
-        </Box>
-        <Box
-          backgroundColor={"white"}
-          boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-          padding={"20px"}
-          borderRadius={"20px"}
-        >
-          <FormControl isRequired>
-            <FormLabel>Profile</FormLabel>
-            {dataUrl ? (
-              <Image w="150px" h="150px" borderRadius={"50%"} src={dataUrl} />
-            ) : (
-              <Image
-                w="150px"
-                h="150px"
-                src="https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png"
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <FormControl isRequired>
+              <FormLabel>Name</FormLabel>
+              <Input
+                variant={"flushed"}
+                type="text"
+                {...register("name", { required: "Name is required" })}
               />
-            )}
+              {errors.name && (
+                <Text color="red.500">{errors.name.message}</Text>
+              )}
+            </FormControl>
             <br />
-            <form encType="multipart/form-data">
-              <input
-                required
-                type="file"
-                name="user"
-                onChange={(e) => handleFileChanger(e)}
+            <FormControl isRequired>
+              <FormLabel>Email</FormLabel>
+              <Input
+                variant="flushed"
+                type="email"
+                {...register("email", { required: "Email is required" })}
               />
-            </form>
-            <Text>
-              <span style={{ fontWeight: "bold" }}>Note:</span>Upload Only
-              200pxX200px photo and less than 500KB size
-            </Text>
-          </FormControl>
+              {errors.email && (
+                <Text color="red.500">{errors.email.message}</Text>
+              )}
+            </FormControl>
+            <br />
+            <FormControl isRequired>
+              <FormLabel>Password</FormLabel>
+              <Input
+                variant="flushed"
+                type="password"
+                {...register("password", { required: "Password is required" })}
+              />
+              {errors.password && (
+                <Text color="red.500">{errors.password.message}</Text>
+              )}
+            </FormControl>
+            <br />
+            <FormControl>
+              <FormLabel>Profile</FormLabel>
+              {dataUrl ? (
+                <Image w="150px" h="150px" borderRadius={"50%"} src={dataUrl} />
+              ) : (
+                <Image
+                  w="150px"
+                  h="150px"
+                  src="https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png"
+                />
+              )}
+              <br />
+              <Input type="file" onChange={handleFileChange} />
+              <Text>
+                <span style={{ fontWeight: "bold" }}>Note:</span>Upload Only
+                200pxX200px photo and less than 500KB size
+              </Text>
+            </FormControl>
+            <br />
+            <center>
+              <Button
+                type="submit"
+                variant={"solid"}
+                bgColor={"#161616"}
+                color="#add8e6"
+                _hover={{
+                  color: "black",
+                  bgColor: "#add8e6",
+                  border: "1px solid #add8e6",
+                }}
+                leftIcon={isLoading && <Spinner color="blue.500" />}
+                isDisabled={isLoading}
+              >
+                Add New{" "}
+              </Button>
+            </center>
+          </form>
         </Box>
       </Flex>
-      <br />
-      <center>
-        <Button
-          variant={"solid"}
-          bgColor={"#161616"}
-          color="#add8e6"
-          _hover={{
-            color: "black",
-            bgColor: "#add8e6",
-            border: "1px solid #add8e6",
-          }}
-          leftIcon={isLoading && <Spinner color="blue.500" />}
-          onClick={() => handleSubmit()}
-          isDisabled={!user.name}
-        >
-          Add New{" "}
-        </Button>
-      </center>
     </Box>
   );
 };

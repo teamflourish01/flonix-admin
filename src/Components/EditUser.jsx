@@ -85,40 +85,7 @@ const EditUser = () => {
       console.error("Update failed", error);
       toast({
         title: "Data Not Updated",
-        description: error.response?.data.msg || "An error occurred",
-        status: "error",
-        position: "top",
-        duration: 7000,
-        isClosable: true,
-      });
-    }
-  };
-
-  const handleUpdatePswd = async (data) => {
-    try {
-      const formData = new FormData();
-      formData.append("password", data.password);
-      const response = await axios.put(`${url}/user/edit/${id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      if (response.status === 200) {
-        toast({
-          title: "Password Update Successfully",
-          description: response.data.msg,
-          status: "success",
-          position: "top",
-          duration: 7000,
-          isClosable: true,
-        });
-        onClose();
-      }
-    } catch (error) {
-      console.error("Password Update failed", error);
-      toast({
-        title: "Password Not Updated",
-        description: error.response?.data.msg || "An error occurred",
+        description: error.response?.data.msg || "User is Alredy Exist ! ",
         status: "error",
         position: "top",
         duration: 7000,
@@ -129,9 +96,14 @@ const EditUser = () => {
 
   const handleFileChange = (e) => {
     let file = e.target.files[0];
-    setSingleImg(file);
-    const imageUrl = URL.createObjectURL(file);
-    setSelectSingImg(imageUrl);
+    if (file) {
+      setSingleImg(file);
+      const imageUrl = URL.createObjectURL(file);
+      setSelectSingImg(imageUrl);
+    } else {
+      setSingleImg("");
+      setSelectSingImg("");
+    }
   };
 
   useEffect(() => {
@@ -173,7 +145,7 @@ const EditUser = () => {
           </FormControl>
           <FormControl isRequired>
             <FormLabel>Password</FormLabel>
-            <InputGroup ml="85px" w={["xs", "xs", "xs", "sm", "sm"]}>
+            <InputGroup ml="115px" w={["xs", "xs", "xs", "sm", "sm"]}>
               <Input
                 required
                 pr="4.5rem"
@@ -192,58 +164,6 @@ const EditUser = () => {
             </InputGroup>
           </FormControl>
 
-          {/* <Text
-              textAlign={"end"}
-              _hover={{ cursor: "pointer" }}
-              color={"blue.500"}
-              fontSize={"large"}
-              onClick={onOpen}
-            >
-              Change Password
-            </Text>
-            <Modal isOpen={isOpen} onClose={onClose}>
-              <ModalOverlay />
-              <ModalContent>
-                <ModalHeader>Change Password</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody>
-                  <FormControl isRequired>
-                    <FormLabel>Password</FormLabel>
-                    <Text>Leave It For No Change</Text>
-                    <InputGroup size="md">
-                      <Input
-                        required
-                        w={["xs", "xs", "xs", "sm", "sm"]}
-                        type={showPassword ? "text" : "password"}
-                        name="password"
-                        {...register("password")}
-                      />
-                      <InputRightElement>
-                        <IconButton
-                          icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
-                          onClick={() => setShowPassword(!showPassword)}
-                          variant="ghost"
-                          mr="20px"
-                          bg="gray.200"
-                        />
-                      </InputRightElement>
-                    </InputGroup>
-                  </FormControl>
-                </ModalBody>
-                <ModalFooter>
-                  <Button
-                    colorScheme="blue"
-                    mr={3}
-                    onClick={handleSubmit(handleUpdatePswd)}
-                  >
-                    Save
-                  </Button>
-                  <Button variant="ghost" onClick={onClose}>
-                    Cancel
-                  </Button>
-                </ModalFooter>
-              </ModalContent>
-            </Modal> */}
           <br />
           <FormLabel>Profile Pic</FormLabel>
           <Box w="150px" border={"1px dashed gray"}>

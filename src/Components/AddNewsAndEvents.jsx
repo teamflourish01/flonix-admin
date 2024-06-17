@@ -182,6 +182,17 @@ const AddFormNewsandEvents = () => {
   };
 
   const handleSubmit = async (imageArr, varArr, detimg) => {
+    if (!slug) {
+      toast({
+        title: "Item Not Edited ",
+        description: "Permalink is Required",
+        status: "error",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
+      return;
+    }
     setIsLoading(true);
     console.log(imageArr, varArr);
     let dup = { ...eventdata };

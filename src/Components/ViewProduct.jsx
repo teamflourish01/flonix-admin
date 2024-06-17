@@ -28,14 +28,14 @@ const ViewProduct = () => {
   const detailArray = Object.entries(product?.details || {});
   const performanceArray = Object.entries(product?.performance || {});
   const url = process.env.REACT_APP_DEV_URL;
-  const handleDelete = async(id) => {
+  const handleDelete = async (id) => {
     try {
       let data = await fetch(`${url}/blog/delete/${id}`, {
         method: "DELETE",
       });
       data = await data.json();
       console.log(data);
-      navigate("/admin/product")
+      navigate("/admin/product");
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +97,7 @@ const ViewProduct = () => {
       </Box>
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
-       Meta Description
+        Meta Description
       </Text>
       <Textarea
         padding="10px 20px"
@@ -107,7 +107,7 @@ const ViewProduct = () => {
         fontSize={"medium"}
       />
       <br />
-      <br/>
+      <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
         Name
       </Text>
@@ -129,7 +129,7 @@ const ViewProduct = () => {
         bgColor={"#eef1f4"}
         fontSize={"medium"}
       >
-        {url+"/product/"+product?.slug}
+        {url + "/product/" + product?.slug}
       </Box>
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
@@ -197,28 +197,31 @@ const ViewProduct = () => {
       ))}
 
       <br />
+      <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
-        Testing
+        Icone Image
       </Text>
-      <SimpleGrid columns={[1, 1, 1, 2, 2]} rowGap={"9"}>
+      <SimpleGrid columns={[1, 1, 1, 1, 2]} rowGap={"9"}>
         {product?.mark &&
-          product?.mark.map((e, i) => {
-            return (
-              <>
-                <Image src={`${url}/product/${e}`} />
-                <br />
-                <Box
-                  padding="10px 20px"
-                  width="50%"
-                  bgColor={"#eef1f4"}
-                  fontSize={"medium"}
-                >
-                  {product?.mark_text[i]}
-                </Box>
-              </>
-            );
-          })}
+          product?.mark.map((e) => <Image src={`${url}/product/${e}`} />)}
       </SimpleGrid>
+      <br />
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
+        Image Text
+      </Text>
+
+      {product?.mark_text?.map((e) => (
+        <Text
+          padding="10px 20px"
+          width="50%"
+          bgColor={"#eef1f4"}
+          fontSize={"medium"}
+        >
+          {e}
+        </Text>
+      ))}
+
+      <br />
       <br />
       {dataArray.length > 0 && (
         <>

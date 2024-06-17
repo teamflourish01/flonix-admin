@@ -144,8 +144,19 @@ const UpdateNewsAndEvents = () => {
     setItem({ ...item, [name]: value });
   };
   const handleSubmit = async (e) => {
-    const formData = new FormData();
     e.preventDefault();
+    if (!slug) {
+      toast({
+        title: "Item Not Edited ",
+        description: "Permalink is Required",
+        status: "error",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
+      return;
+    }
+    const formData = new FormData();
     setIsLoading(true);
     let dup = { ...item };
     if (singleImg) {
@@ -162,6 +173,7 @@ const UpdateNewsAndEvents = () => {
     let newSlug = generateSlug(slug);
     dup.slug = newSlug;
     formData.append("dup", JSON.stringify(dup));
+
     try {
       const response = await axios.put(
         `${url}/newsandevent/edit/${slugname}`,
