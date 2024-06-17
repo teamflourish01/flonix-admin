@@ -13,7 +13,7 @@ import {
   transition,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Admin.css";
 
 import { BiSolidUser, BiLogoGmail } from "react-icons/bi";
@@ -371,6 +371,11 @@ const Admin = () => {
       </Flex>
     </Box>
   );
+  useEffect(()=>{
+    setTimeout(()=>{
+      localStorage.removeItem("token")
+    },3600)
+  },[])
   return (
     <Box
       // as="section"
