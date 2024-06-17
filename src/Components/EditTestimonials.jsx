@@ -45,11 +45,16 @@ const EditTestimonials = () => {
   // edit logic
   const handleSingleImage = (e) => {
     let file = e.target.files[0];
-    setSingleImg(file);
+    if (file) {
+      setSingleImg(file);
 
-    // Display selected Img
-    const imageUrl = URL.createObjectURL(file);
-    setselectSingImg(imageUrl);
+      // Display selected Img
+      const imageUrl = URL.createObjectURL(file);
+      setselectSingImg(imageUrl);
+    } else {
+      setSingleImg("");
+      setselectSingImg("");
+    }
   };
   const handleDeleteSingleImage = () => {
     setSingleImg("");
@@ -187,7 +192,7 @@ const EditTestimonials = () => {
               </FormControl>
               <FormControl>
                 {selctSinImg && (
-                  <Flex >
+                  <Flex>
                     <img
                       src={selctSinImg}
                       alt="selected img"

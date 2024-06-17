@@ -48,7 +48,7 @@ const EditProduct = () => {
   const [featureValue, setFeatureValue] = useState("");
   const toast = useToast();
   const navigate = useNavigate();
-  const [slug,setSlug]=useState("")
+  const [slug, setSlug] = useState("");
 
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -74,7 +74,7 @@ const EditProduct = () => {
       setSpec(data.data?.specification);
       setDetail(data.data?.details);
       setFeature(data.data?.performance);
-      setSlug(data.data?.slug)
+      setSlug(data.data?.slug);
     } catch (error) {
       console.log(error);
     }
@@ -165,16 +165,20 @@ const EditProduct = () => {
     imagetext[i] = e.target.value;
     setImgText([...imagetext]);
   };
-  const handleMarkLocal = (i) => {
-    let dup = [...mark];
-    let dupUrl = [...markUrl];
-    let dupText = [...markText];
-    dupText.splice(i, 1);
-    dup.splice(i, 1);
-    dupUrl.splice(i, 1);
-    setMark(dup);
-    setMarkUrl(dupUrl);
-    setMarkText(dupText);
+  const handleMarkLocal = (index) => {
+    // let dup = [...mark];
+    // let dupUrl = [...markUrl];
+    // let dupText = [...markText];
+    // dupText.splice(i, 1);
+    // dup.splice(i, 1);
+    // dupUrl.splice(i, 1);
+    // setMark(dup);
+    // setMarkUrl(dupUrl);
+    // setMarkText(dupText);
+
+    setMark((prev) => prev.filter((_, i) => i !== index));
+    setMarkUrl((prev) => prev.filter((_, i) => i !== index));
+    setMarkText((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleMarkChanger = (e) => {
@@ -216,10 +220,14 @@ const EditProduct = () => {
     dup[i] = e.target.value;
     setProduct({ ...product, image_alt: dup });
   };
-  const handleMark = (i) => {
+  const handleMark = (index) => {
     let dup = [...product.mark];
-    dup.splice(i, 1);
-    setProduct({ ...product, mark: dup });
+    dup.splice(index, 1);
+
+    // Remove img-Text
+    let dupMarkText = [...product.mark_text];
+    dupMarkText.splice(index, 1);
+    setProduct({ ...product, mark: dup, mark_text: dupMarkText });
   };
 
   const handleDetailChange = (parameter, value) => {
@@ -288,8 +296,8 @@ const EditProduct = () => {
     if (feature) {
       dup.performance = feature;
     }
-    let newSlug=generateSlug(slug)
-    dup.slug=newSlug
+    let newSlug = generateSlug(slug);
+    dup.slug = newSlug;
     console.log(dup, "dup");
     formData.append("dup", JSON.stringify(dup));
     if(!slug){
