@@ -104,8 +104,9 @@ const EditBlog = () => {
     e.target.value = "";
   };
 
-  const handleImageUrl = (x) => {
-    x("");
+  const handleImageUrl = (img, url) => {
+    img("");
+    url("");
   };
   // Img_alt- Text Logic
 
@@ -263,6 +264,7 @@ const EditBlog = () => {
                 </Box>
                 <MdDelete
                   color="red"
+                  cursor={"pointer"}
                   size={"30px"}
                   onClick={() =>
                     handleImageDelete("banner_image", "bannerimg_alt")
@@ -281,8 +283,9 @@ const EditBlog = () => {
                 </Box>
                 <MdDelete
                   color="red"
+                  cursor={"pointer"}
                   size={"30px"}
-                  onClick={() => handleImageUrl(setBannerUrl)}
+                  onClick={() => handleImageUrl(setBanner, setBannerUrl)}
                 />
               </Flex>
             )}
@@ -327,8 +330,11 @@ const EditBlog = () => {
                 </Box>
                 <MdDelete
                   color="red"
+                  cursor={"pointer"}
                   size={"30px"}
-                  onClick={() => handleImageDelete("first_image","firstimg_alt")}
+                  onClick={() =>
+                    handleImageDelete("first_image", "firstimg_alt")
+                  }
                 />
               </Flex>
             )}
@@ -343,8 +349,9 @@ const EditBlog = () => {
                 </Box>
                 <MdDelete
                   color="red"
+                  cursor={"pointer"}
                   size={"30px"}
-                  onClick={() => handleImageUrl(setFirstUrl)}
+                  onClick={() => handleImageUrl(setFirst, setFirstUrl)}
                 />
               </Flex>
             )}
@@ -398,8 +405,11 @@ const EditBlog = () => {
                 </Box>
                 <MdDelete
                   color="red"
+                  cursor={"pointer"}
                   size={"30px"}
-                  onClick={() => handleImageDelete("second_image","secondimg_alt")}
+                  onClick={() =>
+                    handleImageDelete("second_image", "secondimg_alt")
+                  }
                 />
               </Flex>
             )}
@@ -414,8 +424,9 @@ const EditBlog = () => {
                 </Box>
                 <MdDelete
                   color="red"
+                  cursor={"pointer"}
                   size={"30px"}
-                  onClick={() => handleImageUrl(setSecondUrl)}
+                  onClick={() => handleImageUrl(setSecond, setSecondUrl)}
                 />
               </Flex>
             )}
@@ -470,8 +481,11 @@ const EditBlog = () => {
                 </Box>
                 <MdDelete
                   color="red"
+                  cursor={"pointer"}
                   size={"30px"}
-                  onClick={() => handleImageDelete("third_image","thirdimg_alt")}
+                  onClick={() =>
+                    handleImageDelete("third_image", "thirdimg_alt")
+                  }
                 />
               </Flex>
             )}
@@ -486,8 +500,9 @@ const EditBlog = () => {
                 </Box>
                 <MdDelete
                   color="red"
+                  cursor={"pointer"}
                   size={"30px"}
-                  onClick={() => handleImageUrl(setThirdUrl)}
+                  onClick={() => handleImageUrl(setThird,setThirdUrl)}
                 />
               </Flex>
             )}
