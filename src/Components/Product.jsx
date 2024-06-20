@@ -5,6 +5,7 @@ import {
   ButtonGroup,
   Flex,
   Input,
+  Spinner,
   Table,
   TableCaption,
   TableContainer,
@@ -27,6 +28,7 @@ const Product = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(false);
   const url = process.env.REACT_APP_DEV_URL;
 
   const handleDelete = async (slug) => {
@@ -73,11 +75,13 @@ const Product = () => {
   };
 
   const getProduct = async () => {
+    setLoading(true);
     try {
       let data = await fetch(`${url}/product?page=${page}`);
       data = await data.json();
       console.log(data, "data");
       setProduct(data.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -119,6 +123,7 @@ const Product = () => {
         </Button> */}
       </Flex>
       <br />
+
       <TableContainer border={"1px solid #161616"} borderRadius={"20px"}>
         <Table variant="simple">
           <TableCaption
@@ -136,59 +141,68 @@ const Product = () => {
               <Th color={"#add8e6"}>Action</Th>
             </Tr>
           </Thead>
-          <Tbody>
-            {product?.map((e, i) => {
-              return (
-                <Tr key={e._id}>
-                  <Td> {i + 1} </Td>
-                  <Td
-                    style={{
-                      whiteSpace: "normal",
-                      width: "500px",
-                      textAlign: "justify",
-                      overflow: "hidden",
-                      wordBreak: "break-word",
-                    }}
-                  >
-                    {e?.name}
-                  </Td>
-                  <Td>{e?.category?.name}</Td>
-                  <Td>
-                    <ButtonGroup>
-                      <Button
-                        leftIcon={<ViewIcon />}
-                        bgColor={"black"}
-                        _hover={{ bgColor: "#add8e6", color: "black" }}
-                        variant="solid"
-                        color="#add8e6"
-                        onClick={() => navigate(`/admin/product/${e?.slug}`)}
-                      >
-                        View
-                      </Button>
-                      <Button
-                        leftIcon={<BiEditAlt />}
-                        border="1px solid #add8e6"
-                        variant={"outline"}
-                        _hover={{ bgColor: "#add8e6", color: "black" }}
-                        onClick={() =>
-                          navigate(`/admin/product/edit/${e?.slug}`)
-                        }
-                      >
-                        Edit
-                      </Button>
+          {loading ? (
+            <Tr>
+              <Td colSpan={4} textAlign="center">
+                <Spinner color="blue.500" />
+              </Td>
+            </Tr>
+          ) : (
+            <Tbody>
+              {product?.map((e, i) => {
+                return (
+                  <Tr key={e._id}>
+                    <Td> {i + 1} </Td>
+                    <Td
+                      style={{
+                        whiteSpace: "normal",
+                        width: "500px",
+                        textAlign: "justify",
+                        overflow: "hidden",
+                        wordBreak: "break-word",
+                      }}
+                    >
+                      {e?.name}
+                    </Td>
+                    <Td>{e?.category?.name}</Td>
+                    <Td>
+                      <ButtonGroup>
+                        <Button
+                          leftIcon={<ViewIcon />}
+                          bgColor={"black"}
+                          _hover={{ bgColor: "#add8e6", color: "black" }}
+                          variant="solid"
+                          color="#add8e6"
+                          onClick={() => navigate(`/admin/product/${e?.slug}`)}
+                        >
+                          View
+                        </Button>
+                        <Button
+                          leftIcon={<BiEditAlt />}
+                          border="1px solid #add8e6"
+                          variant={"outline"}
+                          _hover={{ bgColor: "#add8e6", color: "black" }}
+                          onClick={() =>
+                            navigate(`/admin/product/edit/${e?.slug}`)
+                          }
+                        >
+                          Edit
+                        </Button>
 
-                      <DeleteBtn handleDelete={() => handleDelete(e.slug)} />
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
-              );
-            })}
-          </Tbody>
+                        <DeleteBtn handleDelete={() => handleDelete(e.slug)} />
+                      </ButtonGroup>
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          )}
         </Table>
       </TableContainer>
+
       <br />
-      <Flex justifyContent={"center"}>
-        {flag && (
+      {search === "" && (
+        <Flex justifyContent={"center"}>
           <div>
             <Button
               border="1px solid #add8e6"
@@ -209,8 +223,8 @@ const Product = () => {
               <BsArrowRight color="#add8e6" />
             </Button>
           </div>
-        )}
-      </Flex>
+        </Flex>
+      )}
     </Box>
   );
 };

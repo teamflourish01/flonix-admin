@@ -5,6 +5,7 @@ import {
   ButtonGroup,
   Flex,
   Input,
+  Spinner,
   Table,
   TableCaption,
   TableContainer,
@@ -26,6 +27,7 @@ const User = () => {
   const [search, setSearch] = useState("");
   const [count, setCount] = useState(0);
   const [user, setUser] = useState([]);
+  const [loading, setLoading] = useState(false);
   const url = process.env.REACT_APP_DEV_URL;
   const navigate = useNavigate();
 
@@ -42,45 +44,26 @@ const User = () => {
     }
   };
 
-  const handleSearch = async () => {
-    try {
-      if (!search) {
-        getUser();
-        getCount();
-        setFlag(true);
-        return;
-      }
-      let data = await fetch(`${url}/user/search/${search}`);
-      data = await data.json();
-      setUser(data.data);
-      setCount(data.data.length);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const getCount = async () => {
-    try {
-      let data = await fetch(`${url}/user`);
-      data = await data.json();
-      setCount(data.data.length);
-      // console.log("Total User Data", count);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleSearch = async (e) => {
+    setSearch(e.target.value);
+    setPage(1);
   };
   const getUser = async () => {
+    setLoading(true);
     try {
-      let data = await fetch(`${url}/user?page=${page}`);
-      data = await data.json();
+      let res = await fetch(`${url}/user?page=${page}&limit&search=${search}`);
+      const data = await res.json();
       setUser(data.data);
+      setCount(data.count);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
     getUser();
-    getCount();
-  }, [page]);
+  }, [page, search]);
+
   return (
     <Box p="4">
       <Flex gap={5} justifyContent={"space-between"}>
@@ -99,21 +82,14 @@ const User = () => {
           <span>Search:</span>
           <Input
             color={"black"}
-            onBlur={() => setFlag(true)}
             w="150px"
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setFlag(false);
-            }}
+            onChange={handleSearch}
             value={search}
-            onKeyUp={handleSearch}
           />
         </Box>
-        {/* <Button border={"1px solid #cfcccc"} rightIcon={<DeleteIcon/>}>
-            Bulk Delete
-        </Button> */}
       </Flex>
       <br />
+
       <TableContainer border={"1px solid #161616"} borderRadius={"20px"}>
         <Table variant="simple">
           <TableCaption
@@ -131,43 +107,53 @@ const User = () => {
               <Th color={"#add8e6"}>Action</Th>
             </Tr>
           </Thead>
-          <Tbody>
-            {user?.map((e, i) => {
-              return (
-                <Tr key={e._id}>
-                  <Td> {i + 1} </Td>
-                  <Td>{e?.name}</Td>
-                  <Td>{e?.email}</Td>
-                  <Td>
-                    <ButtonGroup>
-                      <Button
-                        leftIcon={<ViewIcon />}
-                        bgColor={"black"}
-                        _hover={{ bgColor: "#add8e6", color: "black" }}
-                        variant="solid"
-                        color="#add8e6"
-                        onClick={() => navigate(`/admin/user/${e?._id}`)}
-                      >
-                        View
-                      </Button>
-                      <Button
-                        leftIcon={<BiEditAlt />}
-                        border="1px solid #add8e6"
-                        variant={"outline"}
-                        _hover={{ bgColor: "#add8e6", color: "black" }}
-                        onClick={() => navigate(`/admin/user/edit/${e?._id}`)}
-                      >
-                        Edit
-                      </Button>
-                      <DeleteBtn handleDelete={() => handleDelete(e._id)} />
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
-              );
-            })}
-          </Tbody>
+          {loading ? (
+            <Tr>
+              <Td colSpan={4} textAlign="center">
+                <Spinner color="blue.500" />
+              </Td>
+            </Tr>
+          ) : (
+            <Tbody>
+              {user?.map((e, i) => {
+                const sNumber = (page - 1) * 12 + i + 1;
+                return (
+                  <Tr key={e._id}>
+                    <Td> {sNumber} </Td>
+                    <Td>{e?.name}</Td>
+                    <Td>{e?.email}</Td>
+                    <Td>
+                      <ButtonGroup>
+                        <Button
+                          leftIcon={<ViewIcon />}
+                          bgColor={"black"}
+                          _hover={{ bgColor: "#add8e6", color: "black" }}
+                          variant="solid"
+                          color="#add8e6"
+                          onClick={() => navigate(`/admin/user/${e?._id}`)}
+                        >
+                          View
+                        </Button>
+                        <Button
+                          leftIcon={<BiEditAlt />}
+                          border="1px solid #add8e6"
+                          variant={"outline"}
+                          _hover={{ bgColor: "#add8e6", color: "black" }}
+                          onClick={() => navigate(`/admin/user/edit/${e?._id}`)}
+                        >
+                          Edit
+                        </Button>
+                        <DeleteBtn handleDelete={() => handleDelete(e._id)} />
+                      </ButtonGroup>
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          )}
         </Table>
       </TableContainer>
+
       <br />
       {search === "" && (
         <Flex justifyContent={"center"}>

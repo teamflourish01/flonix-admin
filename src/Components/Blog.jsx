@@ -29,15 +29,18 @@ const Blog = () => {
   const [search, setSearch] = useState("");
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const url = process.env.REACT_APP_DEV_URL;
   const [blog, setBlog] = useState([]);
 
   const getBlog = async () => {
+    setLoading(true);
     try {
       let data = await fetch(`${url}/blog`);
       data = await data.json();
       console.log(data.data);
       setBlog(data.data);
+      setLoading(true);
     } catch (error) {
       console.log(error);
     }
@@ -149,56 +152,66 @@ const Blog = () => {
               <Th color={"#add8e6"}>Action</Th>
             </Tr>
           </Thead>
-          <Tbody>
-            {blog?.map((e, i) => {
-              return (
-                <Tr key={e._id}>
-                  <Td> {i + 1} </Td>
-                  <Td
-                    style={{
-                      whiteSpace: "normal",
-                      width: "600px",
-                      textAlign: "justify",
-                      overflow: "hidden",
-                      wordBreak: "break-word",
-                    }}
-                  >
-                    {e?.name}
-                  </Td>
-                  <Td>{e?.category?.name}</Td>
-                  <Td>
-                    <ButtonGroup>
-                      <Button
-                        leftIcon={<ViewIcon />}
-                        bgColor={"black"}
-                        _hover={{ bgColor: "#add8e6", color: "black" }}
-                        variant="solid"
-                        color="#add8e6"
-                        onClick={() => navigate(`/admin/blog/${e?.slug}`)}
-                      >
-                        View
-                      </Button>
-                      <Button
-                        leftIcon={<BiEditAlt />}
-                        border="1px solid #add8e6"
-                        variant={"outline"}
-                        _hover={{ bgColor: "#add8e6", color: "black" }}
-                        onClick={() => navigate(`/admin/blog/edit/${e?.slug}`)}
-                      >
-                        Edit
-                      </Button>
-                      <DeleteBtn handleDelete={() => handleDelete(e?.slug)} />
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
-              );
-            })}
-          </Tbody>
+          {loading ? (
+            <Tr>
+              <Td colSpan={4} textAlign="center">
+                Loading...
+              </Td>
+            </Tr>
+          ) : (
+            <Tbody>
+              {blog?.map((e, i) => {
+                return (
+                  <Tr key={e._id}>
+                    <Td> {i + 1} </Td>
+                    <Td
+                      style={{
+                        whiteSpace: "normal",
+                        width: "600px",
+                        textAlign: "justify",
+                        overflow: "hidden",
+                        wordBreak: "break-word",
+                      }}
+                    >
+                      {e?.name}
+                    </Td>
+                    <Td>{e?.category?.name}</Td>
+                    <Td>
+                      <ButtonGroup>
+                        <Button
+                          leftIcon={<ViewIcon />}
+                          bgColor={"black"}
+                          _hover={{ bgColor: "#add8e6", color: "black" }}
+                          variant="solid"
+                          color="#add8e6"
+                          onClick={() => navigate(`/admin/blog/${e?.slug}`)}
+                        >
+                          View
+                        </Button>
+                        <Button
+                          leftIcon={<BiEditAlt />}
+                          border="1px solid #add8e6"
+                          variant={"outline"}
+                          _hover={{ bgColor: "#add8e6", color: "black" }}
+                          onClick={() =>
+                            navigate(`/admin/blog/edit/${e?.slug}`)
+                          }
+                        >
+                          Edit
+                        </Button>
+                        <DeleteBtn handleDelete={() => handleDelete(e?.slug)} />
+                      </ButtonGroup>
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          )}
         </Table>
       </TableContainer>
       <br />
-      <Flex justifyContent={"center"}>
-        {flag && (
+      {search === "" && (
+        <Flex justifyContent={"center"}>
           <div>
             <Button
               border="1px solid #add8e6"
@@ -219,8 +232,8 @@ const Blog = () => {
               <BsArrowRight color="#add8e6" />
             </Button>
           </div>
-        )}
-      </Flex>
+        </Flex>
+      )}
     </Box>
   );
 };
