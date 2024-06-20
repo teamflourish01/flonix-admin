@@ -64,7 +64,7 @@ const ViewInquiry = () => {
         bgColor={"#eef1f4"}
         fontSize={"medium"}
       >
-        {user?.mobile}
+        {user?.phone}
       </Box>
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>

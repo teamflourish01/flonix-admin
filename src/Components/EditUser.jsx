@@ -49,8 +49,9 @@ const EditUser = () => {
     try {
       let data = await fetch(`${url}/user/${id}`);
       data = await data.json();
-      setUserData(data.data);
-      reset(data.data);
+      const { password, ...restData } = data.data; // Password remove to reset
+      setUserData(restData);
+      reset(restData);
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +62,9 @@ const EditUser = () => {
       const formData = new FormData();
       formData.append("name", data.name);
       formData.append("email", data.email);
-      formData.append("password", data.password);
+      if (data.password) {
+        formData.append("password", data.password);
+      }
       if (singleImg) {
         formData.append("image", singleImg);
       }
@@ -143,14 +146,14 @@ const EditUser = () => {
               title="Please enter a valid email address (e.g., user@example.com)"
             />
           </FormControl>
-          <FormControl isRequired>
+          <FormControl>
             <FormLabel>Password</FormLabel>
             <InputGroup ml="115px" w={["xs", "xs", "xs", "sm", "sm"]}>
               <Input
-                required
                 pr="4.5rem"
                 type={showPassword ? "text" : "password"}
                 name="password"
+                placeholder="If not change Password Left this field"
                 {...register("password")}
               />
               <InputRightElement>
