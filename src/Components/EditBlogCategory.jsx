@@ -36,9 +36,21 @@ const EditBlogCategory = () => {
     }
   };
 
-  const editData = async () => {
+  const editData = async (e) => {
     // debugger
     let dup=generateSlug(slug)
+    e.preventDefault()
+    if(!slug){
+      toast({
+        title: "Item Not Edited ",
+          description: "Slug is Invalid",
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+      })
+      return
+    }
     try {
       let data = await fetch(`${url}/blogcategory/edit/${slugname}`, {
         method: "POST",
@@ -79,6 +91,8 @@ const EditBlogCategory = () => {
   return (
     <Box p="4">
       <center>
+        <form onSubmit={editData}>
+
         <Box
           width={"50%"}
           padding="20px"
@@ -100,14 +114,17 @@ const EditBlogCategory = () => {
           <br />
           <EditPermalink slug={slug} folder={"blogcategory"} setSlug={setSlug} />
           <Button
+          type="submit"
             bgColor={"black"}
             color="#add8e6"
             _hover={{ bgColor: "#add8e6", color: "black" }}
-            onClick={editData}
+           
           >
             Edit Item
           </Button>
         </Box>
+        </form>
+
       </center>
     </Box>
   );

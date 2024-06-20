@@ -119,7 +119,8 @@ const EditBlog = () => {
   const handleFstImgText = (e) => {
     let dup = [...blog.firstimg_alt];
     dup = e.target.value;
-    setBlog({ ...blog, firstimg_alt: dup });
+    console.log(dup);
+    setBlog({ ...blog, firstimg_alt: e.target.value });
   };
   const handleSecImgText = (e) => {
     let dup = [...blog.secondimg_alt];
@@ -132,7 +133,19 @@ const EditBlog = () => {
     setBlog({ ...blog, thirdimg_alt: dup });
   };
 
-  const editData = async () => {
+  const editData = async (e) => {
+    e.preventDefault()
+    if(!slug){
+      toast({
+        title: "Item Not Edited ",
+          description: "Slug is Invalid",
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+      })
+      return
+    }
     let formData = new FormData();
     let dup = { ...blog };
     if (banner) {
@@ -205,6 +218,9 @@ const EditBlog = () => {
   return (
     <Box p="4">
       <center>
+        <form onSubmit={editData}>
+
+        
         <Box
           width={"50%"}
           padding="20px"
@@ -251,14 +267,14 @@ const EditBlog = () => {
           </FormControl>
           <br />
           <EditPermalink slug={slug} setSlug={setSlug} folder={"blog"} />
-          <FormControl isRequired>
+          <FormControl >
             <FormLabel color={"#add8e6"}>Banner Image</FormLabel>
             {blog?.banner_image && (
               <Flex>
                 <Box>
                   <Image w="200px" src={`${url}/blog/${blog?.banner_image}`} />
                   <Input
-                    value={blog.bannerimg_alt}
+                    value={blog?.bannerimg_alt}
                     onChange={(event) => hanldebnnrImgText(event)}
                   />
                 </Box>
@@ -317,7 +333,7 @@ const EditBlog = () => {
             </select>
           </FormControl>
           <br />
-          <FormControl isRequired>
+          <FormControl >
             <FormLabel color={"#add8e6"}>First Image</FormLabel>
             {blog?.first_image && (
               <Flex>
@@ -362,7 +378,7 @@ const EditBlog = () => {
             />
           </FormControl>
           <br />
-          <FormControl isRequired>
+          <FormControl >
             <FormLabel color={"#add8e6"}>First Text</FormLabel>
             <ReactQuill
               modules={module}
@@ -392,7 +408,7 @@ const EditBlog = () => {
             </div>
           </FormControl>
           <br />
-          <FormControl isRequired>
+          <FormControl >
             <FormLabel color={"#add8e6"}>Second Image</FormLabel>
             {blog?.second_image && (
               <Flex>
@@ -437,7 +453,7 @@ const EditBlog = () => {
             />
           </FormControl>
           <br />
-          <FormControl isRequired>
+          <FormControl >
             <FormLabel color={"#add8e6"}> Second Text</FormLabel>
             <ReactQuill
               modules={module}
@@ -468,7 +484,7 @@ const EditBlog = () => {
           </FormControl>
           <br />
 
-          <FormControl isRequired>
+          <FormControl >
             <FormLabel color={"#add8e6"}>Third Image</FormLabel>
             {blog?.third_image && (
               <Flex>
@@ -513,7 +529,7 @@ const EditBlog = () => {
             />
           </FormControl>
           <br />
-          <FormControl isRequired>
+          <FormControl >
             <FormLabel color={"#add8e6"}>Third Text</FormLabel>
             <ReactQuill
               modules={module}
@@ -547,12 +563,13 @@ const EditBlog = () => {
             bgColor={"black"}
             color="#add8e6"
             _hover={{ bgColor: "#add8e6", color: "black" }}
-            onClick={editData}
+            type="submit"
             isDisabled={!slug}
           >
             Edit Item
           </Button>
         </Box>
+        </form>
       </center>
     </Box>
   );

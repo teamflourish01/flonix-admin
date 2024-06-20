@@ -187,6 +187,7 @@ const AddProduct = () => {
   };
 
   const submitFile = async () => {
+    
     if (imageurl.length <= 0) {
       return;
     }
@@ -303,6 +304,14 @@ const AddProduct = () => {
   }, []);
   return (
     <Box p="4">
+       <form encType="multipart/form-data" onSubmit={(e) => {
+          e.preventDefault()
+            Promise.all([submitFile(), submitMark()])
+              .then((res) => handleAdd(res[0], res[1]))
+              .catch((err) => console.log(err));
+          }}>
+            
+           
       <Flex
         justifyContent={"space-around"}
         gap="40px"
@@ -315,6 +324,7 @@ const AddProduct = () => {
           padding={"20px"}
           borderRadius={"20px"}
         >
+         
           <FormControl isRequired>
             <FormLabel color={"#add8e6"}>Meta Title</FormLabel>
             <Input
@@ -327,7 +337,7 @@ const AddProduct = () => {
             />
           </FormControl>
           <br />
-          <FormControl isRequired>
+          <FormControl >
             <FormLabel color={"#add8e6"}>Meta Description</FormLabel>
             <Textarea
               variant="flushed"
@@ -440,7 +450,7 @@ const AddProduct = () => {
                   </Flex>
                 );
               })}
-            <form encType="multipart/form-data">
+            <form >
               <input
                 required
                 type="file"
@@ -559,14 +569,14 @@ const AddProduct = () => {
                 );
               })}
             <br />
-            <form encType="multipart/form-data">
+            
               <input
                 required
                 type="file"
                 name="product"
                 onChange={(e) => handleImageChanger(e)}
               />
-            </form>
+           
             <Text>
               <span style={{ fontWeight: "bold" }}>Note</span>:File Size Should
               Be Less than 500KB and 200x200px size will allow Only
@@ -729,6 +739,7 @@ const AddProduct = () => {
         <Button
           variant={"solid"}
           bgColor={"black"}
+          type="submit"
           color="#add8e6"
           _hover={{
             color: "black",
@@ -737,16 +748,13 @@ const AddProduct = () => {
           }}
           leftIcon={isLoading && <Spinner color="blue.500" />}
           // onClick={() => submitFile().then((res) => handleAdd(res))}
-          onClick={() => {
-            Promise.all([submitFile(), submitMark()])
-              .then((res) => handleAdd(res[0], res[1]))
-              .catch((err) => console.log(err));
-          }}
-          isDisabled={!product.name}
+          
+          // isDisabled={!product.name}
         >
           Add New
         </Button>
       </center>
+      </form>
     </Box>
   );
 };

@@ -142,7 +142,8 @@ const AddBlog = () => {
   };
   //                  upload data
 
-  const handleSave = async () => {
+  const handleSave = async (e) => {
+    e.preventDefault();
     let formData = new FormData();
     let dup = { ...blog };
     if (text1) {
@@ -218,6 +219,7 @@ const AddBlog = () => {
   }, []);
   return (
     <Box p="4">
+      <form encType="multipart/form-data" onSubmit={handleSave} >
       <Flex
         justifyContent={"space-around"}
         gap="40px"
@@ -375,7 +377,7 @@ const AddBlog = () => {
             )}
             <form encType="multipart/form-data">
               <input
-                required
+               
                 type="file"
                 name="first"
                 onChange={(e) => handleImageChanger(e, setFirst, setFirstUrl)}
@@ -431,14 +433,14 @@ const AddBlog = () => {
                 />
               </Flex>
             )}
-            <form encType="multipart/form-data">
+            
               <input
-                required
+                
                 type="file"
                 name="second"
                 onChange={(e) => handleImageChanger(e, setSecond, setSecondUrl)}
               />
-            </form>
+            
           </FormControl>
           <br />
           <FormControl>
@@ -491,7 +493,7 @@ const AddBlog = () => {
             )}
             <form encType="multipart/form-data">
               <input
-                required
+                
                 type="file"
                 name="third"
                 onChange={(e) => handleImageChanger(e, setThird, setThirdUrl)}
@@ -512,12 +514,13 @@ const AddBlog = () => {
             bgColor: "#add8e6",
             border: "1px solid #add8e6",
           }}
-          onClick={handleSave}
+          type="submit"
           isDisabled={!slug}
         >
           Save
         </Button>
       </center>
+      </form>
     </Box>
   );
 };

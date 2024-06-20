@@ -116,7 +116,7 @@ const EditUser = () => {
   return (
     <Flex justifyContent={"center"} p="4">
       <Box
-        w={["100%", "75%", "50%", "40%", "40%"]}
+        w={["100%", "75%", "50%", "40%", "45%"]}
         borderRadius={"20px"}
         mt={"5%"}
         boxShadow={"rgba(0, 0, 0, 0.35) 0px 5px 15px"}

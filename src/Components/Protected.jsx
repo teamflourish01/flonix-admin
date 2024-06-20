@@ -9,6 +9,7 @@ const Protected = ({ children }) => {
   if (!token) {
     return <Navigate to="/" replace={true}></Navigate>;
   }
+  
   return children;
 };
 
