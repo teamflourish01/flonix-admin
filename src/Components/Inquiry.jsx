@@ -41,6 +41,7 @@ const Inquiry = () => {
       data = await data.json();
       setUser(data.data);
       setCount(data.data.length);
+      setPage(1);
     } catch (error) {
       console.log(error);
     }
@@ -106,7 +107,7 @@ const Inquiry = () => {
           </Thead>
           <Tbody>
             {user?.map((e, i) => {
-              const sNumber = (page-1) * 12 + i + 1;
+              const sNumber = (page - 1) * 12 + i + 1;
               return (
                 <Tr key={e._id}>
                   <Td> {sNumber} </Td>

@@ -28,7 +28,7 @@ const NewsAndEvents = () => {
   const [newsAndEvents, setNewsAndEvents] = useState([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+  // const [totalPages, setTotalPages] = useState(0);
   const [count, setCount] = useState(0);
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -56,7 +56,7 @@ const NewsAndEvents = () => {
       );
       const data = await res.json();
       setNewsAndEvents(data.data);
-      setTotalPages(Math.ceil(data.count / 12));
+      // setTotalPages(Math.ceil(data.count / 12));
       setCount(data.count);
     } catch (error) {
       console.log(error);
@@ -145,7 +145,17 @@ const NewsAndEvents = () => {
               return (
                 <Tr key={item._id}>
                   <Td> {serialNumber} </Td>
-                  <Td>{item?.cardheading}</Td>
+                  <Td
+                    style={{
+                      whiteSpace: "normal",
+                      width: "500px",
+                      textAlign: "justify",
+                      overflow: "hidden",
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    {item?.cardheading}
+                  </Td>
                   <Td>{formattedDate}</Td>
                   <Td>{item?.place}</Td>
                   <Td>
@@ -173,7 +183,9 @@ const NewsAndEvents = () => {
                       >
                         Edit
                       </Button>
-                      <DeleteBtn handleDelete={() => handleDelete(item?.slug)} />
+                      <DeleteBtn
+                        handleDelete={() => handleDelete(item?.slug)}
+                      />
                     </ButtonGroup>
                   </Td>
                 </Tr>

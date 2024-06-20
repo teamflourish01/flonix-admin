@@ -11,9 +11,11 @@ import {
   Input,
   Text,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 
 const InquiryForm = () => {
+  const toast = useToast();
   const {
     register,
     handleSubmit,
@@ -23,12 +25,31 @@ const InquiryForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:8080/inquiry/send", data);
-      alert(response.data);
+      const response = await axios.post(
+        "http://localhost:8080/inquiry/send",
+        data
+      );
+      //alert(response.data);
+      toast({
+        title: "User Added",
+        description: response.data,
+        status: "success",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
       reset();
     } catch (error) {
       console.error("There was an error sending the message!", error);
-      alert("Failed to send message.");
+      //alert("Failed to send message.");
+      toast({
+        title: "User Added",
+        description: "Failed to send message",
+        status: "success",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
     }
   };
 
