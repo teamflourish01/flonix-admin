@@ -13,7 +13,7 @@ import {
   transition,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Admin.css";
 
 import { BiSolidUser, BiLogoGmail } from "react-icons/bi";
@@ -365,38 +365,17 @@ const Admin = () => {
         >
           Contact
         </NavItem>
-        <NavItem
-          _hover={{ bgColor: "black", color: "#ADD8E6" }}
-          icon={BsDistributeVertical}
-          onClick={() => {
-            sidebar.onClose();
-            // navigate("/admin/distributor");
-          }}
-        >
-          Distributors
-        </NavItem>
-        <NavItem
-          _hover={{ bgColor: "black", color: "#ADD8E6" }}
-          icon={TiThMenu}
-          onClick={() => {
-            sidebar.onClose();
-            // navigate("/admin/menu");
-          }}
-        >
-          Menu
-        </NavItem>
-        <NavItem
-          _hover={{ bgColor: "black", color: "#ADD8E6" }}
-          icon={GrCatalog}
-          onClick={() => {
-            sidebar.onClose();
-          }}
-        >
-          catalogue
-        </NavItem>
+       
+       
+       
       </Flex>
     </Box>
   );
+  useEffect(()=>{
+    setTimeout(()=>{
+      localStorage.removeItem("token")
+    },3600)
+  },[])
   return (
     <Box
       // as="section"
