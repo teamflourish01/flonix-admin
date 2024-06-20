@@ -53,7 +53,7 @@ const EditCertificate = () => {
       const imageUrl = URL.createObjectURL(file);
       setselectSingImg(imageUrl);
     }
-    e.target.value = "";
+    
   };
   const handleDeleteSingleImage = () => {
     setSingleImg("");
@@ -68,6 +68,7 @@ const EditCertificate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+   
     setIsLoading(true);
     try {
       const formData = new FormData();
@@ -138,7 +139,7 @@ const EditCertificate = () => {
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="image" color={"#add8e6"}>
                   Certificate
                 </FormLabel>
@@ -174,7 +175,7 @@ const EditCertificate = () => {
                 )}
               </FormControl>
               {!selctSinImg && item.image && (
-                <FormControl mr={4}>
+                <FormControl mr={4}  >
                   <Flex alignItems="center" position="relative">
                     <img
                       src={`${url}/certificates/${item.image}`}

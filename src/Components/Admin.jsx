@@ -374,7 +374,7 @@ const Admin = () => {
   useEffect(()=>{
     setTimeout(()=>{
       localStorage.removeItem("token")
-    },3600)
+    },3*60*60*1000)
   },[])
   return (
     <Box

@@ -84,10 +84,6 @@ const ViewCertificate = () => {
         </Button>
       </Flex>
       <br />
-      <br />
-
-      <br />
-      <br />
 
       <Text fontWeight={"semibold"} fontSize={"xl"}>
         Certificate

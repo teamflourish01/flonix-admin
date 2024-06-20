@@ -39,7 +39,7 @@ const EditPermalink = ({slug,setSlug,folder }) => {
       </FormLabel>
     </FormControl>
       <br /> */}
-      <FormControl>
+      <FormControl >
       <FormLabel>
         Permalink
         <Input isDisabled={true} value={url+"/"+folder+"/"+getSlug(slug)} />

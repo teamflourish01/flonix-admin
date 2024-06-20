@@ -43,7 +43,7 @@ const AddCertificate = () => {
       const imageUrl = URL.createObjectURL(file);
       setSelectedImages(imageUrl);
     }
-    e.target.value = "";
+    
   };
   const handleDeleteSingleImage = () => {
     setctImage({});
@@ -103,8 +103,8 @@ const AddCertificate = () => {
               padding={"20px"}
               borderRadius={"20px"}
             >
-              <FormControl>
-                <FormLabel htmlFor="image" color={"#add8e6"}>
+              <FormControl isRequired>
+                <FormLabel  htmlFor="image" color={"#add8e6"}>
                   Certificate Image
                 </FormLabel>
                 <Input

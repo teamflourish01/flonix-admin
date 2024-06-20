@@ -36,6 +36,17 @@ const EditCategory = () => {
   };
 
   const editData = async () => {
+    if(!slug){
+      toast({
+        title: "Item Not Edited ",
+          description: "Slug is Invalid",
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+      })
+      return
+    }
     try {
       let dup=generateSlug(slug)
       let data = await fetch(`${url}/category/edit/${slugname}`, {

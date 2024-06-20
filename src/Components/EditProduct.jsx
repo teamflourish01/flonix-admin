@@ -266,7 +266,19 @@ const EditProduct = () => {
 
   //                                      send data
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (e) => {
+    e.preventDefault()
+    if(!slug){
+      toast({
+        title: "Item Not Edited ",
+          description: "Slug is Invalid",
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+      })
+      return
+    }
     let formData = new FormData();
     let dup = { ...product };
     if (image.length > 0) {
@@ -300,17 +312,7 @@ const EditProduct = () => {
     dup.slug = newSlug;
     console.log(dup, "dup");
     formData.append("dup", JSON.stringify(dup));
-    if(!slug){
-      toast({
-        title: "Item Not Edited ",
-          description: "Slug is Invalid",
-          status: "error",
-          position: "top",
-          duration: 7000,
-          isClosable: true,
-      })
-      return
-    }
+   
     try {
       let data = await axios.post(`${url}/product/edit/${slugname}`, formData);
       console.log(data);
@@ -354,6 +356,8 @@ const EditProduct = () => {
 
   return (
     <Box>
+        <form onSubmit={handleUpdate} encType="multipart/form-data">
+          
       <Flex justifyContent={"space-around"} gap="40px">
         <Box
           backgroundColor={"white"}
@@ -628,14 +632,14 @@ const EditProduct = () => {
                 );
               })}
             <br />
-            <form encType="multipart/form-data">
+            
               <input
-                required
+                
                 type="file"
                 name="product"
                 onChange={(e) => handleFileChanger(e)}
               />
-            </form>
+          
             <Text>
               <span style={{ fontWeight: "bold" }}>Note</span>:File Size Should
               Be Less than 500KB and 500x500px size will allow Only
@@ -794,6 +798,7 @@ const EditProduct = () => {
       <br />
       <center>
         <Button
+          type="submit"
           variant={"solid"}
           bgColor={"#161616"}
           color="white"
@@ -803,11 +808,12 @@ const EditProduct = () => {
             border: "1px solid #161616",
           }}
           leftIcon={isLoading && <Spinner color="blue.500" />}
-          onClick={() => handleUpdate()}
+          // onClick={() => handleUpdate()}
         >
           Save
         </Button>
       </center>
+      </form>
     </Box>
   );
 };

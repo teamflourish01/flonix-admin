@@ -29,7 +29,8 @@ const AddBlogCategory = () => {
     console.log(category);
   };
 
-  const handleSave = async() => {
+  const handleSave = async(e) => {
+    e.preventDefault()
     try {
         let data = await fetch(`${url}/blogcategory/add`, {
           method: "POST",
@@ -73,13 +74,14 @@ const AddBlogCategory = () => {
   };
   return (
     <Box p="4">
+      <form onSubmit={handleSave}>
       <Flex justifyContent={"center"}>
         <Box
           border={"1px solid #add8e6"}
           width={["100%", "80%", "60%", "50%"]}
           padding={"20px"}
           borderRadius="20px"
-        >
+          >
           <FormControl isRequired>
             <FormLabel color={"#add8e6"} m={"0"}>
               Name
@@ -99,6 +101,7 @@ const AddBlogCategory = () => {
         <EditPermalink  slug={slug} folder={"blogcategory"} setSlug={setSlug}/>
           <ButtonGroup gap="40px">
             <Button
+              type="submit"
               variant={"solid"}
               bgColor={"#161616"}
               color="#add8e6"
@@ -107,7 +110,7 @@ const AddBlogCategory = () => {
                 bgColor: "#add8e6",
                 border: "1px solid #add8e6",
               }}
-              onClick={handleSave}
+              
               isDisabled={!slug}
             >
               Save
@@ -115,6 +118,7 @@ const AddBlogCategory = () => {
           </ButtonGroup>
         </Box>
       </Flex>
+      </form>
     </Box>
   );
 };
