@@ -300,6 +300,17 @@ const EditProduct = () => {
     dup.slug = newSlug;
     console.log(dup, "dup");
     formData.append("dup", JSON.stringify(dup));
+    if(!slug){
+      toast({
+        title: "Item Not Edited ",
+          description: "Slug is Invalid",
+          status: "error",
+          position: "top",
+          duration: 7000,
+          isClosable: true,
+      })
+      return
+    }
     try {
       let data = await axios.post(`${url}/product/edit/${slugname}`, formData);
       console.log(data);
@@ -351,7 +362,7 @@ const EditProduct = () => {
           padding={"20px"}
           borderRadius={"20px"}
         >
-          <FormControl isRequired>
+          <FormControl isRequired >
             <FormLabel>Meta Title</FormLabel>
             <Input
               variant={"flushed"}
