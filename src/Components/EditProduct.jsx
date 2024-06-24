@@ -373,7 +373,7 @@ const EditProduct = () => {
                 name="meta_description"
                 value={product.meta_description}
                 onChange={(e) => handleChange(e)}
-                maxLength={"250"}
+                
               />
             </FormControl>
             <br />
@@ -418,7 +418,7 @@ const EditProduct = () => {
                 name="description"
                 value={product.description}
                 onChange={(e) => handleChange(e)}
-                maxLength={"250"}
+                
               />
             </FormControl>
             <br />

@@ -107,31 +107,31 @@ const InquiryForm = () => {
 
         <Flex gap="50px">
           <FormControl mb={4}>
-            <FormLabel htmlFor="mobile" color="#add8e6">
-              Mobile
+            <FormLabel htmlFor="phone" color="#add8e6">
+              phone
             </FormLabel>
             <Input
               type="number"
-              id="mobile"
-              {...register("mobile", {
+              id="phone"
+              {...register("phone", {
                 required: true,
                 maxLength: 10,
                 pattern: /^[0-9]{10}$/,
               })}
             />
-            {errors.mobile && errors.mobile.type === "required" && (
+            {errors.phone && errors.phone.type === "required" && (
               <Text color="red.500" textAlign="center">
-                Mobile number is required.
+                phone number is required.
               </Text>
             )}
-            {errors.mobile && errors.mobile.type === "maxLength" && (
+            {errors.phone && errors.phone.type === "maxLength" && (
               <Text color="red.500" textAlign="center">
-                Mobile number cannot exceed 10 digits.
+                phone number cannot exceed 10 digits.
               </Text>
             )}
-            {errors.mobile && errors.mobile.type === "pattern" && (
+            {errors.phone && errors.phone.type === "pattern" && (
               <Text color="red.500" textAlign="center">
-                Mobile number must be exactly 10 digits.
+                phone number must be exactly 10 digits.
               </Text>
             )}
           </FormControl>
