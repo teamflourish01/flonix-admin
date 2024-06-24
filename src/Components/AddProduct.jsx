@@ -325,10 +325,10 @@ const AddProduct = () => {
           borderRadius={"20px"}
         >
          
-          <FormControl isRequired>
+          <FormControl >
             <FormLabel color={"#add8e6"}>Meta Title</FormLabel>
             <Input
-              required
+              
               variant={"flushed"}
               type="text"
               name="meta_title"
@@ -344,7 +344,7 @@ const AddProduct = () => {
               name="meta_description"
               value={product.meta_description}
               onChange={(e) => handleChange(e)}
-              maxLength={850}
+              
             />
           </FormControl>
           <br />
@@ -408,11 +408,11 @@ const AddProduct = () => {
               name="description"
               value={product.description}
               onChange={(e) => handleChange(e)}
-              maxLength={850}
+              
             />
           </FormControl>
           <br />
-          <FormControl isRequired>
+          <FormControl>
             <Flex justifyContent={"space-between"}>
               <FormLabel color={"#add8e6"}>Key Features</FormLabel>
               <Button onClick={handleAddFeature}>+</Button>
@@ -428,7 +428,7 @@ const AddProduct = () => {
             })}
           </FormControl>
           <br />
-          <FormControl isRequired>
+          <FormControl >
             <FormLabel color={"#add8e6"}>Testing </FormLabel>
             {markUrl &&
               markUrl.map((e, i) => {
@@ -452,7 +452,7 @@ const AddProduct = () => {
               })}
             <form >
               <input
-                required
+                
                 type="file"
                 name="product"
                 onChange={(e) => handleMarkChanger(e)}
@@ -571,7 +571,7 @@ const AddProduct = () => {
             <br />
             
               <input
-                required
+                
                 type="file"
                 name="product"
                 onChange={(e) => handleImageChanger(e)}

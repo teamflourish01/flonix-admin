@@ -40,7 +40,7 @@ const Blog = () => {
       data = await data.json();
       console.log(data.data);
       setBlog(data.data);
-      setLoading(true);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
