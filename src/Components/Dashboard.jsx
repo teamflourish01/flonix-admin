@@ -71,7 +71,7 @@ const Dashboard = () => {
         </CardHeader>
         <CardBody>
           <Text>
-            You Have 3 Pages in your database.Click on button below to view all
+            You Have 6  Pages in your database.Click on button below to view all
             pages.
           </Text>
         </CardBody>

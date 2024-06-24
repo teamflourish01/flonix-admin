@@ -14,6 +14,7 @@ import {
   Thead,
   Image,
   Tr,
+  Spinner,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { BiEditAlt } from "react-icons/bi";
@@ -27,7 +28,9 @@ const Certificates = () => {
   const [product, setProduct] = useState([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
+
   const url = process.env.REACT_APP_DEV_URL;
 
   const handleDelete = async (id) => {
@@ -58,11 +61,13 @@ const Certificates = () => {
   };
 
   const getCertificate = async () => {
+    setLoading(true);
     try {
       let data = await fetch(`${url}/certificate?page=${page}`);
       data = await data.json();
       console.log(data, "data");
       setProduct(data.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -121,62 +126,72 @@ const Certificates = () => {
               <Th color={"#add8e6"}>Action</Th>
             </Tr>
           </Thead>
-          <Tbody>
-            {product?.map((e, i) => {
-              return (
-                <Tr key={e._id}>
-                  <Td> {i + 1} </Td>
-                  <Td>
-                    <Image
-                      src={`${url}/certificates/${e?.image}`}
+          {loading ? (
+            <Tr>
+              <Td colSpan={4} textAlign="center">
+                <Spinner color="blue.500"/>
+              </Td>
+            </Tr>
+          ) : (
+            <Tbody>
+              {product?.map((e, i) => {
+                return (
+                  <Tr key={e._id}>
+                    <Td> {i + 1} </Td>
+                    <Td>
+                      <Image
+                        src={`${url}/certificates/${e?.image}`}
+                        style={{
+                          width: "100px",
+                          height: "100px",
+                        }}
+                      />
+                    </Td>
+                    <Td
                       style={{
-                        width: "100px",
-                        height: "100px",
+                        whiteSpace: "normal",
+                        // padding: "0",
+                        width: "500px",
+                        textAlign: "justify",
+                        overflow: "hidden",
+                        wordBreak: "break-word",
                       }}
-                    />
-                  </Td>
-                  <Td
-                    style={{
-                      whiteSpace: "normal",
-                      // padding: "0",
-                      width: "500px",
-                      textAlign: "justify",
-                      overflow: "hidden",
-                      wordBreak: "break-word",
-                    }}
-                  >
-                    {e?.imgdescription}
-                  </Td>
-                  <Td>
-                    <ButtonGroup>
-                      <Button
-                        leftIcon={<ViewIcon />}
-                        bgColor={"black"}
-                        _hover={{ bgColor: "#add8e6", color: "black" }}
-                        variant="solid"
-                        color="#add8e6"
-                        onClick={() => navigate(`/admin/certificate/${e._id}`)}
-                      >
-                        View
-                      </Button>
-                      <Button
-                        leftIcon={<BiEditAlt />}
-                        border="1px solid #add8e6"
-                        variant={"outline"}
-                        _hover={{ bgColor: "#add8e6", color: "black" }}
-                        onClick={() =>
-                          navigate(`/admin/certificate/edit/${e._id}`)
-                        }
-                      >
-                        Edit
-                      </Button>
-                      <DeleteBtn handleDelete={() => handleDelete(e._id)} />
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
-              );
-            })}
-          </Tbody>
+                    >
+                      {e?.imgdescription}
+                    </Td>
+                    <Td>
+                      <ButtonGroup>
+                        <Button
+                          leftIcon={<ViewIcon />}
+                          bgColor={"black"}
+                          _hover={{ bgColor: "#add8e6", color: "black" }}
+                          variant="solid"
+                          color="#add8e6"
+                          onClick={() =>
+                            navigate(`/admin/certificate/${e._id}`)
+                          }
+                        >
+                          View
+                        </Button>
+                        <Button
+                          leftIcon={<BiEditAlt />}
+                          border="1px solid #add8e6"
+                          variant={"outline"}
+                          _hover={{ bgColor: "#add8e6", color: "black" }}
+                          onClick={() =>
+                            navigate(`/admin/certificate/edit/${e._id}`)
+                          }
+                        >
+                          Edit
+                        </Button>
+                        <DeleteBtn handleDelete={() => handleDelete(e._id)} />
+                      </ButtonGroup>
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          )}
         </Table>
       </TableContainer>
       <br />

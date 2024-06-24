@@ -7,6 +7,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Spinner,
   Table,
   TableCaption,
   TableContainer,
@@ -28,7 +29,7 @@ const NewsAndEvents = () => {
   const [newsAndEvents, setNewsAndEvents] = useState([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  // const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(false); //
   const [count, setCount] = useState(0);
   const url = process.env.REACT_APP_DEV_URL;
 
@@ -50,14 +51,15 @@ const NewsAndEvents = () => {
   };
 
   const getNewsAndEvents = async () => {
+    setLoading(true);
     try {
       let res = await fetch(
         `${url}/newsandevent?page=${page}&limit=12&search=${search}`
       );
       const data = await res.json();
       setNewsAndEvents(data.data);
-      // setTotalPages(Math.ceil(data.count / 12));
       setCount(data.count);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -131,69 +133,78 @@ const NewsAndEvents = () => {
               <Th color={"#add8e6"}>Action</Th>
             </Tr>
           </Thead>
-          <Tbody>
-            {newsAndEvents?.map((item, index) => {
-              const serialNumber = (page - 1) * 12 + index + 1;
-              const formattedDate = new Date(item.date).toLocaleDateString(
-                "en-GB",
-                {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                }
-              );
-              return (
-                <Tr key={item._id}>
-                  <Td> {serialNumber} </Td>
-                  <Td
-                    style={{
-                      whiteSpace: "normal",
-                      width: "500px",
-                      textAlign: "justify",
-                      overflow: "hidden",
-                      wordBreak: "break-word",
-                    }}
-                  >
-                    {item?.cardheading}
-                  </Td>
-                  <Td>{formattedDate}</Td>
-                  <Td>{item?.place}</Td>
-                  <Td>
-                    <ButtonGroup>
-                      <Button
-                        leftIcon={<ViewIcon />}
-                        bgColor={"black"}
-                        _hover={{ bgColor: "#add8e6", color: "black" }}
-                        variant="solid"
-                        color="#add8e6"
-                        onClick={() =>
-                          navigate(`/admin/newsandevents/${item?.slug}`)
-                        }
-                      >
-                        View
-                      </Button>
-                      <Button
-                        leftIcon={<BiEditAlt />}
-                        border="1px solid #add8e6"
-                        variant={"outline"}
-                        _hover={{ bgColor: "#add8e6", color: "black" }}
-                        onClick={() =>
-                          navigate(`/admin/newsandevents/edit/${item?.slug}`)
-                        }
-                      >
-                        Edit
-                      </Button>
-                      <DeleteBtn
-                        handleDelete={() => handleDelete(item?.slug)}
-                      />
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
-              );
-            })}
-          </Tbody>
+          {loading ? (
+            <Tr>
+              <Td colSpan={5} textAlign="center">
+                <Spinner color="blue.500" />
+              </Td>
+            </Tr>
+          ) : (
+            <Tbody>
+              {newsAndEvents?.map((item, index) => {
+                const serialNumber = (page - 1) * 12 + index + 1;
+                const formattedDate = new Date(item.date).toLocaleDateString(
+                  "en-GB",
+                  {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  }
+                );
+                return (
+                  <Tr key={item._id}>
+                    <Td> {serialNumber} </Td>
+                    <Td
+                      style={{
+                        whiteSpace: "normal",
+                        width: "500px",
+                        textAlign: "justify",
+                        overflow: "hidden",
+                        wordBreak: "break-word",
+                      }}
+                    >
+                      {item?.cardheading}
+                    </Td>
+                    <Td>{formattedDate}</Td>
+                    <Td>{item?.place}</Td>
+                    <Td>
+                      <ButtonGroup>
+                        <Button
+                          leftIcon={<ViewIcon />}
+                          bgColor={"black"}
+                          _hover={{ bgColor: "#add8e6", color: "black" }}
+                          variant="solid"
+                          color="#add8e6"
+                          onClick={() =>
+                            navigate(`/admin/newsandevents/${item?.slug}`)
+                          }
+                        >
+                          View
+                        </Button>
+                        <Button
+                          leftIcon={<BiEditAlt />}
+                          border="1px solid #add8e6"
+                          variant={"outline"}
+                          _hover={{ bgColor: "#add8e6", color: "black" }}
+                          onClick={() =>
+                            navigate(`/admin/newsandevents/edit/${item?.slug}`)
+                          }
+                        >
+                          Edit
+                        </Button>
+                        <DeleteBtn
+                          handleDelete={() => handleDelete(item?.slug)}
+                        />
+                      </ButtonGroup>
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          )}
         </Table>
       </TableContainer>
+
       <br />
       {search === "" && (
         <Flex justifyContent={"center"}>

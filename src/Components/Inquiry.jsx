@@ -1,4 +1,4 @@
-import { AddIcon, ViewIcon } from "@chakra-ui/icons";
+import { ViewIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -13,62 +13,60 @@ import {
   Th,
   Thead,
   Tr,
+  Spinner,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import debounce from "lodash.debounce";
 
 import { useNavigate } from "react-router-dom";
 
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 const Inquiry = () => {
-  const [flag, setFlag] = useState(true);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [count, setCount] = useState(0);
   const [user, setUser] = useState([]);
+  const [loading, setLoading] = useState(false); // Loading state
   const url = process.env.REACT_APP_DEV_URL;
   const navigate = useNavigate();
 
-  const handleSearch = async () => {
-    try {
-      if (!search) {
-        await getInquiry();
-        await getCount();
-        setFlag(true);
-        return;
-      }
-      let data = await fetch(`${url}/inquiry?search=${search}`);
-      data = await data.json();
-      setUser(data.data);
-      setCount(data.data.length);
+  const debouncedSearch = useCallback(
+    debounce((query) => {
+      setSearch(query);
       setPage(1);
-    } catch (error) {
-      console.log(error);
-    }
+      console.log("Debauncing use ", query);
+    }, 500),
+    []
+  );
+
+  const handleSearchChange = async (e) => {
+    debouncedSearch(e.target.value);
   };
-  const getCount = async () => {
-    try {
-      let data = await fetch(`${url}/inquiry`);
-      data = await data.json();
-      setCount(data.data.length);
-      // console.log("Total User Data", count);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   const getInquiry = async () => {
+    setLoading(true);
     try {
-      let data = await fetch(`${url}/inquiry?page=${page}`);
-      data = await data.json();
+      let res = await fetch(
+        `${url}/inquiry?page=${page}&limit=12&search=${search}`
+      );
+      const data = await res.json();
       setUser(data.data);
+      setCount(data.count);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     getInquiry();
-    getCount();
-  }, [page]);
+  }, [page, search]);
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
   return (
     <Box p="4">
       <Flex justifyContent={"flex-end"} mr={5}>
@@ -76,18 +74,14 @@ const Inquiry = () => {
           <span>Search:</span>
           <Input
             color={"black"}
-            onBlur={() => setFlag(true)}
             w="150px"
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setFlag(false);
-            }}
-            value={search}
-            onKeyUp={handleSearch}
+            onChange={handleSearchChange}
+            // value={search}
           />
         </Box>
       </Flex>
       <br />
+
       <TableContainer border={"1px solid #161616"} borderRadius={"20px"}>
         <Table variant="simple">
           <TableCaption
@@ -105,34 +99,43 @@ const Inquiry = () => {
               <Th color={"#add8e6"}>Action</Th>
             </Tr>
           </Thead>
-          <Tbody>
-            {user?.map((e, i) => {
-              const sNumber = (page - 1) * 12 + i + 1;
-              return (
-                <Tr key={e._id}>
-                  <Td> {sNumber} </Td>
-                  <Td>{e?.name}</Td>
-                  <Td>{e?.email}</Td>
-                  <Td>
-                    <ButtonGroup>
-                      <Button
-                        leftIcon={<ViewIcon />}
-                        bgColor={"black"}
-                        _hover={{ bgColor: "#add8e6", color: "black" }}
-                        variant="solid"
-                        color="#add8e6"
-                        onClick={() => navigate(`/admin/inquiry/${e?._id}`)}
-                      >
-                        View
-                      </Button>
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
-              );
-            })}
-          </Tbody>
+          {loading ? (
+            <Tr>
+              <Td colSpan={4} textAlign="center">
+                <Spinner color="blue.500" /> 
+              </Td>
+            </Tr>
+          ) : (
+            <Tbody>
+              {user?.map((e, i) => {
+                const sNumber = (page - 1) * 12 + i + 1;
+                return (
+                  <Tr key={e._id}>
+                    <Td> {sNumber} </Td>
+                    <Td>{e?.name}</Td>
+                    <Td>{e?.email}</Td>
+                    <Td>
+                      <ButtonGroup>
+                        <Button
+                          leftIcon={<ViewIcon />}
+                          bgColor={"black"}
+                          _hover={{ bgColor: "#add8e6", color: "black" }}
+                          variant="solid"
+                          color="#add8e6"
+                          onClick={() => navigate(`/admin/inquiry/${e?._id}`)}
+                        >
+                          View
+                        </Button>
+                      </ButtonGroup>
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          )}
         </Table>
       </TableContainer>
+
       <br />
       {search === "" && (
         <Flex justifyContent={"center"}>
@@ -140,7 +143,7 @@ const Inquiry = () => {
             border="1px solid #add8e6"
             bgColor={"black"}
             isDisabled={page === 1}
-            onClick={() => setPage(page - 1)}
+            onClick={() => handlePageChange(page - 1)}
           >
             <BsArrowLeft color="#add8e6" />
           </Button>
@@ -150,7 +153,7 @@ const Inquiry = () => {
             border="1px solid #add8e6"
             bgColor={"black"}
             isDisabled={page >= count / 12}
-            onClick={() => setPage(page + 1)}
+            onClick={() => handlePageChange(page + 1)}
           >
             <BsArrowRight color="#add8e6" />
           </Button>
