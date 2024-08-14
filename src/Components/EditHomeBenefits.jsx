@@ -168,6 +168,7 @@ const UpdateHomeBenefits = () => {
                   value={item.main_heading}
                   onChange={handleInput}
                   mb={4}
+                  maxLength={90}
                 />
               </FormControl>
               <FormControl mb={0} isRequired>
@@ -183,6 +184,7 @@ const UpdateHomeBenefits = () => {
                   value={item.left_heading1}
                   onChange={handleInput}
                   mb={4}
+                  maxLength={41}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -196,6 +198,7 @@ const UpdateHomeBenefits = () => {
                   name="left_text1"
                   value={item.left_text1}
                   onChange={handleInput}
+                  maxLength={58}
                 />
               </FormControl>
               <FormControl mb={0} isRequired>
@@ -211,6 +214,7 @@ const UpdateHomeBenefits = () => {
                   value={item.left_heading2}
                   onChange={handleInput}
                   mb={4}
+                  maxLength={41}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -224,6 +228,7 @@ const UpdateHomeBenefits = () => {
                   name="left_text2"
                   value={item.left_text2}
                   onChange={handleInput}
+                  maxLength={58}
                 />
               </FormControl>
               <FormControl mb={0} isRequired>
@@ -239,6 +244,7 @@ const UpdateHomeBenefits = () => {
                   value={item.right_heading1}
                   onChange={handleInput}
                   mb={4}
+                  maxLength={41}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -252,6 +258,7 @@ const UpdateHomeBenefits = () => {
                   name="right_text1"
                   value={item.right_text1}
                   onChange={handleInput}
+                  maxLength={58}
                 />
               </FormControl>
               <FormControl mb={0} isRequired>
@@ -267,6 +274,7 @@ const UpdateHomeBenefits = () => {
                   value={item.right_heading2}
                   onChange={handleInput}
                   mb={4}
+                  maxLength={41}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -280,6 +288,7 @@ const UpdateHomeBenefits = () => {
                   name="right_text2"
                   value={item.right_text2}
                   onChange={handleInput}
+                  maxLength={58}
                 />
               </FormControl>
 
@@ -358,6 +367,7 @@ const UpdateHomeBenefits = () => {
                   value={item.bottom_heading1}
                   onChange={handleInput}
                   mb={4}
+                  maxLength={15}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -371,6 +381,7 @@ const UpdateHomeBenefits = () => {
                   name="bottom_text1"
                   value={item.bottom_text1}
                   onChange={handleInput}
+                  maxLength={24}
                 />
               </FormControl>
               <FormControl mb={0} isRequired>
@@ -386,6 +397,7 @@ const UpdateHomeBenefits = () => {
                   value={item.bottom_heading2}
                   onChange={handleInput}
                   mb={4}
+                  maxLength={15}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -399,6 +411,7 @@ const UpdateHomeBenefits = () => {
                   name="bottom_text2"
                   value={item.bottom_text2}
                   onChange={handleInput}
+                  maxLength={20}
                 />
               </FormControl>
               <FormControl mb={0} isRequired>
@@ -414,6 +427,7 @@ const UpdateHomeBenefits = () => {
                   value={item.bottom_heading3}
                   onChange={handleInput}
                   mb={4}
+                  maxLength={15}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -427,6 +441,7 @@ const UpdateHomeBenefits = () => {
                   name="bottom_text3"
                   value={item.bottom_text3}
                   onChange={handleInput}
+                  maxLength={24}
                 />
               </FormControl>
               <FormControl mb={0} isRequired>
@@ -442,6 +457,7 @@ const UpdateHomeBenefits = () => {
                   value={item.bottom_heading4}
                   onChange={handleInput}
                   mb={4}
+                  maxLength={15}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -455,6 +471,7 @@ const UpdateHomeBenefits = () => {
                   name="bottom_text4"
                   value={item.bottom_text4}
                   onChange={handleInput}
+                  maxLength={24}
                 />
               </FormControl>
               <FormControl>

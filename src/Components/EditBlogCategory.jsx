@@ -109,6 +109,7 @@ const EditBlogCategory = () => {
               name="name"
               value={category?.name}
               onChange={(e) => handleChange(e)}
+              maxLength={25}
             />
           </FormControl>
           <br />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { redirect, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import {
   Box,
@@ -14,7 +14,6 @@ import {
   Spinner,
   useToast,
 } from "@chakra-ui/react";
-import { DeleteIcon } from "@chakra-ui/icons";
 import { MdDelete } from "react-icons/md";
 
 const EditHome = () => {
@@ -254,6 +253,14 @@ const EditHome = () => {
       }
     } catch (error) {
       console.error("Update faild", error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.msg || "An error occurred.",
+        status: "error",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -317,6 +324,7 @@ const EditHome = () => {
                   value={item.banner_heading}
                   onChange={handleInput}
                   mb={4}
+                  maxLength={65}
                 />
               </FormControl>
 
@@ -414,6 +422,7 @@ const EditHome = () => {
                   name="about_heading"
                   value={item?.about_heading}
                   onChange={handleInput}
+                  maxLength={50}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -427,6 +436,7 @@ const EditHome = () => {
                   name="about_pera"
                   value={item?.about_pera}
                   onChange={handleInput}
+                  maxLength={250}
                 />
               </FormControl>
               
@@ -467,6 +477,7 @@ const EditHome = () => {
                         key={i}
                         value={e}
                         onChange={(event) => handleKeyFeature(event, i)}
+                        maxLength={65}
                       />
                       <Button onClick={() => handleremoveFeature(i)}>-</Button>
                     </Flex>
@@ -486,7 +497,7 @@ const EditHome = () => {
                   accept="image/*"
                   onChange={handleTrustFactrImage}
                   mb={4}
-                  multiple
+                  multiple                  
                 />
                 <Flex wrap="wrap">
                   {trfUrl &&
@@ -495,7 +506,7 @@ const EditHome = () => {
                         <Image src={e} w={"200px"} />
                         <Input
                           value={trfText[i]}
-                          onChange={(event) => handleTrFacText(event, i)}
+                          onChange={(event) => handleTrFacText(event, i)}                          
                         />
                         <MdDelete
                           size={"40px"}
@@ -522,6 +533,7 @@ const EditHome = () => {
                         <Input
                           value={item.trust_factor_text[i]}
                           onChange={(event) => handleTfimgText(event, i)}
+                          maxLength={15}
                         />
                         <MdDelete
                           size={"40px"}
@@ -556,6 +568,7 @@ const EditHome = () => {
                   name="our_distributor_text"
                   value={item?.our_distributor_text}
                   onChange={handleInput}
+                  maxLength={450}
                 />
               </FormControl>
 
