@@ -44,6 +44,8 @@ const ViewBlog = () => {
     getBlog();
   }, []);
   return (
+    <>
+   
     <Box textAlign={"left"} p="4" ml={5}>
       <Flex gap="20px">
         <Text fontSize={"xl"} fontWeight={"semibold"}>
@@ -143,49 +145,59 @@ const ViewBlog = () => {
         First Text
       </Text>
       <br />
+
       <br />
       <div
+
         padding="10px 20px"
         width="50%"
         bgColor={"#eef1f4"}
-        dangerouslySetInnerHTML={{ __html: blog?.text1 }}
-        fontSize={"medium"}
-      ></div>
+        // fontSize={"medium"}
+      >
+        <div dangerouslySetInnerHTML={{__html:blog?.text1}} >
+          
+        </div>
+      </Box>
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
         First Image
       </Text>
       <Image src={`${url}/blog/${blog?.first_image}`} />
       <br />
-      <Text fontWeight={"semibold"} fontSize={"xl"}>
-        Second Text
-      </Text>
-      <br />
+
       <Text fontWeight={"semibold"} fontSize={"xl"}>
         Second Image
       </Text>
       <Image src={`${url}/blog/${blog?.second_image}`} />
       <br />
-      <div
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
+        Second Text
+      </Text>
+      <br />
+      <Box
         padding="10px 20px"
         width="50%"
         bgColor={"#eef1f4"}
         dangerouslySetInnerHTML={{ __html: blog?.text2 }}
         fontSize={"medium"}
-      ></div>
+      ></Box>
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
         Third Image
       </Text>
       <Image src={`${url}/blog/${blog?.third_image}`} />
       <br />
-      <div
+      <Text fontWeight={"semibold"} fontSize={"xl"}>
+        Third Text
+      </Text>
+      <br />
+      <Box
         padding="10px 20px"
         width="50%"
         bgColor={"#eef1f4"}
         dangerouslySetInnerHTML={{ __html: blog?.text3 }}
         fontSize={"medium"}
-      ></div>
+      ></Box>
       <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
         Created at
@@ -219,6 +231,8 @@ const ViewBlog = () => {
         </Box>
       )}
     </Box>
+      
+    </>
   );
 };
 
