@@ -112,6 +112,14 @@ const EditTestimonials = () => {
       }
     } catch (error) {
       console.error("Update faild", error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.msg || "An error occurred.",
+        status: "error",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -146,6 +154,7 @@ const EditTestimonials = () => {
                   name="name"
                   value={item.name}
                   onChange={handleInput}
+                  maxLength={40}
                 />
               </FormControl>
               <FormControl isRequired mb={4}>
@@ -156,11 +165,12 @@ const EditTestimonials = () => {
                   variant="flushed"
                   id="designation"
                   type="text"
-                  placeholder="Enter your Heading"
+                  placeholder="Enter your Designation"
                   mb={4}
                   name="designation"
                   value={item.designation}
                   onChange={handleInput}
+                  maxLength={55}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -174,6 +184,7 @@ const EditTestimonials = () => {
                   name="text"
                   value={item.text}
                   onChange={handleInput}
+                  maxLength={300}
                 />
               </FormControl>
               <FormControl>

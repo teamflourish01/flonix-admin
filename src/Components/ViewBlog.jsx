@@ -71,7 +71,7 @@ const ViewBlog = () => {
         </Button>
       </Flex>
       <br />
-      <br />      
+      <br />
       <Text fontWeight={"semibold"} fontSize={"xl"}>
         Meta Title
       </Text>
@@ -142,6 +142,7 @@ const ViewBlog = () => {
       <Text fontWeight={"semibold"} fontSize={"xl"}>
         First Text
       </Text>
+      <br />
       <br />
       <div
         padding="10px 20px"

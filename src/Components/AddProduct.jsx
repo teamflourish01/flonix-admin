@@ -360,6 +360,7 @@ const AddProduct = () => {
                 handleChange(e);
                 setSlug(generateSlug(e.target.value));
               }}
+              maxLength={40}
             />
           </FormControl>
           <br />

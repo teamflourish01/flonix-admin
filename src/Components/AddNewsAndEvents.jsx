@@ -251,6 +251,14 @@ const AddFormNewsandEvents = () => {
       }
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.msg || "An error occurred.",
+        status: "error",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -322,6 +330,7 @@ const AddFormNewsandEvents = () => {
                     handleChange(e);
                     setSlug(generateSlug(e.target.value));
                   }}
+                  maxLength={80}
                 />
               </FormControl>
               <EditPermalink
@@ -377,6 +386,7 @@ const AddFormNewsandEvents = () => {
                   name="cardtext"
                   value={eventdata.cardtext}
                   onChange={handleInput}
+                  maxLength={750}
                 />
               </FormControl>
             </form>
@@ -465,6 +475,7 @@ const AddFormNewsandEvents = () => {
                   name="detailtext"
                   value={eventdata.detailtext}
                   onChange={handleInput}
+                  maxLength={750}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -480,6 +491,7 @@ const AddFormNewsandEvents = () => {
                   name="detailheading"
                   value={eventdata.detailheading}
                   onChange={handleInput}
+                  maxLength={160}
                 />
               </FormControl>
 

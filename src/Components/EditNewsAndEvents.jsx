@@ -147,7 +147,7 @@ const UpdateNewsAndEvents = () => {
     e.preventDefault();
     if (!slug) {
       toast({
-        title: "Item Not Edited ",
+        title: "Blog Not Add ! ",
         description: "Permalink is Required",
         status: "error",
         position: "top",
@@ -324,6 +324,7 @@ const UpdateNewsAndEvents = () => {
                   onChange={(e) => {
                     handlePlinkChange(e);
                   }}
+                  maxLength={80}
                 />
               </FormControl>
               <EditPermalink
@@ -342,6 +343,7 @@ const UpdateNewsAndEvents = () => {
                   name="cardtext"
                   value={item.cardtext}
                   onChange={handleInput}
+                  maxLength={750}
                 />
               </FormControl>
             </form>
@@ -445,6 +447,7 @@ const UpdateNewsAndEvents = () => {
                   name="detailtext"
                   value={item.detailtext}
                   onChange={handleInput}
+                  maxLength={750}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -460,6 +463,7 @@ const UpdateNewsAndEvents = () => {
                   name="detailheading"
                   value={item.detailheading}
                   onChange={handleInput}
+                  maxLength={160}
                 />
               </FormControl>
 

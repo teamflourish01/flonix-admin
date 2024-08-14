@@ -385,6 +385,7 @@ const EditProduct = () => {
                 name="name"
                 value={product.name}
                 onChange={(e) => handleChange(e)}
+                maxLength={40}
               />
             </FormControl>
             <br />

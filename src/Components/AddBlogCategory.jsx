@@ -95,6 +95,7 @@ const AddBlogCategory = () => {
               onChange={(e) =>{ handleChange(e);
                 setSlug(generateSlug(e.target.value));
               }}
+              maxLength={25}
             />
           </FormControl>
           <br />

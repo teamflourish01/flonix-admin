@@ -90,6 +90,14 @@ const AddTestimonials = () => {
       }
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.msg || "An error occurred.",
+        status: "error",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -115,11 +123,12 @@ const AddTestimonials = () => {
                   variant="flushed"
                   id="name"
                   type="text"
-                  placeholder="Enter your Heading"
+                  placeholder="Enter your Name"
                   mb={4}
                   name="name"
                   value={item.name}
                   onChange={handleInput}
+                  maxLength={40}
                 />
               </FormControl>
               <FormControl isRequired mb={4}>
@@ -130,11 +139,12 @@ const AddTestimonials = () => {
                   variant="flushed"
                   id="designation"
                   type="text"
-                  placeholder="Enter your Heading"
+                  placeholder="Enter your Designation"
                   mb={4}
                   name="designation"
                   value={item.designation}
                   onChange={handleInput}
+                  maxLength={55}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -148,6 +158,7 @@ const AddTestimonials = () => {
                   name="text"
                   value={item.text}
                   onChange={handleInput}
+                  maxLength={300}
                 />
               </FormControl>
               <FormControl>

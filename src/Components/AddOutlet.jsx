@@ -93,6 +93,7 @@ const AddOutlet = () => {
               name="name"
               value={outlet.name}
               onChange={(e) => handleChange(e)}
+              maxLength={80}
             />
           </FormControl>
           <br />
@@ -103,7 +104,7 @@ const AddOutlet = () => {
               name="address"
               value={outlet.address}
               onChange={(e) => handleChange(e)}
-              maxLength={850}
+              maxLength={150}
             />
           </FormControl>
           <br />

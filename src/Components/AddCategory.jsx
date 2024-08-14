@@ -90,6 +90,7 @@ const AddCategory = () => {
               onChange={(e) => {handleChange(e);
                 setSlug(generateSlug(e.target.value));
               }}
+              maxLength={30}
             />
           </FormControl>
           <br />
