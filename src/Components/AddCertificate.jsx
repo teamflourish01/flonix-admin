@@ -86,6 +86,14 @@ const AddCertificate = () => {
       }
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.msg || "An error occurred.",
+        status: "error",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -150,6 +158,7 @@ const AddCertificate = () => {
                   name="imgdescription"
                   value={certificate.imgdescription}
                   onChange={handleInput}
+                  maxLength={120}
                 />
               </FormControl>
             </Box>

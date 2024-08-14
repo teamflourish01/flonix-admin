@@ -145,7 +145,10 @@ const ViewBlog = () => {
         First Text
       </Text>
       <br />
-      <Box
+
+      <br />
+      <div
+
         padding="10px 20px"
         width="50%"
         bgColor={"#eef1f4"}

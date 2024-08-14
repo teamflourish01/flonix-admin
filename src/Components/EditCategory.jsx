@@ -115,6 +115,7 @@ const EditCategory = () => {
               name="name"
               value={category.name}
               onChange={(e) => handleChange(e)}
+              maxLength={30}
             />
           </FormControl>
           <br />

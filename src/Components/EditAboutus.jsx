@@ -131,6 +131,14 @@ const EditAboutus = () => {
       }
     } catch (error) {
       console.error("Update faild", error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.msg || "An error occurred.",
+        status: "error",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -194,6 +202,7 @@ const EditAboutus = () => {
                   value={item.heading}
                   onChange={handleInput}
                   mb={4}
+                  maxLength={160}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -207,6 +216,7 @@ const EditAboutus = () => {
                   name="description"
                   value={item.description}
                   onChange={handleInput}
+                  maxLength={750}
                 />
               </FormControl>
 
@@ -274,6 +284,7 @@ const EditAboutus = () => {
                   name="bannerheading"
                   value={item.bannerheading}
                   onChange={handleInput}
+                  maxLength={160}
                 />
               </FormControl>
             </form>
@@ -297,6 +308,7 @@ const EditAboutus = () => {
                   name="bannerdescription"
                   value={item.bannerdescription}
                   onChange={handleInput}
+                  maxLength={750}
                 />
               </FormControl>
               <FormControl isRequired>

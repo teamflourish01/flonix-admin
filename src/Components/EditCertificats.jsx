@@ -104,6 +104,14 @@ const EditCertificate = () => {
       }
     } catch (error) {
       console.error("Update faild", error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.msg || "An error occurred.",
+        status: "error",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -136,10 +144,11 @@ const EditCertificate = () => {
                   name="imgdescription"
                   value={item.imgdescription}
                   onChange={handleInput}
+                  maxLength={120}
                 />
               </FormControl>
 
-              <FormControl isRequired>
+              <FormControl>
                 <FormLabel htmlFor="image" color={"#add8e6"}>
                   Certificate
                 </FormLabel>

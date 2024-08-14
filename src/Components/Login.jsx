@@ -14,6 +14,7 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  Spinner,
   Stack,
   Text,
   useToast,
@@ -26,6 +27,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
   const url = process.env.REACT_APP_DEV_URL;
   const Navigate = useNavigate();
@@ -37,7 +39,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const response = await fetch(`${url}/user/signin`, {
         method: "post",
@@ -57,6 +59,7 @@ const Login = () => {
           isClosable: true,
         });
         Navigate("/admin/");
+        
       } else {
         const errorData = await response.json();
         toast({
@@ -78,6 +81,8 @@ const Login = () => {
         duration: 7000,
         isClosable: true,
       });
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -146,7 +151,14 @@ const Login = () => {
                     </InputRightElement>
                   </InputGroup>
                 </FormControl>
-                <Button colorScheme="blue" type="submit" w="full" mt={9}>
+                <Button
+                  colorScheme="blue"
+                  type="submit"
+                  w="full"
+                  mt={9}
+                  isLoading={isLoading}
+                  spinner={<Spinner color="blue.500" />}
+                >
                   Login
                 </Button>
               </Stack>
