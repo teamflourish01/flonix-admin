@@ -66,6 +66,7 @@ const Blog = () => {
         let data = await fetch(`${url}/blog/search/${search}`);
         data = await data.json();
         setBlog(data.data);
+        setCount(data.data.length)
       }
     } catch (error) {
       console.log(error);
