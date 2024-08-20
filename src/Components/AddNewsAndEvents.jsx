@@ -11,6 +11,7 @@ import {
   Spinner,
   useToast,
   Image,
+  Text,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -120,68 +121,10 @@ const AddFormNewsandEvents = () => {
     setVarImage(updatedImages);
   };
 
-  const submitSingle = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let dup = { ...eventdata };
     const formData = new FormData();
-    console.log("image", image);
-    formData.append("cardimage", image);
-    try {
-      let data = await axios.post(
-        `${url}/newsandevent/add/singleimage`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log(data.data, "single");
-      return data.data.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const submitDetailImg = async () => {
-    const formData = new FormData();
-    formData.append("detailimage", detailImg);
-    try {
-      let data = await axios.post(
-        `${url}/newsandevent/add/detailimg`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log("Details IMG", data.data);
-      return data.data.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const submitMultiple = async () => {
-    console.log("varImage", varImage);
-    let formData = new FormData();
-    for (let x of varImage) {
-      formData.append("detailimages", x);
-    }
-    try {
-      let data = await axios.post(
-        `${url}/newsandevent/add/multipleimages`,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-      console.log(data.data, "multi");
-      return data.data.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleSubmit = async (imageArr, varArr, detimg) => {
     if (!slug) {
       toast({
         title: "Item Not Edited ",
@@ -194,33 +137,33 @@ const AddFormNewsandEvents = () => {
       return;
     }
     setIsLoading(true);
-    console.log(imageArr, varArr);
-    let dup = { ...eventdata };
-    if (imageArr) {
-      dup.cardimage = imageArr;
-    }
-    if (varArr?.length) {
-      dup.detailimages = varArr;
-    }
-    if (detimg) {
-      dup.detailimage = detimg;
-    }
+
+    formData.append("cardimage", image);
+    formData.append("detailimage", detailImg);
+    varImage.forEach((file) => formData.append("detailimages", file));
+
+    Object.keys(eventdata).forEach((key) => {
+      if (key !== "detailimages") {
+        formData.append(key, eventdata[key]);
+      }
+    });
     let newSlug = generateSlug(slug);
     dup.slug = newSlug;
     setEventdata(dup);
+
+    formData.append("dup", JSON.stringify(dup));
+
     try {
-      let res = await fetch(`${url}/newsandevent/add`, {
-        method: "POST",
+      let res = await axios.post(`${url}/newsandevent/addnew`, formData, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
-        body: JSON.stringify(dup),
       });
-      let data = await res.json();
-      if (res.ok) {
+      // let data = await res.json();
+      if (res.status === 201) {
         toast({
           title: "Data Added Successfuly",
-          description: data.msg,
+          description: res.data.msg,
           status: "success",
           position: "top",
           duration: 7000,
@@ -242,7 +185,7 @@ const AddFormNewsandEvents = () => {
       } else {
         toast({
           title: "Data Not Add X ",
-          description: data.msg,
+          description: res.data.msg,
           status: "error",
           position: "top",
           duration: 7000,
@@ -339,7 +282,7 @@ const AddFormNewsandEvents = () => {
                 setSlug={setSlug}
               />
               <br />
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="cardimage" color={"#add8e6"}>
                   Card Image
                 </FormLabel>
@@ -350,9 +293,13 @@ const AddFormNewsandEvents = () => {
                   name="cardimage"
                   accept="image/*"
                   onChange={handleSingleImageChange}
-                  mb={4}
+                  mb={1}
                 />
               </FormControl>
+              <Text mb={5}>
+                <span style={{ fontWeight: "bold" }}>Note</span>:File Size
+                Should Be Upto 420x252px size will allow Only
+              </Text>
               <FormControl>
                 {selectedImages && (
                   <Flex>
@@ -439,8 +386,12 @@ const AddFormNewsandEvents = () => {
                   name="detailimage"
                   accept="image/*"
                   onChange={handleDetailImgChange}
-                  mb={4}
+                  mb={1}
                 />
+                <Text mb={5}>
+                  <span style={{ fontWeight: "bold" }}>Note</span>:File Size
+                  Should Be Upto 1320x517px size will allow Only
+                </Text>
               </FormControl>
               <FormControl>
                 {selectedDetail && (
@@ -463,7 +414,7 @@ const AddFormNewsandEvents = () => {
                   </Flex>
                 )}
               </FormControl>
-              <br/>
+              <br />
               <FormControl isRequired>
                 <FormLabel htmlFor="detailtext" color={"#add8e6"}>
                   Detail Description
@@ -510,7 +461,7 @@ const AddFormNewsandEvents = () => {
                   onChange={handleInput}
                 />
               </FormControl>
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="detailimages" color={"#add8e6"}>
                   Activity Images
                 </FormLabel>
@@ -521,9 +472,12 @@ const AddFormNewsandEvents = () => {
                   name="detailimages"
                   accept="image/*"
                   onChange={handleImagesChange}
-                  mb={4}
-                  multiple
+                  mb={1}
                 />
+                <Text mb={5}>
+                  <span style={{ fontWeight: "bold" }}>Note</span>:File Size
+                  Should Be Upto 420x313px size will allow Only
+                </Text>
               </FormControl>
               {/* Display selected images for multiple upload */}
               <Flex wrap="wrap">
@@ -571,11 +525,7 @@ const AddFormNewsandEvents = () => {
               bgColor: "#add8e6",
               border: "1px solid #add8e6",
             }}
-            onClick={() => {
-              Promise.all([submitSingle(), submitMultiple(), submitDetailImg()])
-                .then((res) => handleSubmit(res[0], res[1], res[2]))
-                .catch((err) => console.log(err));
-            }}
+            onClick={handleSubmit}
             isLoading={isLoading}
             spinner={<Spinner color="blue.500" />}
           >
