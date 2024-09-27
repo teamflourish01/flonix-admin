@@ -196,7 +196,7 @@ const Contact = () => {
             bgColor={"#add8e6"}
             color={"black"}
           >
-            There Are {count} Product
+            There Are {count} Contact
           </TableCaption>
           <Thead bgColor={"black"}>
             <Tr>

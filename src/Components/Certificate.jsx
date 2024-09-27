@@ -116,7 +116,7 @@ const Certificates = () => {
             bgColor={"#add8e6"}
             color={"black"}
           >
-            There Are {count} Product
+            There Are {count} Certificate
           </TableCaption>
           <Thead bgColor={"black"}>
             <Tr>

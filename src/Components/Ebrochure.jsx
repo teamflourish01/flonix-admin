@@ -112,7 +112,7 @@ const Ebrochure = () => {
             bgColor={"#add8e6"}
             color={"black"}
           >
-            There Are {count} Product
+            There Are {count} Ebrochure
           </TableCaption>
           <Thead bgColor={"black"}>
             <Tr>
