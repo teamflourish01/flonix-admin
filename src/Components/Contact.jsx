@@ -74,6 +74,7 @@ const Contact = () => {
     try {
       if (!search) {
         getOutlet();
+        getCount();
         setFlag(true);
         return;
       }
@@ -81,6 +82,7 @@ const Contact = () => {
       data = await data.json();
       console.log(data);
       setNetwork(data.data);
+      setCount(data.data.length)
     } catch (error) {
       console.log(error);
     }
@@ -194,7 +196,7 @@ const Contact = () => {
             bgColor={"#add8e6"}
             color={"black"}
           >
-            There Are {count} Product
+            There Are {count} Contact
           </TableCaption>
           <Thead bgColor={"black"}>
             <Tr>

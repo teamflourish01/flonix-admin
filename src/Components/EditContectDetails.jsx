@@ -227,6 +227,7 @@ const EditContectDetails = () => {
                   name="officeaddress"
                   value={item.officeaddress}
                   onChange={handleInput}
+                  maxLength={200}
                 />
               </FormControl>
             </Box>

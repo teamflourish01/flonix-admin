@@ -12,6 +12,7 @@ import {
   Flex,
   Spinner,
   useToast,
+  Text,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { MdDelete } from "react-icons/md";
@@ -198,8 +199,12 @@ const EditTestimonials = () => {
                   name="image"
                   accept="image/*"
                   onChange={handleSingleImage}
-                  mb={4}
+                  mb={1}
                 />
+                <Text mb={5}>
+                  <span style={{ fontWeight: "bold" }}>Note</span>:File Size
+                  Should Be Upto 125x143px size will allow Only
+                </Text>
               </FormControl>
               <FormControl>
                 {selctSinImg && (

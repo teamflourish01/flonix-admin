@@ -111,7 +111,7 @@ const Testimonials = () => {
             bgColor={"#add8e6"}
             color={"black"}
           >
-            There Are {count} Product
+            There Are {count} Testimonials
           </TableCaption>
           <Thead bgColor={"black"}>
             <Tr>

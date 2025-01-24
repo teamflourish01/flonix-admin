@@ -9,6 +9,7 @@ import {
   Flex,
   Spinner,
   useToast,
+  Text,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
@@ -172,8 +173,12 @@ const AddTestimonials = () => {
                   name="image"
                   accept="image/*"
                   onChange={handleSingleImageChange}
-                  mb={4}
+                  mb={1}
                 />
+                <Text mb={5}>
+                  <span style={{ fontWeight: "bold" }}>Note</span>:File Size
+                  Should Be Upto 125x143px size will allow Only
+                </Text>
               </FormControl>
               <FormControl>
                 {selectedImages && (

@@ -13,6 +13,7 @@ import {
   Image,
   Spinner,
   useToast,
+  Text,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { MdDelete } from "react-icons/md";
@@ -267,8 +268,12 @@ const UpdateNewsAndEvents = () => {
                   name="cardimage"
                   accept="image/*"
                   onChange={handleSingleImage}
-                  mb={4}
+                  mb={1}
                 />
+                <Text mb={5}>
+                  <span style={{ fontWeight: "bold" }}>Note</span>:File Size
+                  Should Be Upto 420x252px size will allow Only
+                </Text>
               </FormControl>
               <FormControl>
                 {selctSinImg && (
@@ -396,8 +401,12 @@ const UpdateNewsAndEvents = () => {
                   name="detailimage"
                   accept="image/*"
                   onChange={handleDetailImgChange}
-                  mb={4}
+                  mb={1}
                 />
+                <Text mb={5}>
+                  <span style={{ fontWeight: "bold" }}>Note</span>:File Size
+                  Should Be Upto 1320x517px size will allow Only
+                </Text>
               </FormControl>
               <FormControl>
                 {selectedDetail && (
@@ -493,9 +502,13 @@ const UpdateNewsAndEvents = () => {
                   name="detailimages"
                   accept="image/*"
                   onChange={handleMultipleImage}
-                  mb={4}
+                  mb={1}
                   multiple
                 />
+                <Text mb={5}>
+                  <span style={{ fontWeight: "bold" }}>Note</span>:File Size
+                  Should Be Upto 430x313px size will allow Only
+                </Text>
                 <Flex wrap="wrap">
                   {item.detailimages &&
                     item.detailimages.map((e, i) => (

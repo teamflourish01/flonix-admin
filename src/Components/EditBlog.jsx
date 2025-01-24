@@ -134,17 +134,17 @@ const EditBlog = () => {
   };
 
   const editData = async (e) => {
-    e.preventDefault()
-    if(!slug){
+    e.preventDefault();
+    if (!slug) {
       toast({
         title: "Item Not Edited ",
-          description: "Slug is Invalid",
-          status: "error",
-          position: "top",
-          duration: 7000,
-          isClosable: true,
-      })
-      return
+        description: "Slug is Invalid",
+        status: "error",
+        position: "top",
+        duration: 7000,
+        isClosable: true,
+      });
+      return;
     }
     let formData = new FormData();
     let dup = { ...blog };
@@ -219,357 +219,377 @@ const EditBlog = () => {
     <Box p="4">
       <center>
         <form onSubmit={editData}>
-
-        
-        <Box
-          width={"50%"}
-          padding="20px"
-          border={"1px solid #add8e6"}
-          borderRadius={"20px"}
-          boxShadow={
-            "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;"
-          }
-        >
-          <FormControl isRequired>
-            <FormLabel color={"#add8e6"}>Meta Title</FormLabel>
-            <Input
-              required
-              variant={"flushed"}
-              type="text"
-              name="meta_title"
-              value={blog.meta_title}
-              onChange={(e) => handleChange(e)}
-            />
-          </FormControl>
-          <br />
-          <FormControl isRequired>
-            <FormLabel color={"#add8e6"}>Meta Description</FormLabel>
-            <Textarea
-              variant="flushed"
-              name="meta_description"
-              value={blog.meta_description}
-              onChange={(e) => handleChange(e)}
-              maxLength={850}
-            />
-          </FormControl>
-          <br />
-
-          <FormControl isRequired>
-            <FormLabel color={"#add8e6"}>Name</FormLabel>
-            <Input
-              type="text"
-              name="name"
-              value={blog.name}
-              onChange={(e) => {
-                handleChange(e);
-              }}
-              maxLength={40}
-            />
-          </FormControl>
-          <br />
-          <EditPermalink slug={slug} setSlug={setSlug} folder={"blog"} />
-          <FormControl >
-            <FormLabel color={"#add8e6"}>Banner Image</FormLabel>
-            {blog?.banner_image && (
-              <Flex>
-                <Box>
-                  <Image w="200px" src={`${url}/blog/${blog?.banner_image}`} />
-                  <Input
-                    value={blog?.bannerimg_alt}
-                    onChange={(event) => hanldebnnrImgText(event)}
-                  />
-                </Box>
-                <MdDelete
-                  color="red"
-                  cursor={"pointer"}
-                  size={"30px"}
-                  onClick={() =>
-                    handleImageDelete("banner_image", "bannerimg_alt")
-                  }
-                />
-              </Flex>
-            )}
-            {bannerUrl && (
-              <Flex>
-                <Box>
-                  <Image w="200px" src={`${bannerUrl}`} />
-                  <Input
-                    value={blog.bannerimg_alt}
-                    onChange={(event) => hanldebnnrImgText(event)}
-                  />
-                </Box>
-                <MdDelete
-                  color="red"
-                  cursor={"pointer"}
-                  size={"30px"}
-                  onClick={() => handleImageUrl(setBanner, setBannerUrl)}
-                />
-              </Flex>
-            )}
-            <Input
-              type="file"
-              name="banner"
-              onChange={(e) => handleImageChanger(e, setBanner, setBannerUrl)}
-            />
-          </FormControl>
-          <br />
-          <FormControl isRequired>
-            <FormLabel color={"#add8e6"}>Category</FormLabel>
-            <select
-              name="category"
-              style={{
-                width: "200px",
-                padding: "10px",
-                margin: "10px",
-                border: "1px solid #add8e6",
-                borderRadius: "20px",
-              }}
-              onChange={(e) => handleChange(e)}
-            >
-              <option value={blog?.category?._id}>
-                {blog?.category?.name}
-              </option>
-              {category &&
-                category.map((e) => <option value={e._id}>{e?.name}</option>)}
-            </select>
-          </FormControl>
-          <br />
-          <FormControl >
-            <FormLabel color={"#add8e6"}>First Image</FormLabel>
-            {blog?.first_image && (
-              <Flex>
-                <Box>
-                  <Image w="200px" src={`${url}/blog/${blog?.first_image}`} />
-                  <Input
-                    value={blog.firstimg_alt}
-                    onChange={(event) => handleFstImgText(event)}
-                  />
-                </Box>
-                <MdDelete
-                  color="red"
-                  cursor={"pointer"}
-                  size={"30px"}
-                  onClick={() =>
-                    handleImageDelete("first_image", "firstimg_alt")
-                  }
-                />
-              </Flex>
-            )}
-            {firstUrl && (
-              <Flex>
-                <Box>
-                  <Image w="200px" src={`${firstUrl}`} />
-                  <Input
-                    value={blog.firstimg_alt}
-                    onChange={(event) => handleFstImgText(event)}
-                  />
-                </Box>
-                <MdDelete
-                  color="red"
-                  cursor={"pointer"}
-                  size={"30px"}
-                  onClick={() => handleImageUrl(setFirst, setFirstUrl)}
-                />
-              </Flex>
-            )}
-            <Input
-              type="file"
-              name="first"
-              onChange={(e) => handleImageChanger(e, setFirst, setFirstUrl)}
-            />
-          </FormControl>
-          <br />
-          <FormControl >
-            <FormLabel color={"#add8e6"}>First Text</FormLabel>
-            <ReactQuill
-              modules={module}
-              theme="snow"
-              value={text1}
-              onChange={setText1}
-            />
-          </FormControl>
-          <br />
-          <FormControl>
-            <FormLabel color={"#add8e6"}>Toggle First Image</FormLabel>
-            <Text>Note: ON Switch for Showing Image Before Text</Text>
-            <div class="checkbox-wrapper-55">
-              <label class="rocker rocker-small">
-                <input
-                  type="checkbox"
-                  checked={blog?.first_toggle}
-                  onChange={() => {
-                    audio.play();
-                    setBlog({ ...blog, first_toggle: !blog.first_toggle });
-                  }}
-                  // checked={getCheck(blog.first_toggle)}
-                />
-                <span class="switch-left">Yes</span>
-                <span class="switch-right">No</span>
-              </label>
-            </div>
-          </FormControl>
-          <br />
-          <FormControl >
-            <FormLabel color={"#add8e6"}>Second Image</FormLabel>
-            {blog?.second_image && (
-              <Flex>
-                <Box>
-                  <Image w="200px" src={`${url}/blog/${blog?.second_image}`} />
-                  <Input
-                    value={blog.secondimg_alt}
-                    onChange={(event) => handleSecImgText(event)}
-                  />
-                </Box>
-                <MdDelete
-                  color="red"
-                  cursor={"pointer"}
-                  size={"30px"}
-                  onClick={() =>
-                    handleImageDelete("second_image", "secondimg_alt")
-                  }
-                />
-              </Flex>
-            )}
-            {secondUrl && (
-              <Flex>
-                <Box>
-                  <Image w="200px" src={`${secondUrl}`} />
-                  <Input
-                    value={blog.secondimg_alt}
-                    onChange={(event) => handleSecImgText(event)}
-                  />
-                </Box>
-                <MdDelete
-                  color="red"
-                  cursor={"pointer"}
-                  size={"30px"}
-                  onClick={() => handleImageUrl(setSecond, setSecondUrl)}
-                />
-              </Flex>
-            )}
-            <Input
-              type="file"
-              name="first"
-              onChange={(e) => handleImageChanger(e, setSecond, setSecondUrl)}
-            />
-          </FormControl>
-          <br />
-          <FormControl >
-            <FormLabel color={"#add8e6"}> Second Text</FormLabel>
-            <ReactQuill
-              modules={module}
-              theme="snow"
-              value={text2}
-              onChange={setText2}
-            />
-          </FormControl>
-          <br />
-          <FormControl>
-            <FormLabel color={"#add8e6"}>Toggle Second Image</FormLabel>
-            <Text>Note: ON Switch for Showing Image Before Text</Text>
-            <div class="checkbox-wrapper-55">
-              <label class="rocker rocker-small">
-                <input
-                  type="checkbox"
-                  checked={blog?.second_toggle}
-                  onChange={() => {
-                    audio.play();
-                    setBlog({ ...blog, second_toggle: !blog.second_toggle });
-                  }}
-                  // checked={getCheck(blog.first_toggle)}
-                />
-                <span class="switch-left">Yes</span>
-                <span class="switch-right">No</span>
-              </label>
-            </div>
-          </FormControl>
-          <br />
-
-          <FormControl >
-            <FormLabel color={"#add8e6"}>Third Image</FormLabel>
-            {blog?.third_image && (
-              <Flex>
-                <Box>
-                  <Image w="200px" src={`${url}/blog/${blog?.third_image}`} />
-                  <Input
-                    value={blog.thirdimg_alt}
-                    onChange={(event) => handleThrdImgText(event)}
-                  />
-                </Box>
-                <MdDelete
-                  color="red"
-                  cursor={"pointer"}
-                  size={"30px"}
-                  onClick={() =>
-                    handleImageDelete("third_image", "thirdimg_alt")
-                  }
-                />
-              </Flex>
-            )}
-            {thirdUrl && (
-              <Flex>
-                <Box>
-                  <Image w="200px" src={`${thirdUrl}`} />
-                  <Input
-                    value={blog.thirdimg_alt}
-                    onChange={(event) => handleThrdImgText(event)}
-                  />
-                </Box>
-                <MdDelete
-                  color="red"
-                  cursor={"pointer"}
-                  size={"30px"}
-                  onClick={() => handleImageUrl(setThird,setThirdUrl)}
-                />
-              </Flex>
-            )}
-            <Input
-              type="file"
-              name="first"
-              onChange={(e) => handleImageChanger(e, setThird, setThirdUrl)}
-            />
-          </FormControl>
-          <br />
-          <FormControl >
-            <FormLabel color={"#add8e6"}>Third Text</FormLabel>
-            <ReactQuill
-              modules={module}
-              theme="snow"
-              value={text3}
-              onChange={setText3}
-            />
-          </FormControl>
-          <br />
-          <FormControl>
-            <FormLabel color={"#add8e6"}>Third Second Image</FormLabel>
-            <Text>Note: ON Switch for Showing Image Before Text</Text>
-            <div class="checkbox-wrapper-55">
-              <label class="rocker rocker-small">
-                <input
-                  type="checkbox"
-                  checked={blog?.third_toggle}
-                  onChange={() => {
-                    audio.play();
-                    setBlog({ ...blog, third_toggle: !blog.third_toggle });
-                  }}
-                  // checked={getCheck(blog.first_toggle)}
-                />
-                <span class="switch-left">Yes</span>
-                <span class="switch-right">No</span>
-              </label>
-            </div>
-          </FormControl>
-          <br />
-          <Button
-            bgColor={"black"}
-            color="#add8e6"
-            _hover={{ bgColor: "#add8e6", color: "black" }}
-            type="submit"
-            isDisabled={!slug}
+          <Box
+            width={"50%"}
+            padding="20px"
+            border={"1px solid #add8e6"}
+            borderRadius={"20px"}
+            boxShadow={
+              "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;"
+            }
           >
-            Edit Item
-          </Button>
-        </Box>
+            <FormControl isRequired>
+              <FormLabel color={"#add8e6"}>Meta Title</FormLabel>
+              <Input
+                required
+                variant={"flushed"}
+                type="text"
+                name="meta_title"
+                value={blog.meta_title}
+                onChange={(e) => handleChange(e)}
+              />
+            </FormControl>
+            <br />
+            <FormControl isRequired>
+              <FormLabel color={"#add8e6"}>Meta Description</FormLabel>
+              <Textarea
+                variant="flushed"
+                name="meta_description"
+                value={blog.meta_description}
+                onChange={(e) => handleChange(e)}
+                maxLength={850}
+              />
+            </FormControl>
+            <br />
+
+            <FormControl isRequired>
+              <FormLabel color={"#add8e6"}>Name</FormLabel>
+              <Input
+                type="text"
+                name="name"
+                value={blog.name}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+                maxLength={40}
+              />
+            </FormControl>
+            <br />
+            <EditPermalink slug={slug} setSlug={setSlug} folder={"blog"} />
+            <FormControl>
+              <FormLabel color={"#add8e6"}>Banner Image</FormLabel>
+              {blog?.banner_image && (
+                <Flex>
+                  <Box>
+                    <Image
+                      w="200px"
+                      src={`${url}/blog/${blog?.banner_image}`}
+                    />
+                    <Input
+                      value={blog?.bannerimg_alt}
+                      onChange={(event) => hanldebnnrImgText(event)}
+                    />
+                  </Box>
+                  <MdDelete
+                    color="red"
+                    cursor={"pointer"}
+                    size={"30px"}
+                    onClick={() =>
+                      handleImageDelete("banner_image", "bannerimg_alt")
+                    }
+                  />
+                </Flex>
+              )}
+              {bannerUrl && (
+                <Flex>
+                  <Box>
+                    <Image w="200px" src={`${bannerUrl}`} />
+                    <Input
+                      value={blog.bannerimg_alt}
+                      onChange={(event) => hanldebnnrImgText(event)}
+                    />
+                  </Box>
+                  <MdDelete
+                    color="red"
+                    cursor={"pointer"}
+                    size={"30px"}
+                    onClick={() => handleImageUrl(setBanner, setBannerUrl)}
+                  />
+                </Flex>
+              )}
+              <Input
+                type="file"
+                name="banner"
+                onChange={(e) => handleImageChanger(e, setBanner, setBannerUrl)}
+              />
+              <Text mb={3}>
+                <span>Note</span>:File Size Should Be Upto 651x612px size will
+                allow Only
+              </Text>
+            </FormControl>
+            <br />
+            <FormControl isRequired>
+              <FormLabel color={"#add8e6"}>Category</FormLabel>
+              <select
+                name="category"
+                style={{
+                  width: "200px",
+                  padding: "10px",
+                  margin: "10px",
+                  border: "1px solid #add8e6",
+                  borderRadius: "20px",
+                }}
+                onChange={(e) => handleChange(e)}
+              >
+                <option value={blog?.category?._id}>
+                  {blog?.category?.name}
+                </option>
+                {category &&
+                  category.map((e) => <option value={e._id}>{e?.name}</option>)}
+              </select>
+            </FormControl>
+            <br />
+            <FormControl>
+              <FormLabel color={"#add8e6"}>First Image</FormLabel>
+              {blog?.first_image && (
+                <Flex>
+                  <Box>
+                    <Image w="200px" src={`${url}/blog/${blog?.first_image}`} />
+                    <Input
+                      value={blog.firstimg_alt}
+                      onChange={(event) => handleFstImgText(event)}
+                    />
+                  </Box>
+                  <MdDelete
+                    color="red"
+                    cursor={"pointer"}
+                    size={"30px"}
+                    onClick={() =>
+                      handleImageDelete("first_image", "firstimg_alt")
+                    }
+                  />
+                </Flex>
+              )}
+              {firstUrl && (
+                <Flex>
+                  <Box>
+                    <Image w="200px" src={`${firstUrl}`} />
+                    <Input
+                      value={blog.firstimg_alt}
+                      onChange={(event) => handleFstImgText(event)}
+                    />
+                  </Box>
+                  <MdDelete
+                    color="red"
+                    cursor={"pointer"}
+                    size={"30px"}
+                    onClick={() => handleImageUrl(setFirst, setFirstUrl)}
+                  />
+                </Flex>
+              )}
+              <Input
+                type="file"
+                name="first"
+                onChange={(e) => handleImageChanger(e, setFirst, setFirstUrl)}
+              />
+              <Text mb={3}>
+                <span>Note</span>:File Size Should Be Upto 849x425px size will
+                allow Only
+              </Text>
+            </FormControl>
+            <br />
+            <FormControl>
+              <FormLabel color={"#add8e6"}>First Text</FormLabel>
+              <ReactQuill
+                modules={module}
+                theme="snow"
+                value={text1}
+                onChange={setText1}
+              />
+            </FormControl>
+            <br />
+            <FormControl>
+              <FormLabel color={"#add8e6"}>Toggle First Image</FormLabel>
+              <Text>Note: ON Switch for Showing Image Before Text</Text>
+              <div class="checkbox-wrapper-55">
+                <label class="rocker rocker-small">
+                  <input
+                    type="checkbox"
+                    checked={blog?.first_toggle}
+                    onChange={() => {
+                      audio.play();
+                      setBlog({ ...blog, first_toggle: !blog.first_toggle });
+                    }}
+                    // checked={getCheck(blog.first_toggle)}
+                  />
+                  <span class="switch-left">Yes</span>
+                  <span class="switch-right">No</span>
+                </label>
+              </div>
+            </FormControl>
+            <br />
+            <FormControl>
+              <FormLabel color={"#add8e6"}>Second Image</FormLabel>
+              {blog?.second_image && (
+                <Flex>
+                  <Box>
+                    <Image
+                      w="200px"
+                      src={`${url}/blog/${blog?.second_image}`}
+                    />
+                    <Input
+                      value={blog.secondimg_alt}
+                      onChange={(event) => handleSecImgText(event)}
+                    />
+                  </Box>
+                  <MdDelete
+                    color="red"
+                    cursor={"pointer"}
+                    size={"30px"}
+                    onClick={() =>
+                      handleImageDelete("second_image", "secondimg_alt")
+                    }
+                  />
+                </Flex>
+              )}
+              {secondUrl && (
+                <Flex>
+                  <Box>
+                    <Image w="200px" src={`${secondUrl}`} />
+                    <Input
+                      value={blog.secondimg_alt}
+                      onChange={(event) => handleSecImgText(event)}
+                    />
+                  </Box>
+                  <MdDelete
+                    color="red"
+                    cursor={"pointer"}
+                    size={"30px"}
+                    onClick={() => handleImageUrl(setSecond, setSecondUrl)}
+                  />
+                </Flex>
+              )}
+              <Input
+                type="file"
+                name="first"
+                onChange={(e) => handleImageChanger(e, setSecond, setSecondUrl)}
+              />
+              <Text mb={3}>
+                <span>Note</span>:File Size Should Be Upto 849x425px size will
+                allow Only
+              </Text>
+            </FormControl>
+            <br />
+            <FormControl>
+              <FormLabel color={"#add8e6"}> Second Text</FormLabel>
+              <ReactQuill
+                modules={module}
+                theme="snow"
+                value={text2}
+                onChange={setText2}
+              />
+            </FormControl>
+            <br />
+            <FormControl>
+              <FormLabel color={"#add8e6"}>Toggle Second Image</FormLabel>
+              <Text>Note: ON Switch for Showing Image Before Text</Text>
+              <div class="checkbox-wrapper-55">
+                <label class="rocker rocker-small">
+                  <input
+                    type="checkbox"
+                    checked={blog?.second_toggle}
+                    onChange={() => {
+                      audio.play();
+                      setBlog({ ...blog, second_toggle: !blog.second_toggle });
+                    }}
+                    // checked={getCheck(blog.first_toggle)}
+                  />
+                  <span class="switch-left">Yes</span>
+                  <span class="switch-right">No</span>
+                </label>
+              </div>
+            </FormControl>
+            <br />
+
+            <FormControl>
+              <FormLabel color={"#add8e6"}>Third Image</FormLabel>
+              {blog?.third_image && (
+                <Flex>
+                  <Box>
+                    <Image w="200px" src={`${url}/blog/${blog?.third_image}`} />
+                    <Input
+                      value={blog.thirdimg_alt}
+                      onChange={(event) => handleThrdImgText(event)}
+                    />
+                  </Box>
+                  <MdDelete
+                    color="red"
+                    cursor={"pointer"}
+                    size={"30px"}
+                    onClick={() =>
+                      handleImageDelete("third_image", "thirdimg_alt")
+                    }
+                  />
+                </Flex>
+              )}
+              {thirdUrl && (
+                <Flex>
+                  <Box>
+                    <Image w="200px" src={`${thirdUrl}`} />
+                    <Input
+                      value={blog.thirdimg_alt}
+                      onChange={(event) => handleThrdImgText(event)}
+                    />
+                  </Box>
+                  <MdDelete
+                    color="red"
+                    cursor={"pointer"}
+                    size={"30px"}
+                    onClick={() => handleImageUrl(setThird, setThirdUrl)}
+                  />
+                </Flex>
+              )}
+              <Input
+                type="file"
+                name="first"
+                onChange={(e) => handleImageChanger(e, setThird, setThirdUrl)}
+              />
+              <Text mb={3}>
+                <span>Note</span>:File Size Should Be Upto 849x425px size will
+                allow Only
+              </Text>
+            </FormControl>
+            <br />
+            <FormControl>
+              <FormLabel color={"#add8e6"}>Third Text</FormLabel>
+              <ReactQuill
+                modules={module}
+                theme="snow"
+                value={text3}
+                onChange={setText3}
+              />
+            </FormControl>
+            <br />
+            <FormControl>
+              <FormLabel color={"#add8e6"}>Third Second Image</FormLabel>
+              <Text>Note: ON Switch for Showing Image Before Text</Text>
+              <div class="checkbox-wrapper-55">
+                <label class="rocker rocker-small">
+                  <input
+                    type="checkbox"
+                    checked={blog?.third_toggle}
+                    onChange={() => {
+                      audio.play();
+                      setBlog({ ...blog, third_toggle: !blog.third_toggle });
+                    }}
+                    // checked={getCheck(blog.first_toggle)}
+                  />
+                  <span class="switch-left">Yes</span>
+                  <span class="switch-right">No</span>
+                </label>
+              </div>
+            </FormControl>
+            <br />
+            <Button
+              bgColor={"black"}
+              color="#add8e6"
+              _hover={{ bgColor: "#add8e6", color: "black" }}
+              type="submit"
+              isDisabled={!slug}
+            >
+              Edit Item
+            </Button>
+          </Box>
         </form>
       </center>
     </Box>

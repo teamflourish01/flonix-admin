@@ -326,6 +326,10 @@ const AddBlog = () => {
                     handleImageChanger(e, setBanner, setBannerUrl)
                   }
                 />
+                <Text mb={3}>
+                  <span >Note</span>:File Size
+                  Should Be Upto 651x612px size will allow Only
+                </Text>
               </form>
             </FormControl>
             <br />
@@ -384,6 +388,10 @@ const AddBlog = () => {
                   name="first"
                   onChange={(e) => handleImageChanger(e, setFirst, setFirstUrl)}
                 />
+                <Text mb={3}>
+                  <span >Note</span>:File Size
+                  Should Be Upto 849x425px size will allow Only
+                </Text>
               </form>
             </FormControl>
             <br />
@@ -441,6 +449,10 @@ const AddBlog = () => {
                 name="second"
                 onChange={(e) => handleImageChanger(e, setSecond, setSecondUrl)}
               />
+              <Text mb={3}>
+                  <span >Note</span>:File Size
+                  Should Be Upto 849x425px size will allow Only
+                </Text>
             </FormControl>
             <br />
             <FormControl>
@@ -497,6 +509,10 @@ const AddBlog = () => {
                   name="third"
                   onChange={(e) => handleImageChanger(e, setThird, setThirdUrl)}
                 />
+                <Text mb={3}>
+                  <span >Note</span>:File Size
+                  Should Be Upto 849x425px size will allow Only
+                </Text>
               </form>
             </FormControl>
             <br />

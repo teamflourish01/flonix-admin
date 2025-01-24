@@ -13,6 +13,7 @@ import {
   Image,
   Spinner,
   useToast,
+  Text,
 } from "@chakra-ui/react";
 import { MdDelete } from "react-icons/md";
 
@@ -339,9 +340,13 @@ const EditHome = () => {
                   name="banner_images"
                   accept="image/*"
                   onChange={handleBannerInputImage}
-                  mb={4}
+                  mb={1}
                   multiple
                 />
+                <Text mb={5}>
+                  <span style={{ fontWeight: "bold" }}>Note</span>:File Size
+                  Should Be 651x612px size will allow Only
+                </Text>
                 <Flex wrap="wrap">
                   {bannerUrl &&
                     bannerUrl?.map((e, i) => (
@@ -439,7 +444,7 @@ const EditHome = () => {
                   maxLength={250}
                 />
               </FormControl>
-              
+
               <FormControl isRequired>
                 <FormLabel htmlFor="about_video" color={"#add8e6"}>
                   About Video
@@ -455,16 +460,7 @@ const EditHome = () => {
                   onChange={handleInput}
                 />
               </FormControl>
-            </form>
-          </Box>
-          <Box
-            backgroundColor={"#white"}
-            boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-            padding={"20px"}
-            w={["100%", "100%", "100%", "100%", "100%"]}
-            borderRadius={"20px"}
-          >
-            <form encType="multipart/form-data">
+              <br />
               <FormControl isRequired>
                 <Flex justifyContent={"space-between"}>
                   <FormLabel color={"#add8e6"}>About Key Features</FormLabel>
@@ -484,6 +480,16 @@ const EditHome = () => {
                   );
                 })}
               </FormControl>
+            </form>
+          </Box>
+          <Box
+            backgroundColor={"#white"}
+            boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+            padding={"20px"}
+            w={["100%", "100%", "100%", "100%", "100%"]}
+            borderRadius={"20px"}
+          >
+            <form encType="multipart/form-data">
               <br />
               <FormControl>
                 <FormLabel htmlFor="trust_factor_images" color={"#add8e6"}>
@@ -496,9 +502,13 @@ const EditHome = () => {
                   name="trust_factor_images"
                   accept="image/*"
                   onChange={handleTrustFactrImage}
-                  mb={4}
-                  multiple                  
+                  mb={1}
+                  multiple
                 />
+                <Text mb={5}>
+                  <span style={{ fontWeight: "bold" }}>Note</span>:File Size
+                  Should Be 80x80px size will allow Only
+                </Text>
                 <Flex wrap="wrap">
                   {trfUrl &&
                     trfUrl?.map((e, i) => (
@@ -506,7 +516,7 @@ const EditHome = () => {
                         <Image src={e} w={"200px"} />
                         <Input
                           value={trfText[i]}
-                          onChange={(event) => handleTrFacText(event, i)}                          
+                          onChange={(event) => handleTrFacText(event, i)}
                         />
                         <MdDelete
                           size={"40px"}
@@ -583,9 +593,13 @@ const EditHome = () => {
                   name="our_distributor_logo"
                   accept="image/*"
                   onChange={handleLogoImage}
-                  mb={4}
+                  mb={1}
                   multiple
                 />
+                <Text mb={5}>
+                  <span style={{ fontWeight: "bold" }}>Note</span>:File Size
+                  Should Be 160x120px size will allow Only
+                </Text>
                 <Flex wrap="wrap">
                   {logoUrl &&
                     logoUrl?.map((e, i) => (

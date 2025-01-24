@@ -13,6 +13,7 @@ import {
   Spinner,
   useToast,
   Image,
+  Text,
 } from "@chakra-ui/react";
 import { CloseIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { MdDelete } from "react-icons/md";
@@ -231,8 +232,12 @@ const EditAboutus = () => {
                   name="banner"
                   accept="image/*"
                   onChange={handleSingleImage}
-                  mb={4}
+                  mb={1}
                 />
+                <Text mb={5}>
+                  <span style={{ fontWeight: "bold" }}>Note</span>:File Size
+                  Should Be Upto 1320x693px size will allow Only
+                </Text>
               </FormControl>
               <FormControl>
                 {selctSinImg && (
@@ -322,6 +327,7 @@ const EditAboutus = () => {
                   name="mission"
                   value={item.mission}
                   onChange={handleInput}
+                  maxLength={345}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -335,6 +341,7 @@ const EditAboutus = () => {
                   name="vision"
                   value={item.vision}
                   onChange={handleInput}
+                  maxLength={345}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -348,6 +355,7 @@ const EditAboutus = () => {
                   name="goals"
                   value={item.goals}
                   onChange={handleInput}
+                  maxLength={345}
                 />
               </FormControl>
 
@@ -362,9 +370,13 @@ const EditAboutus = () => {
                   name="logoimages"
                   accept="image/*"
                   onChange={handleMultipleImage}
-                  mb={4}
+                  mb={1}
                   multiple
                 />
+                <Text mb={6}>
+                  <span style={{ fontWeight: "bold" }}>Note</span>:File Size
+                  Should Be Upto 242x105px size will allow Only
+                </Text>
                 <Flex wrap="wrap">
                   {item.logoimages &&
                     item.logoimages.map((e, i) => (

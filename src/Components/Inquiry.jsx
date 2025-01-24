@@ -21,6 +21,7 @@ import debounce from "lodash.debounce";
 import { useNavigate } from "react-router-dom";
 
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import DeleteBtn from "./DeleteBtn";
 
 const Inquiry = () => {
   const [page, setPage] = useState(1);
@@ -42,6 +43,22 @@ const Inquiry = () => {
 
   const handleSearchChange = async (e) => {
     debouncedSearch(e.target.value);
+  };
+  const handleDelete = async (id) => {
+    try {
+      let data = await fetch(`${url}/inquiry/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      data = await data.json();
+      getInquiry();
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getInquiry = async () => {
@@ -102,7 +119,7 @@ const Inquiry = () => {
           {loading ? (
             <Tr>
               <Td colSpan={4} textAlign="center">
-                <Spinner color="blue.500" /> 
+                <Spinner color="blue.500" />
               </Td>
             </Tr>
           ) : (
@@ -126,6 +143,7 @@ const Inquiry = () => {
                         >
                           View
                         </Button>
+                        <DeleteBtn handleDelete={() => handleDelete(e?._id)} />
                       </ButtonGroup>
                     </Td>
                   </Tr>

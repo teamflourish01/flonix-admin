@@ -190,7 +190,7 @@ const Admin = () => {
           src={hovered ? mainlogo : logo}
           width={hovered ? "150px" : "50px"}
           _hover={{ cursor: "pointer" }}
-          //   onClick={() => navigate("/admin")}
+            onClick={() => navigate("/admin")}
         />
       </Flex>
 
