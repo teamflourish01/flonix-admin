@@ -267,12 +267,12 @@ const AddBlog = () => {
                   handleChange(e);
                   setSlug(generateSlug(e.target.value));
                 }}
-                maxLength={45}
+                maxLength={116}
               />
             </FormControl>
             <br />
             <EditPermalink slug={slug} folder={"blog"} setSlug={setSlug} />
-            <FormControl>
+            <FormControl isRequired>
               <FormLabel color={"#add8e6"}>Category</FormLabel>
               <select
                 style={{
