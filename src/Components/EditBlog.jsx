@@ -261,7 +261,7 @@ const EditBlog = () => {
                 onChange={(e) => {
                   handleChange(e);
                 }}
-                maxLength={40}
+                maxLength={116}
               />
             </FormControl>
             <br />
